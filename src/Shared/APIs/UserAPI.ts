@@ -1,27 +1,31 @@
 import { IUser } from '../Types';
 import SnackbarService from '../SnackbarService';
 
+const apiUrl = (path: string) => `${process.env.REACT_APP_API_URL}/api/${path}`;
+
 export class UserAPI {
   static loginToServer = async (user: IUser) => {
-    const res = await fetch('/api/login/', {
+    const url = apiUrl('login');
+    const res = await fetch(url, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ user })
+      body: JSON.stringify({ user }),
     });
     return res;
   };
 
   static createUser = async (user: IUser) => {
-    const res = await fetch('/api/users/', {
+    const url = apiUrl('users');
+    const res = await fetch(url, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ user })
+      body: JSON.stringify({ user }),
     });
     if (res.status === 400)
       SnackbarService.error('that user already exists, please try logging in');
@@ -34,19 +38,21 @@ export class UserAPI {
   };
 
   static getAllUsers = async (): Promise<IUser[]> => {
-    const res = await fetch(`/api/users`);
+    const url = apiUrl('users');
+    const res = await fetch(url);
     const json = await res.json();
     return json;
   };
 
   static updateUsers = async (users: IUser[]) => {
-    const res = await fetch('/api/users/', {
+    const url = apiUrl('users');
+    const res = await fetch(url, {
       method: 'PATCH',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ users })
+      body: JSON.stringify({ users }),
     });
     const json = await res.json();
     return json;

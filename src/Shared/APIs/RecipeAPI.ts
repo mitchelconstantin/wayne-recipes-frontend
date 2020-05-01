@@ -7,54 +7,64 @@ interface FiltersPayload {
   sources: string[];
 }
 
+const apiUrl = (path: string) => `${process.env.REACT_APP_API_URL}/api/${path}`;
+
 export class RecipeAPI {
   static getAllRecipes = async (): Promise<IRecipe[]> => {
-    const res = await fetch(`/api/recipes`);
-    const {recipes} = await res.json();
+    const url = apiUrl('recipes');
+    const res = await fetch(url);
+    const { recipes } = await res.json();
     return recipes;
   };
   static getFilters = async (): Promise<FiltersPayload> => {
-    const res = await fetch(`/api/recipes/filters`);
+    const url = apiUrl('recipes/filters');
+    const res = await fetch(url);
     const json = await res.json();
     return json;
   };
 
   static getRecipe = async (id: string): Promise<IRecipe> => {
-    const res = await fetch(`/api/recipes/${id}`);
+    const url = apiUrl(`recipes/${id}`);
+    const res = await fetch(url);
     if (!res.ok) window.location.href = '/all';
     const recipe = await res.json();
     return recipe;
   };
 
   static deleteRecipe = async (id: string) => {
-    await fetch(`/api/recipes/${id}`, { method: 'DELETE' });
+    const url = apiUrl(`recipes/${id}`);
+    await fetch(url, { method: 'DELETE' });
     return;
   };
 
   static saveRecipe = async (recipe: IRecipe) => {
-    const res = await fetch(`/api/recipes/${recipe.id}`, {
+    const url = apiUrl(`recipes/${recipe.id}`);
+    const res = await fetch(url, {
       method: 'PATCH',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ recipe })
+      body: JSON.stringify({ recipe }),
     });
     const json = await res.json();
     return json;
   };
 
+  //todo move this to different API file, change apiUrl to be local to this class
   static uploadImage = async (
     image: string,
     recipeId: string
   ): Promise<string> => {
-    const res = await fetch(`/api/image`, {
+    const url = apiUrl('image');
+
+    const res = await fetch(url, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ image, recipeId })
+      body: JSON.stringify({ image, recipeId }),
     });
     const json = await res.json();
     return json.link;
