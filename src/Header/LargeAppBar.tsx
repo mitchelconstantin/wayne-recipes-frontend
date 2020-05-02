@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
 export const LargeAppBar = () => {
   const classes = useStyles();
 
-  const title = `WAYNE'S FAMILY RECIPES2`;
+  const title = `WAYNE'S FAMILY RECIPES`;
   const description = 'Traditional Cajun food and so much more!';
 
   return (
