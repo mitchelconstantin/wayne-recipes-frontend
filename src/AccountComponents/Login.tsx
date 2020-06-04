@@ -11,12 +11,13 @@ export const Login = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const classes = useContainerStyles();
   const handleChange = (type: string, newValue: string) => {
-    setUser(prev => ({ ...prev, [type]: newValue }));
+    setUser((prev) => ({ ...prev, [type]: newValue }));
   };
 
   const handleLoginClick = async () => {
+    const userCopy = { ...user, email: user.email.toLowerCase() };
     try {
-      const response = await UserAPI.loginToServer(user);
+      const response = await UserAPI.loginToServer(userCopy);
       if (response.status === 400) {
         SnackbarService.error('yikes, that user does not exist');
         setUser(emptyUser);
@@ -46,13 +47,13 @@ export const Login = () => {
         label="Email"
         required
         value={user.email}
-        onChange={e => handleChange('email', e.target.value)}
+        onChange={(e) => handleChange('email', e.target.value)}
         margin="normal"
       />
       <TextField
         id="standard-password-input"
         label="Password"
-        onChange={e => handleChange('password', e.target.value)}
+        onChange={(e) => handleChange('password', e.target.value)}
         type="password"
         value={user.password}
         required

@@ -18,6 +18,7 @@ export class UserAPI {
   };
 
   static createUser = async (user: IUser) => {
+    const userCopy = { ...user, email: user.email.toLowerCase() };
     const url = apiUrl('users');
     const res = await fetch(url, {
       method: 'POST',
@@ -25,7 +26,7 @@ export class UserAPI {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ user }),
+      body: JSON.stringify({ user: userCopy }),
     });
     if (res.status === 400)
       SnackbarService.error('that user already exists, please try logging in');
