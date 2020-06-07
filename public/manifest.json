@@ -3,7 +3,7 @@
   "name": "Wayne's Recipes",
   "start_url": "./index.html",
   "display": "standalone",
-  "theme_color": "#d07754",
+  "theme_color": "#4285f4",
   "background_color": "#d07754",
 
   "icons": [
