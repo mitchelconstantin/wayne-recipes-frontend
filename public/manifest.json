@@ -3,8 +3,8 @@
   "name": "Wayne's Recipes",
   "start_url": "https://www.constantin.recipes/all",
   "display": "standalone",
-  "theme_color": "#d07754",
-  "background_color": "#d07754",
+  "theme_color": "rgb(208, 119, 84)",
+  "background_color": "rgb(208, 119, 84)",
   "icons": [
     {
       "src": "./logo192.png",
