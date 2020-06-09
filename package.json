@@ -3,9 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "react": "next",
-    "react-dom": "next",
-    "react-scripts": "3.3.0",
     "@material-ui/core": "^4.9.4",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.45",
@@ -19,9 +16,13 @@
     "fuzzaldrin-plus": "^0.6.0",
     "lodash": "^4.17.15",
     "material-ui": "^1.0.0-beta.47",
+    "rc-pagination": "^2.2.5",
+    "react": "next",
+    "react-dom": "next",
     "react-dropzone": "^10.2.1",
     "react-lazy-load-image-component": "^1.4.1",
     "react-router-dom": "^5.1.2",
+    "react-scripts": "3.3.0",
     "typescript": "^3.7.5"
   },
   "scripts": {
