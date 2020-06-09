@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import { Box, Menu, Button, makeStyles } from '@material-ui/core/';
-import { isLoggedIn, logOut, isAdmin, isOwner } from '../Shared/AppBehaviors';
+import React, { useState } from "react";
+import { Box, Menu, Button, makeStyles } from "@material-ui/core/";
+import { isLoggedIn, logOut, isAdmin, isOwner } from "../Shared/AppBehaviors";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   button: {
-    color: 'white'
+    color: "white",
   },
   menuButton: {},
   menu: {
-    display: 'flex',
-    flexDirection: 'column'
-  }
+    display: "flex",
+    flexDirection: "column",
+  },
 }));
 export const HeaderButtons = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -63,6 +63,7 @@ export const HeaderButtons = () => {
               Admin Dashboard
             </Button>
           )}
+          <Button>updated 1pm 06/09</Button>
         </Box>
       </Menu>
     </Box>
