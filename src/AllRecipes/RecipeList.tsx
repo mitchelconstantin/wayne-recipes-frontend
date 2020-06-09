@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { RecipeCard } from "./RecipeCard";
 import { Box, makeStyles, Typography } from "@material-ui/core";
 import { IRecipe } from "../Shared/Types";
@@ -31,6 +31,10 @@ interface Props {
 export const RecipeList = ({ loading, recipes }: Props) => {
   const classes = useStyles();
   const [current, setCurrent] = useState(1);
+
+  useEffect(() => {
+    setCurrent(1);
+  }, [recipes]);
 
   const isInRange = (index: number) => {
     const max = current * 30 - 1;
