@@ -9,6 +9,12 @@ import { Login } from "./AccountComponents/Login";
 import { RecipeDisplay } from "./ShowRecipe/RecipeDisplay";
 import { AdminDashboard } from "./AdminDashboard/AdminDashboard";
 import { SignUp } from "./AccountComponents/SignUp";
+import {
+  PrivateRoute,
+  AdminRoute,
+  PublicRoute,
+  OwnerRoute,
+} from "./Shared/Components/customRoutes/CustomRoutes";
 
 export const App = () => {
   return (
@@ -16,8 +22,11 @@ export const App = () => {
       <Header />
       <div className="App">
         <Switch>
-          <Route path="/login" render={(props: any) => <Login {...props} />} />
-          <Route
+          <PublicRoute
+            path="/login"
+            render={(props: any) => <Login {...props} />}
+          />
+          <PublicRoute
             path="/signup"
             render={(props: any) => <SignUp {...props} />}
           />
@@ -27,23 +36,23 @@ export const App = () => {
             render={(props: any) => <Home {...props} />}
           />
           <Route
-            path="/list"
-            render={(props: any) => <ShoppingList {...props} />}
-          />
-          <Route
-            path="/new"
-            render={(props: any) => <UpdateRecipe {...props} />}
-          />
-          <Route
             exact
             path="/r/:recipeId"
             render={(props: any) => <RecipeDisplay {...props} />}
           />
-          <Route
+          <PrivateRoute
+            path="/list"
+            render={(props: any) => <ShoppingList {...props} />}
+          />
+          <AdminRoute
+            path="/new"
+            render={(props: any) => <UpdateRecipe {...props} />}
+          />
+          <AdminRoute
             path="/r/:recipeId/edit"
             render={(props: any) => <UpdateRecipe {...props} />}
           />
-          <Route
+          <OwnerRoute
             path="/dashboard"
             render={(props: any) => <AdminDashboard {...props} />}
           />

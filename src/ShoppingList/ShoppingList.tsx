@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Divider, Typography } from '@material-ui/core';
-import { IShoppingListItem } from '../Shared/Types';
-import SnackbarService from '../Shared/SnackbarService';
-import { PrintButton } from '../Shared/Components/CustomButtons';
-import { Loading } from '../Shared/Components/Loading';
-import { isLoggedIn } from '../Shared/AppBehaviors';
-import { Redirect } from 'react-router-dom';
-import { ShoppingListItems } from './ShoppingListItems';
-import { IngredientsListContainer } from './IngredientsListContainer';
-import { ShoppingListAPI } from '../Shared/APIs/ShoppingListAPI';
+import React, { useState, useEffect } from "react";
+import { Box, Divider, Typography } from "@material-ui/core";
+import { IShoppingListItem } from "../Shared/Types";
+import SnackbarService from "../Shared/SnackbarService";
+import { PrintButton } from "../Shared/Components/CustomButtons";
+import { Loading } from "../Shared/Components/Loading";
+import { ShoppingListItems } from "./ShoppingListItems";
+import { IngredientsListContainer } from "./IngredientsListContainer";
+import { ShoppingListAPI } from "../Shared/APIs/ShoppingListAPI";
 const getTitle = (title: string, quantity: number) => {
   if (quantity < 2) return title;
   return `${title} x${quantity}`;
@@ -29,7 +27,7 @@ export const ShoppingList = () => {
   const updateShoppingList = (newRecipe: IShoppingListItem[], i: number) => {
     //@ts-ignore
     const newList = [...shoppingList];
-    newList[i].ingredients = newRecipe.join('\n');
+    newList[i].ingredients = newRecipe.join("\n");
     setShoppingList(newList);
     ShoppingListAPI.update(newList[i]);
     setLoad(load + 1);
@@ -41,7 +39,6 @@ export const ShoppingList = () => {
     SnackbarService.success(`Removed ${title} from Shopping List`);
   };
 
-  if (!isLoggedIn()) return <Redirect push to="/all" />;
   if (loading) return <Loading />;
   return (
     <Container
@@ -66,7 +63,7 @@ export const ShoppingList = () => {
             <IngredientsListContainer
               key={i}
               title={getTitle(recipe.title, recipe.quantity)}
-              ingredientsList={recipe.ingredients.split('\n') || 'unknown'}
+              ingredientsList={recipe.ingredients.split("\n") || "unknown"}
               setIngredientsList={(newList: IShoppingListItem[]) => {
                 updateShoppingList(newList, i);
               }}

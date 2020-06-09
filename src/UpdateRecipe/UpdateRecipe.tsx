@@ -1,16 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react';
-import { Button, TextField, Typography, Box } from '@material-ui/core';
-import { Redirect, useParams } from 'react-router-dom';
-import { ImageUploader } from './ImageUploader';
-import { isAdmin, isOwner } from '../Shared/AppBehaviors';
-import { IRecipe, emptyRecipe, emptyFilterOptions } from '../Shared/Types';
-import { RecipeAPI } from '../Shared/APIs/RecipeAPI';
-import SnackbarService from '../Shared/SnackbarService';
-import { useContainerStyles } from '../Shared/formStyles';
-import { Loading } from '../Shared/Components/Loading';
-import { Dropdown } from './Dropdown';
-import { DeleteRecipeDialog } from './DeleteRecipeDialog';
+import React, { useState, useEffect } from "react";
+import { Button, TextField, Typography, Box } from "@material-ui/core";
+import { useParams } from "react-router-dom";
+import { ImageUploader } from "./ImageUploader";
+import { isOwner } from "../Shared/AppBehaviors";
+import { IRecipe, emptyRecipe, emptyFilterOptions } from "../Shared/Types";
+import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
+import SnackbarService from "../Shared/SnackbarService";
+import { useContainerStyles } from "../Shared/formStyles";
+import { Loading } from "../Shared/Components/Loading";
+import { Dropdown } from "./Dropdown";
+import { DeleteRecipeDialog } from "./DeleteRecipeDialog";
 
 const getRecipeData = async (recipeId: string) => {
   let recipe;
@@ -21,15 +21,15 @@ const getRecipeData = async (recipeId: string) => {
   }
   const filters = await RecipeAPI.getFilters();
   if (!recipe) {
-    SnackbarService.error('could not find that recipe');
-    window.location.href = '/';
+    SnackbarService.error("could not find that recipe");
+    window.location.href = "/";
   }
   return { recipe: { ...recipe }, filters: { ...filters } };
 };
 
 const saveRecipe = async (recipe: IRecipe) => {
   const json = await RecipeAPI.saveRecipe(recipe);
-  SnackbarService.success('recipe saved');
+  SnackbarService.success("recipe saved");
   setTimeout(() => (window.location.href = `/r/${json.id}`), 1500);
 };
 
@@ -50,23 +50,22 @@ export const UpdateRecipe = () => {
   }, []);
 
   const handleChange = (type: string, newValue: any) => {
-    setRecipe(prev => ({ ...prev, [type]: newValue }));
+    setRecipe((prev) => ({ ...prev, [type]: newValue }));
   };
   const disabled = !(recipe.title && recipe.ingredients && recipe.directions);
-  if (!isAdmin()) return <Redirect push to="/all" />;
   if (loading) return <Loading />;
   return (
     <Box className={classes.formContainer}>
       <Typography variant="h6" gutterBottom>
-        {recipeId ? 'edit this recipe' : 'Add a new recipe '}
+        {recipeId ? "edit this recipe" : "Add a new recipe "}
       </Typography>
       <ImageUploader
-        setPicture={(newImage: string) => handleChange('picture', newImage)}
+        setPicture={(newImage: string) => handleChange("picture", newImage)}
         picture={recipe.picture}
       />
       <TextField
-        value={recipe.title || ''}
-        onChange={e => handleChange('title', e.target.value)}
+        value={recipe.title || ""}
+        onChange={(e) => handleChange("title", e.target.value)}
         required
         id="title"
         label="Title"
@@ -74,23 +73,23 @@ export const UpdateRecipe = () => {
       />
       <Dropdown
         handleChange={(e: any, value: any) => {
-          handleChange('type', value);
+          handleChange("type", value);
         }}
         items={filters.types}
-        value={recipe.type || ''}
-        title={'Recipe Type'}
+        value={recipe.type || ""}
+        title={"Recipe Type"}
       />
       <Dropdown
         handleChange={(e: any, value: any) => {
-          handleChange('source', value);
+          handleChange("source", value);
         }}
         items={filters.sources}
-        value={recipe.source || ''}
-        title={'Source'}
+        value={recipe.source || ""}
+        title={"Source"}
       />
       <TextField
-        value={recipe.serves || ''}
-        onChange={e => handleChange('serves', e.target.value)}
+        value={recipe.serves || ""}
+        onChange={(e) => handleChange("serves", e.target.value)}
         required
         id="serves"
         label="Serves"
@@ -98,29 +97,29 @@ export const UpdateRecipe = () => {
       />
       <Dropdown
         handleChange={(e: any, value: any) =>
-          handleChange('mainIngredient', value)
+          handleChange("mainIngredient", value)
         }
         items={filters.mainIngredients}
-        value={recipe.mainIngredient || ''}
-        title={'Main Ingredient'}
+        value={recipe.mainIngredient || ""}
+        title={"Main Ingredient"}
       />
       <Dropdown
-        handleChange={(e: any, value: any) => handleChange('region', value)}
+        handleChange={(e: any, value: any) => handleChange("region", value)}
         items={filters.regions}
-        value={recipe.region || ''}
-        title={'Region'}
+        value={recipe.region || ""}
+        title={"Region"}
       />
       <TextField
-        value={recipe.netCarbs || ''}
-        onChange={e => handleChange('netCarbs', e.target.value)}
+        value={recipe.netCarbs || ""}
+        onChange={(e) => handleChange("netCarbs", e.target.value)}
         required
         id="netCarbs"
         label="Net Carbs"
         className={classes.formTextField}
       />
       <TextField
-        value={recipe.ingredients || ''}
-        onChange={e => handleChange('ingredients', e.target.value)}
+        value={recipe.ingredients || ""}
+        onChange={(e) => handleChange("ingredients", e.target.value)}
         required
         id="ingredients"
         className={classes.formTextField}
@@ -129,8 +128,8 @@ export const UpdateRecipe = () => {
         rows="4"
       />
       <TextField
-        value={recipe.directions || ''}
-        onChange={e => handleChange('directions', e.target.value)}
+        value={recipe.directions || ""}
+        onChange={(e) => handleChange("directions", e.target.value)}
         required
         id="directions"
         label="Directions"
@@ -143,7 +142,7 @@ export const UpdateRecipe = () => {
         className={classes.formButton}
         onClick={() => saveRecipe(recipe)}
       >
-        {recipeId ? 'update recipe' : 'save new recipe'}
+        {recipeId ? "update recipe" : "save new recipe"}
       </Button>
       {isOwner() && recipeId && (
         <Button
@@ -155,7 +154,7 @@ export const UpdateRecipe = () => {
       )}
       <DeleteRecipeDialog
         open={openModal}
-        id={recipe.id || '1'}
+        id={recipe.id || "1"}
         onClose={() => setOpenModal(false)}
       />
     </Box>
