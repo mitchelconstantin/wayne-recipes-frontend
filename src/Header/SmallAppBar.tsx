@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbar: {
     background: "linear-gradient(0.25turn, #f44723, #f56730, #f44723)",
+    height: "170px",
     marginTop: "-100px",
   },
   image: {

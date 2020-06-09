@@ -63,7 +63,7 @@ export const HeaderButtons = () => {
               Admin Dashboard
             </Button>
           )}
-          <Button>updated 1pm 06/09</Button>
+          <Button>updated 1:40pm 06/09</Button>
         </Box>
       </Menu>
     </Box>
