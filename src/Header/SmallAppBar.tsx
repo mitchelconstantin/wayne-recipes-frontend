@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { AppBar, makeStyles, Box } from "@material-ui/core/";
 import { Logo } from "../Shared/Components/Logo";
 import { HeaderButtons } from "./HeaderButtons";
+import { DarkThemeContext } from "../App";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -31,12 +32,13 @@ const useStyles = makeStyles((theme) => ({
 
 export const SmallAppBar = () => {
   const classes = useStyles();
+  const { darkThemeEnabled } = useContext(DarkThemeContext);
 
   return (
     <AppBar className={classes.toolbar} position="fixed">
       <Box className={classes.coloredBox} />
       <Box className={classes.container}>
-        <Logo className={classes.image} />
+        <Logo className={classes.image} dark={darkThemeEnabled} />
         <HeaderButtons />
       </Box>
     </AppBar>

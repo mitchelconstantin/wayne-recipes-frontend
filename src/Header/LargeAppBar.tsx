@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Box,
   AppBar,
@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core/";
 import { HeaderButtons } from "./HeaderButtons";
 import { Logo } from "../Shared/Components/Logo";
+import { DarkThemeContext } from "../App";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -31,16 +32,19 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "10px",
     marginRight: "auto",
     fontWeight: 700,
+    color: theme.palette.type === "dark" ? "silver" : "",
   },
   subTitle: {
     marginBottom: "10px",
     marginRight: "auto",
     fontWeight: 400,
+    color: theme.palette.type === "dark" ? "silver" : "",
   },
 }));
 
 export const LargeAppBar = () => {
   const classes = useStyles();
+  const { darkThemeEnabled } = useContext(DarkThemeContext);
 
   const title = `WAYNE'S FAMILY RECIPES`;
   const description = "Traditional Cajun food and so much more!";
@@ -49,7 +53,7 @@ export const LargeAppBar = () => {
     <Hidden smDown>
       <AppBar className={classes.toolbar} position="sticky">
         <Box className={classes.topRow}>
-          <Logo className={classes.image} />
+          <Logo className={classes.image} dark={darkThemeEnabled} />
           <HeaderButtons />
         </Box>
         <Typography className={classes.title} variant="h2">

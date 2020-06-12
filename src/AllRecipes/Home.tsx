@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
   searchBox: {
     borderRadius: "25px",
-    backgroundColor: "#DFE1E5",
+    backgroundColor: theme.palette.type === "dark" ? "grey" : "#DFE1E5",
     height: "40px",
     width: "40%",
     paddingLeft: "10px",

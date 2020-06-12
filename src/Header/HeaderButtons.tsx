@@ -14,7 +14,7 @@ import { DarkThemeContext } from "../App";
 
 const useStyles = makeStyles((theme) => ({
   button: {
-    color: "white",
+    color: theme.palette.type === "dark" ? "silver" : "white",
   },
 }));
 export const HeaderButtons = () => {
