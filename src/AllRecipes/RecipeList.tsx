@@ -4,8 +4,7 @@ import { Box, makeStyles, Typography } from "@material-ui/core";
 import { IRecipe } from "../Shared/Types";
 import { Loading } from "../Shared/Components/Loading";
 import HelpOutline from "@material-ui/icons/HelpOutline";
-import Pagination from "rc-pagination";
-import "rc-pagination/assets/index.css";
+import Pagination from "@material-ui/lab/Pagination";
 
 const useStyles = makeStyles((theme) => ({
   recipesContainer: {
@@ -30,20 +29,19 @@ interface Props {
 
 export const RecipeList = ({ loading, recipes }: Props) => {
   const classes = useStyles();
-  const [current, setCurrent] = useState(1);
+  const [page, setPage] = useState(1);
+  const handleChange = (event: any, value: number) => {
+    setPage(value);
+  };
 
   useEffect(() => {
-    setCurrent(1);
+    setPage(1);
   }, [recipes]);
 
   const isInRange = (index: number) => {
-    const max = current * 30 - 1;
+    const max = page * 30 - 1;
     const min = max - 29;
     return index >= min && index <= max;
-  };
-
-  const onChange = (page: number) => {
-    setCurrent(page);
   };
 
   if (loading) return <Loading />;
@@ -65,10 +63,10 @@ export const RecipeList = ({ loading, recipes }: Props) => {
         )}
       </Box>
       <Pagination
-        onChange={onChange}
-        current={current}
-        total={recipes.length}
-        pageSize={30}
+        count={Math.ceil(recipes.length / 30)}
+        page={page}
+        color="primary"
+        onChange={handleChange}
       />
     </>
   );

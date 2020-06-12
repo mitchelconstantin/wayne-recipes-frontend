@@ -16,7 +16,6 @@
     "fuzzaldrin-plus": "^0.6.0",
     "lodash": "^4.17.15",
     "material-ui": "^1.0.0-beta.47",
-    "rc-pagination": "^2.2.5",
     "react": "next",
     "react-dom": "next",
     "react-dropzone": "^10.2.1",
