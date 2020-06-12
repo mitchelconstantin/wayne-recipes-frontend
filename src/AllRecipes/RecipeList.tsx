@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { RecipeCard } from "./RecipeCard";
-import { Box, makeStyles, Typography } from "@material-ui/core";
+import { Box, makeStyles, Typography, Paper } from "@material-ui/core";
 import { IRecipe } from "../Shared/Types";
 import { Loading } from "../Shared/Components/Loading";
 import HelpOutline from "@material-ui/icons/HelpOutline";
@@ -19,6 +19,13 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
     paddingTop: "40px",
+  },
+  pageContainer: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingBottom: "20px",
   },
 }));
 
@@ -54,7 +61,7 @@ export const RecipeList = ({ loading, recipes }: Props) => {
     );
   }
   return (
-    <>
+    <Box className={classes.pageContainer}>
       <Box className={classes.recipesContainer}>
         {recipes.map((recipe, i) =>
           isInRange(i) ? (
@@ -68,6 +75,6 @@ export const RecipeList = ({ loading, recipes }: Props) => {
         color="primary"
         onChange={handleChange}
       />
-    </>
+    </Box>
   );
 };
