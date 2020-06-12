@@ -60,7 +60,7 @@ export const RecipeDisplay = () => {
     eventTarget.src = noImage;
   };
 
-  const [Container, RecipeDetails] = [Paper, Box];
+  const [Container, RecipeDetails] = [Box, Box];
   const tags = [recipe.type, recipe.mainIngredient, recipe.region];
   if (loading) return <Loading />;
   return (

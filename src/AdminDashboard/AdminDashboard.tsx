@@ -8,6 +8,7 @@ import {
   Button,
   Typography,
   Paper,
+  Box,
 } from "@material-ui/core";
 import { IUser } from "../Shared/Types";
 import SnackbarService from "../Shared/SnackbarService";
@@ -40,7 +41,7 @@ export const AdminDashboard = () => {
 
   if (loading) return <Loading />;
   return (
-    <Paper className={classes.formContainer}>
+    <Box className={classes.formContainer}>
       <FormControl component="fieldset">
         <FormLabel>Has Admin priviledges?</FormLabel>
         <FormGroup>
@@ -51,25 +52,22 @@ export const AdminDashboard = () => {
                   <Checkbox
                     checked={user.isAdmin}
                     onChange={() => handleChange(user, i)}
-                    style={{
-                      color: "#e4673d",
-                    }}
+                    color="primary"
                   />
                 }
-                label={
-                  <Typography variant="h6" style={{ color: "black" }}>
-                    {user.email}
-                  </Typography>
-                }
+                label={<Typography variant="h6">{user.email}</Typography>}
               />
             </div>
           ))}
         </FormGroup>
       </FormControl>
-      <Button className={classes.formButton} onClick={() => updateUsers(users)}>
-        {" "}
+      <Button
+        color="primary"
+        variant="contained"
+        onClick={() => updateUsers(users)}
+      >
         Save Settings
       </Button>
-    </Paper>
+    </Box>
   );
 };

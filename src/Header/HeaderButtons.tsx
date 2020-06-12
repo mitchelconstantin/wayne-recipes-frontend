@@ -73,7 +73,7 @@ export const HeaderButtons = () => {
           <Switch checked={darkThemeEnabled} color="primary" />
         </MenuItem>
         {/* timestamp */}
-        <MenuItem>updated 10pm 06/11</MenuItem>
+        <MenuItem>updated 6pm 06/12</MenuItem>
       </Menu>
     </Box>
   );

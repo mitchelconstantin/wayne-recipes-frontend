@@ -16,8 +16,9 @@ import {
   OwnerRoute,
 } from "./Shared/Components/customRoutes/CustomRoutes";
 import { useDarkThemeEnabled } from "./Shared/Hooks/darkTheme";
-import { ThemeProvider, Paper } from "@material-ui/core";
+import { ThemeProvider, CssBaseline } from "@material-ui/core";
 import { getTheme } from "./Shared/theme";
+import { SnackbarContainer } from "./Shared/SnackbarService";
 
 type ContextProps = {
   darkThemeEnabled: boolean;
@@ -35,48 +36,46 @@ export const App = () => {
         value={{ darkThemeEnabled, toggleDarkThemeEnabled }}
       >
         <ThemeProvider theme={getTheme(darkThemeEnabled)}>
-          <Paper>
-            <Header />
-            <div className="App">
-              <Switch>
-                <PublicRoute
-                  path="/login"
-                  render={(props: any) => <Login {...props} />}
-                />
-                <PublicRoute
-                  path="/signup"
-                  render={(props: any) => <SignUp {...props} />}
-                />
-                <Route
-                  exact
-                  path="/all"
-                  render={(props: any) => <Home {...props} />}
-                />
-                <Route
-                  exact
-                  path="/r/:recipeId"
-                  render={(props: any) => <RecipeDisplay {...props} />}
-                />
-                <PrivateRoute
-                  path="/list"
-                  render={(props: any) => <ShoppingList {...props} />}
-                />
-                <AdminRoute
-                  path="/new"
-                  render={(props: any) => <UpdateRecipe {...props} />}
-                />
-                <AdminRoute
-                  path="/r/:recipeId/edit"
-                  render={(props: any) => <UpdateRecipe {...props} />}
-                />
-                <OwnerRoute
-                  path="/dashboard"
-                  render={(props: any) => <AdminDashboard {...props} />}
-                />
-                <Redirect from="/" to="/all" />
-              </Switch>
-            </div>
-          </Paper>
+          <CssBaseline />
+          <SnackbarContainer />
+          <Header />
+          <Switch>
+            <PublicRoute
+              path="/login"
+              render={(props: any) => <Login {...props} />}
+            />
+            <PublicRoute
+              path="/signup"
+              render={(props: any) => <SignUp {...props} />}
+            />
+            <Route
+              exact
+              path="/all"
+              render={(props: any) => <Home {...props} />}
+            />
+            <Route
+              exact
+              path="/r/:recipeId"
+              render={(props: any) => <RecipeDisplay {...props} />}
+            />
+            <PrivateRoute
+              path="/list"
+              render={(props: any) => <ShoppingList {...props} />}
+            />
+            <AdminRoute
+              path="/new"
+              render={(props: any) => <UpdateRecipe {...props} />}
+            />
+            <AdminRoute
+              path="/r/:recipeId/edit"
+              render={(props: any) => <UpdateRecipe {...props} />}
+            />
+            <OwnerRoute
+              path="/dashboard"
+              render={(props: any) => <AdminDashboard {...props} />}
+            />
+            <Redirect from="/" to="/all" />
+          </Switch>
         </ThemeProvider>
       </DarkThemeContext.Provider>
     </BrowserRouter>

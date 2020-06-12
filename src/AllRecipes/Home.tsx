@@ -100,7 +100,7 @@ export const Home = () => {
   };
 
   return (
-    <Paper>
+    <Box>
       <Paper className={classes.searchContainer}>
         <Box className={classes.searchBarLine}>
           <Input
@@ -123,6 +123,6 @@ export const Home = () => {
         />
       </Paper>
       <RecipeList loading={loading} recipes={filteredRecipes} />
-    </Paper>
+    </Box>
   );
 };

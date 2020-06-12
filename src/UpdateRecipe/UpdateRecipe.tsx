@@ -139,7 +139,8 @@ export const UpdateRecipe = () => {
       />
       <Button
         disabled={disabled}
-        className={classes.formButton}
+        color="primary"
+        variant="contained"
         onClick={() => saveRecipe(recipe)}
       >
         {recipeId ? "update recipe" : "save new recipe"}
@@ -147,7 +148,8 @@ export const UpdateRecipe = () => {
       {isOwner() && recipeId && (
         <Button
           onClick={() => setOpenModal(true)}
-          className={classes.formButton}
+          color="primary"
+          variant="contained"
         >
           delete recipe
         </Button>

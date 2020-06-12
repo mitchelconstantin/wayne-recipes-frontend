@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Box, Button, TextField } from '@material-ui/core';
-import { logIn } from '../Shared/AppBehaviors';
-import { emptyUser } from '../Shared/Types';
-import SnackbarService from '../Shared/SnackbarService';
-import { UserAPI } from '../Shared/APIs/UserAPI';
-import { useContainerStyles } from '../Shared/formStyles';
+import React, { useState } from "react";
+import { Box, Button, TextField } from "@material-ui/core";
+import { logIn } from "../Shared/AppBehaviors";
+import { emptyUser } from "../Shared/Types";
+import SnackbarService from "../Shared/SnackbarService";
+import { UserAPI } from "../Shared/APIs/UserAPI";
+import { useContainerStyles } from "../Shared/formStyles";
 
 export const Login = () => {
   const [user, setUser] = useState(emptyUser);
@@ -19,14 +19,14 @@ export const Login = () => {
     try {
       const response = await UserAPI.loginToServer(userCopy);
       if (response.status === 400) {
-        SnackbarService.error('yikes, that user does not exist');
+        SnackbarService.error("yikes, that user does not exist");
         setUser(emptyUser);
       }
       if (response.status === 200) {
         const u = await response.json();
         logIn(u);
         setLoggedIn(true);
-        SnackbarService.success('you are now logged in');
+        SnackbarService.success("you are now logged in");
       }
     } catch (e) {
       console.log(e);
@@ -36,7 +36,7 @@ export const Login = () => {
   if (loggedIn)
     return (
       <Box className={classes.formContainer}>
-        <Button href="/all" className={classes.formButton}>
+        <Button href="/all" color="primary" variant="contained">
           Go to All Reicpes
         </Button>
       </Box>
@@ -47,29 +47,33 @@ export const Login = () => {
         label="Email"
         required
         value={user.email}
-        onChange={(e) => handleChange('email', e.target.value)}
+        onChange={(e) => handleChange("email", e.target.value)}
         margin="normal"
       />
       <TextField
         id="standard-password-input"
         label="Password"
-        onChange={(e) => handleChange('password', e.target.value)}
+        onChange={(e) => handleChange("password", e.target.value)}
         type="password"
         value={user.password}
         required
         autoComplete="current-password"
         margin="normal"
       />
-      <Button
-        onClick={handleLoginClick}
-        className={classes.formButton}
-        disabled={!(user.email && user.password)}
-      >
-        Login
-      </Button>
-      <Button href="/signup" className={classes.formButton}>
-        Sign Up
-      </Button>
+      <Box>
+        <Button
+          onClick={handleLoginClick}
+          color="primary"
+          variant="contained"
+          style={{ marginRight: "16px" }}
+          disabled={!(user.email && user.password)}
+        >
+          Login
+        </Button>
+        <Button href="/signup" color="primary" variant="contained">
+          Sign Up
+        </Button>
+      </Box>
     </Box>
   );
 };
