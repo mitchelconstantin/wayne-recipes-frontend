@@ -1,39 +1,45 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useCallback } from 'react';
-import { Box, Paper, Input, makeStyles } from '@material-ui/core';
-import { IRecipe, emptyFilters } from '../Shared/Types';
-import { RecipeAPI } from '../Shared/APIs/RecipeAPI';
-import SearchIcon from '@material-ui/icons/Search';
-import { AdvancedFilters } from './AdvancedFilters';
-import { RecipeList } from './RecipeList';
-import { RecipeTransform } from './RecipeTransform';
-import { ShowFiltersChip } from './ShowFiltersChip';
-import { useHistory } from 'react-router-dom';
-import { isEqual, debounce } from 'lodash';
+import React, { useState, useEffect, useCallback } from "react";
+import { Box, Paper, Input, makeStyles } from "@material-ui/core";
+import { IRecipe, emptyFilters } from "../Shared/Types";
+import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
+import SearchIcon from "@material-ui/icons/Search";
+import { AdvancedFilters } from "./AdvancedFilters";
+import { RecipeList } from "./RecipeList";
+import { RecipeTransform } from "./RecipeTransform";
+import { ShowFiltersChip } from "./ShowFiltersChip";
+import { useHistory } from "react-router-dom";
+import { isEqual, debounce } from "lodash";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
+  mainContainer: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   searchContainer: {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center'
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
   },
   searchBarLine: {
-    width: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
+    width: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   searchBox: {
-    borderRadius: '25px',
-    backgroundColor: '#DFE1E5',
-    height: '40px',
-    width: '40%',
-    paddingLeft: '10px',
-    paddingRight: '10px',
-    margin: '10px'
-  }
+    borderRadius: "25px",
+    backgroundColor: "#DFE1E5",
+    height: "40px",
+    width: "40%",
+    paddingLeft: "10px",
+    paddingRight: "10px",
+    margin: "10px",
+  },
 }));
 
 export const Home = () => {
@@ -42,11 +48,11 @@ export const Home = () => {
   const [loading, setLoading] = useState(true);
   const history = useHistory();
   const [selectedFilters, setSelectedFilters] = useState(emptyFilters);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [filtersExpanded, setFiltersExpanded] = useState(false);
   const classes = useStyles();
   useEffect(() => {
-    RecipeAPI.getAllRecipes().then(recipes => {
+    RecipeAPI.getAllRecipes().then((recipes) => {
       setRecipes(recipes);
       setFilteredRecipes(recipes);
       setLoading(false);
@@ -74,15 +80,15 @@ export const Home = () => {
       setFilteredRecipes(newFilteredRecipes);
     }
     if (!loading) {
-      history.push('/all', selectedFilters);
+      history.push("/all", selectedFilters);
     }
   }, [selectedFilters, recipes]);
 
   const setDebouncedSearchTerm = useCallback(
     debounce((debouncedSearchTerm: string) => {
-      setSelectedFilters(prev => ({
+      setSelectedFilters((prev) => ({
         ...prev,
-        debouncedSearchTerm
+        debouncedSearchTerm,
       }));
     }, 500),
     []
@@ -94,7 +100,7 @@ export const Home = () => {
   };
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center">
+    <Paper>
       <Paper className={classes.searchContainer}>
         <Box className={classes.searchBarLine}>
           <Input
@@ -103,7 +109,7 @@ export const Home = () => {
             className={classes.searchBox}
             value={searchTerm}
             onChange={handleChangeInput}
-            endAdornment={<SearchIcon style={{ color: 'grey' }} />}
+            endAdornment={<SearchIcon style={{ color: "grey" }} />}
           />
           <ShowFiltersChip
             expanded={filtersExpanded}
@@ -117,6 +123,6 @@ export const Home = () => {
         />
       </Paper>
       <RecipeList loading={loading} recipes={filteredRecipes} />
-    </Box>
+    </Paper>
   );
 };

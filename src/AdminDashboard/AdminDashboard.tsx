@@ -5,9 +5,9 @@ import {
   FormGroup,
   FormControlLabel,
   Checkbox,
-  Box,
   Button,
   Typography,
+  Paper,
 } from "@material-ui/core";
 import { IUser } from "../Shared/Types";
 import SnackbarService from "../Shared/SnackbarService";
@@ -40,7 +40,7 @@ export const AdminDashboard = () => {
 
   if (loading) return <Loading />;
   return (
-    <Box className={classes.formContainer}>
+    <Paper className={classes.formContainer}>
       <FormControl component="fieldset">
         <FormLabel>Has Admin priviledges?</FormLabel>
         <FormGroup>
@@ -70,6 +70,6 @@ export const AdminDashboard = () => {
         {" "}
         Save Settings
       </Button>
-    </Box>
+    </Paper>
   );
 };
