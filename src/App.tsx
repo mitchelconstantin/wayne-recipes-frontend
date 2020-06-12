@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createContext } from "react";
 import "./App.css";
 import { Header } from "./Header/Header";
 import { UpdateRecipe } from "./UpdateRecipe/UpdateRecipe";
@@ -15,50 +15,68 @@ import {
   PublicRoute,
   OwnerRoute,
 } from "./Shared/Components/customRoutes/CustomRoutes";
+import { useDarkThemeEnabled } from "./Shared/Hooks/darkTheme";
+import { ThemeProvider } from "@material-ui/core";
+import { getTheme } from "./Shared/theme";
+
+type ContextProps = {
+  darkThemeEnabled: boolean;
+  toggleDarkThemeEnabled?: () => void;
+};
+export const DarkThemeContext = createContext<ContextProps>({
+  darkThemeEnabled: false,
+});
 
 export const App = () => {
+  const [darkThemeEnabled, toggleDarkThemeEnabled] = useDarkThemeEnabled();
   return (
     <BrowserRouter>
-      <Header />
-      <div className="App">
-        <Switch>
-          <PublicRoute
-            path="/login"
-            render={(props: any) => <Login {...props} />}
-          />
-          <PublicRoute
-            path="/signup"
-            render={(props: any) => <SignUp {...props} />}
-          />
-          <Route
-            exact
-            path="/all"
-            render={(props: any) => <Home {...props} />}
-          />
-          <Route
-            exact
-            path="/r/:recipeId"
-            render={(props: any) => <RecipeDisplay {...props} />}
-          />
-          <PrivateRoute
-            path="/list"
-            render={(props: any) => <ShoppingList {...props} />}
-          />
-          <AdminRoute
-            path="/new"
-            render={(props: any) => <UpdateRecipe {...props} />}
-          />
-          <AdminRoute
-            path="/r/:recipeId/edit"
-            render={(props: any) => <UpdateRecipe {...props} />}
-          />
-          <OwnerRoute
-            path="/dashboard"
-            render={(props: any) => <AdminDashboard {...props} />}
-          />
-          <Redirect from="/" to="/all" />
-        </Switch>
-      </div>
+      <DarkThemeContext.Provider
+        value={{ darkThemeEnabled, toggleDarkThemeEnabled }}
+      >
+        <ThemeProvider theme={getTheme(darkThemeEnabled)}>
+          <Header />
+          <div className="App">
+            <Switch>
+              <PublicRoute
+                path="/login"
+                render={(props: any) => <Login {...props} />}
+              />
+              <PublicRoute
+                path="/signup"
+                render={(props: any) => <SignUp {...props} />}
+              />
+              <Route
+                exact
+                path="/all"
+                render={(props: any) => <Home {...props} />}
+              />
+              <Route
+                exact
+                path="/r/:recipeId"
+                render={(props: any) => <RecipeDisplay {...props} />}
+              />
+              <PrivateRoute
+                path="/list"
+                render={(props: any) => <ShoppingList {...props} />}
+              />
+              <AdminRoute
+                path="/new"
+                render={(props: any) => <UpdateRecipe {...props} />}
+              />
+              <AdminRoute
+                path="/r/:recipeId/edit"
+                render={(props: any) => <UpdateRecipe {...props} />}
+              />
+              <OwnerRoute
+                path="/dashboard"
+                render={(props: any) => <AdminDashboard {...props} />}
+              />
+              <Redirect from="/" to="/all" />
+            </Switch>
+          </div>
+        </ThemeProvider>
+      </DarkThemeContext.Provider>
     </BrowserRouter>
   );
 };

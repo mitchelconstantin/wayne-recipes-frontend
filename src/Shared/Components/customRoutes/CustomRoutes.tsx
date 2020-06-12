@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect, Route, RouteProps } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 import { isLoggedIn, isAdmin, isOwner } from "../../AppBehaviors";
 
 export const PrivateRoute = ({ ...props }) => {

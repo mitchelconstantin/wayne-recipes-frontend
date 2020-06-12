@@ -1,19 +1,27 @@
-import React, { useState } from "react";
-import { Box, Menu, Button, makeStyles } from "@material-ui/core/";
+import React, { useState, useContext } from "react";
+import {
+  Box,
+  Menu,
+  Button,
+  makeStyles,
+  MenuItem,
+  Switch,
+} from "@material-ui/core/";
+import { Link } from "react-router-dom";
+
 import { isLoggedIn, logOut, isAdmin, isOwner } from "../Shared/AppBehaviors";
+import { DarkThemeContext } from "../App";
 
 const useStyles = makeStyles((theme) => ({
   button: {
     color: "white",
   },
-  menuButton: {},
-  menu: {
-    display: "flex",
-    flexDirection: "column",
-  },
 }));
 export const HeaderButtons = () => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const { darkThemeEnabled, toggleDarkThemeEnabled } = useContext(
+    DarkThemeContext
+  );
   const classes = useStyles();
 
   const handleClick = (event: any) => {
@@ -38,34 +46,34 @@ export const HeaderButtons = () => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <Box className={classes.menu}>
-          {isLoggedIn() ? (
-            <>
-              <Button onClick={logOut} className={classes.menuButton}>
-                Logout
-              </Button>
-              <Button href="/list" className={classes.menuButton}>
-                Shopping List
-              </Button>
-            </>
-          ) : (
-            <Button href="/login" className={classes.menuButton}>
-              Login
-            </Button>
-          )}
-          {isAdmin() && (
-            <Button href="/new" className={classes.menuButton}>
-              Add new recipe
-            </Button>
-          )}
-          {isOwner() && (
-            <Button href="/dashboard" className={classes.menuButton}>
-              Admin Dashboard
-            </Button>
-          )}
-          {/* timestamp */}
-          <Button>updated 6:00pm 06/09</Button>
-        </Box>
+        {isLoggedIn() ? (
+          <>
+            <MenuItem onClick={logOut}>Logout</MenuItem>
+            <MenuItem component={Link} to="/list">
+              Shopping List
+            </MenuItem>
+          </>
+        ) : (
+          <MenuItem component={Link} to="/login">
+            Login
+          </MenuItem>
+        )}
+        {isAdmin() && (
+          <MenuItem component={Link} to="/new">
+            Add new recipe
+          </MenuItem>
+        )}
+        {isOwner() && (
+          <MenuItem component={Link} to="/dashboard">
+            Admin Dashboard
+          </MenuItem>
+        )}
+        <MenuItem onClick={toggleDarkThemeEnabled}>
+          <div style={{ marginRight: "auto" }}>Use Dark Theme</div>
+          <Switch checked={darkThemeEnabled} color="primary" />
+        </MenuItem>
+        {/* timestamp */}
+        <MenuItem>updated 10pm 06/11</MenuItem>
       </Menu>
     </Box>
   );
