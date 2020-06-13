@@ -7,7 +7,6 @@ import {
   Checkbox,
   Button,
   Typography,
-  Paper,
   Box,
 } from "@material-ui/core";
 import { IUser } from "../Shared/Types";

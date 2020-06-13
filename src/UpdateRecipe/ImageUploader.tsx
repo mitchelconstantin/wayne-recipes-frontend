@@ -1,18 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback } from 'react';
-import { useDropzone } from 'react-dropzone';
-import noImage from '../Shared/noImage.png';
-import { RecipeAPI } from '../Shared/APIs/RecipeAPI';
-import { Box } from '@material-ui/core';
-import { useParams } from 'react-router-dom';
+import React, { useCallback } from "react";
+import { useDropzone } from "react-dropzone";
+import noImage from "../Shared/Images/noImage.png";
+import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
+import { Box } from "@material-ui/core";
+import { useParams } from "react-router-dom";
 interface Props {
   picture?: string;
   setPicture: Function;
 }
 export const ImageUploader = ({ picture, setPicture }: Props) => {
   const { recipeId } = useParams();
-  const onDrop = useCallback(async acceptedFiles => {
-    const imageBlob = await readFileAsync(acceptedFiles) as string;
+  const onDrop = useCallback(async (acceptedFiles) => {
+    const imageBlob = (await readFileAsync(acceptedFiles)) as string;
     const img = await RecipeAPI.uploadImage(imageBlob, recipeId);
     setPicture(img);
   }, []);
@@ -46,8 +46,8 @@ export const ImageUploader = ({ picture, setPicture }: Props) => {
         <img
           onError={onError}
           src={picture || noImage}
-          alt={'a tasty dish'}
-          style={{ height: '200px', width: '200px', border: '1px' }}
+          alt={"a tasty dish"}
+          style={{ height: "200px", width: "200px", border: "1px" }}
         />
       </Box>
       <input {...getInputProps()} />
