@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import { isLoggedIn, logOut, isAdmin, isOwner } from "../Shared/AppBehaviors";
 import { DarkThemeContext } from "../App";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import preval from "preval.macro";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -32,6 +33,8 @@ export const HeaderButtons = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const dateTimeStamp = preval`module.exports = new Date().toLocaleString();`;
 
   return (
     <Box ml="auto">
@@ -77,7 +80,7 @@ export const HeaderButtons = () => {
           <Switch checked={darkThemeEnabled} color="primary" />
         </MenuItem>
         {/* timestamp */}
-        <MenuItem>updated 6pm 06/12</MenuItem>
+        <MenuItem>updated: {dateTimeStamp}</MenuItem>
         <MenuItem component={Link} to="/about">
           About
         </MenuItem>

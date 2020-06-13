@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import { Button, Dialog, DialogTitle } from "@material-ui/core";
-import { useContainerStyles } from "../Shared/formStyles";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
 import SnackbarService from "../Shared/SnackbarService";
 
@@ -12,8 +11,6 @@ interface props {
 }
 
 export const DeleteRecipeDialog = ({ onClose, id, open }: props) => {
-  const classes = useContainerStyles();
-
   const handleDelete = async () => {
     await RecipeAPI.deleteRecipe(id);
     SnackbarService.success("recipe deleted");

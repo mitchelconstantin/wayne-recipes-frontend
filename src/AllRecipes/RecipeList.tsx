@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { RecipeCard } from "./RecipeCard";
-import { Box, makeStyles, Typography, Paper } from "@material-ui/core";
+import { Box, makeStyles, Typography } from "@material-ui/core";
 import { IRecipe } from "../Shared/Types";
 import { Loading } from "../Shared/Components/Loading";
 import HelpOutline from "@material-ui/icons/HelpOutline";
