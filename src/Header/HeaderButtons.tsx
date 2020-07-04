@@ -34,12 +34,7 @@ export const HeaderButtons = () => {
     setAnchorEl(null);
   };
 
-  const dateTimeStamp = preval`module.exports = new Date();`;
-  let localizedDateTimeStamp;
-  if (dateTimeStamp.getHours) {
-    dateTimeStamp.setHours(dateTimeStamp.getHours() - 5);
-    localizedDateTimeStamp = dateTimeStamp.toLocaleString();
-  }
+  const dateTimeStamp = preval`module.exports = new Date().toLocaleString();`;
 
   return (
     <Box display="flex" justifyContent="center" height={"100%"} ml="auto">
@@ -85,7 +80,7 @@ export const HeaderButtons = () => {
           <Switch checked={darkThemeEnabled} color="primary" />
         </MenuItem>
         {/* timestamp */}
-        <MenuItem>updated: {localizedDateTimeStamp}</MenuItem>
+        <MenuItem>updated: {dateTimeStamp}</MenuItem>
         <MenuItem component={Link} to="/about">
           About
         </MenuItem>
