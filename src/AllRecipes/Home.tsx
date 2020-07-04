@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
-import { Box, Paper, Input, makeStyles } from "@material-ui/core";
+import { Box, Paper, Input, makeStyles, Typography } from "@material-ui/core";
 import { IRecipe, emptyFilters } from "../Shared/Types";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
 import SearchIcon from "@material-ui/icons/Search";
@@ -39,6 +39,31 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: "10px",
     paddingRight: "10px",
     margin: "10px",
+  },
+  titleBar: {
+    width: "100%",
+    background: "linear-gradient(0.25turn, #f44723, #f56730, #f44723)",
+    zIndex: 1,
+    marginTop: "-1px",
+    paddingLeft: "20px",
+  },
+  title: {
+    marginRight: "auto",
+    fontWeight: 700,
+    color: theme.palette.type === "dark" ? "silver" : "white",
+    fontSize: 70,
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 22,
+    },
+  },
+  subTitle: {
+    marginBottom: "10px",
+    marginRight: "auto",
+    fontWeight: 400,
+    color: theme.palette.type === "dark" ? "silver" : "white",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 16,
+    },
   },
 }));
 
@@ -99,9 +124,20 @@ export const Home = () => {
     setDebouncedSearchTerm(event.target.value);
   };
 
+  const title = `WAYNE'S FAMILY RECIPES`;
+  const description = "Traditional Cajun food and so much more!";
+
   return (
     <Box>
       <Paper className={classes.searchContainer}>
+        <Box className={classes.titleBar}>
+          <Typography className={classes.title} variant="h2">
+            {title}
+          </Typography>
+          <Typography className={classes.subTitle} variant="h6">
+            {description}
+          </Typography>
+        </Box>
         <Box className={classes.searchBarLine}>
           <Input
             placeholder="search"
