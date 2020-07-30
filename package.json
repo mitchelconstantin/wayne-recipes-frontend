@@ -1,6 +1,6 @@
 {
-  "name": "react-ui",
-  "version": "0.1.0",
+  "name": "constantin-recipes-ui",
+  "version": "1.1.0",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.10.0",
