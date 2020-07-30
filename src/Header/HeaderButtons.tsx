@@ -54,12 +54,12 @@ export const HeaderButtons = () => {
         onClose={handleClose}
       >
         {isLoggedIn() ? (
-          <>
+          <div>
             <MenuItem onClick={logOut}>Logout</MenuItem>
             <MenuItem component={Link} to="/list">
               Shopping List
             </MenuItem>
-          </>
+          </div>
         ) : (
           <MenuItem component={Link} to="/login">
             Login

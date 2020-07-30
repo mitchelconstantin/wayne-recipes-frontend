@@ -7,7 +7,6 @@ export class RecipeTransform {
     atttribute: string,
     val: any
   ) => {
-    console.log("recipes", recipes);
     //@ts-ignore
     const result = recipes.filter((recipe) => recipe[atttribute] === val);
     return result;
@@ -27,7 +26,6 @@ export class RecipeTransform {
       source,
       debouncedSearchTerm,
     } = selectedFilters;
-    console.log("region", region);
     let filteredResults = recipes;
     if (mainIngredient) {
       filteredResults = RecipeTransform.filterByAttribute(

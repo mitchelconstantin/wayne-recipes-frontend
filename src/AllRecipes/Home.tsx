@@ -97,12 +97,10 @@ export const Home = () => {
   }, []);
 
   useEffect(() => {
-    console.log("fetching new recipes");
     const newFilteredRecipes = RecipeTransform.filterRecipes(
       recipes,
       selectedFilters
     );
-    console.log("filtered", newFilteredRecipes);
     if (!isEqual(filteredRecipes, newFilteredRecipes)) {
       setFilteredRecipes(newFilteredRecipes);
     }
