@@ -139,6 +139,7 @@ export const UpdateRecipe = () => {
       />
       <Button
         disabled={disabled}
+        style={{ margin: "8px" }}
         color="primary"
         variant="contained"
         onClick={() => saveRecipe(recipe)}
@@ -147,8 +148,8 @@ export const UpdateRecipe = () => {
       </Button>
       {isOwner() && recipeId && (
         <Button
+          style={{ margin: "8px", marginTop: "100px", color: "red" }}
           onClick={() => setOpenModal(true)}
-          color="primary"
           variant="contained"
         >
           delete recipe

@@ -39,6 +39,7 @@ export const RecipeList = ({ loading, recipes }: Props) => {
   const [page, setPage] = useState(1);
   const handleChange = (event: any, value: number) => {
     setPage(value);
+    setTimeout(() => window.scrollTo(0, 0), 400);
   };
 
   useEffect(() => {
