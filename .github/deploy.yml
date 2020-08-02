@@ -24,6 +24,7 @@ jobs:
         env:
           CI: true
   publish:
+    needs: [build]
     runs-on: ubuntu-latest
 
     steps:
