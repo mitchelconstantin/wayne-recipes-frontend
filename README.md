@@ -1,5 +1,7 @@
 # Wayne's Recipes
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/541d4be1-f61f-4cc2-8568-72f6071bd8af/deploy-status)](https://app.netlify.com/sites/vibrant-curie-edb6ee/deploys)
+
 Demo: [constantin.recipes](https://www.constantin.recipes/all)
 
 ##### Recipe book web app to share Constantin family recipes.
