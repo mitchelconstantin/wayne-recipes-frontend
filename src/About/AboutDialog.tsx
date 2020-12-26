@@ -7,6 +7,7 @@ import {
   IconButton,
   DialogContent,
   Typography,
+  Link,
 } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 
@@ -33,24 +34,26 @@ export const AboutDialog = ({ handleClose, open }: Props) => {
         </Box>
       </DialogTitle>
       <DialogContent>
-        <Typography>
+        <Typography gutterBottom>
           Wayne's Recipes is a recipe app for hosting Constantin Family recipes
           on the web. All of the recipes you see have been collected by my
           father, Wayne over the last 30 years.
         </Typography>
         <Typography>
-          <a
+          <Link
             href={"https://github.com/mitchelconstantin/wayne-recipes-frontend"}
           >
             frontend code
-          </a>
+          </Link>
         </Typography>
         <Typography>
-          <a
-            href={"https://github.com/mitchelconstantin/wayne-recipes-backend"}
+          <Link
+            href={
+              "https://github.com/mitchelconstLinkntin/wayne-recipes-backend"
+            }
           >
             backend code
-          </a>
+          </Link>
         </Typography>
       </DialogContent>
     </Dialog>
