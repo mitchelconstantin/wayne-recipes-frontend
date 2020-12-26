@@ -1,7 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import noImage from "../Shared/Images/noImage.png";
-import { Box, Divider, Link, makeStyles, Typography } from "@material-ui/core/";
+import {
+  Box,
+  Divider,
+  IconButton,
+  makeStyles,
+  Typography,
+} from "@material-ui/core/";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
 import { useParams } from "react-router-dom";
 import { Loading } from "../Shared/Components/Loading";
@@ -103,14 +109,14 @@ export const RecipeDisplay = () => {
           </Typography>
           <Box display="flex" flexDirection="row" alignItems="center">
             <Rating name="read-only" value={recipe.reviewScore} readOnly />
-            <Box ml={1}>
-              <Link
-                href="#"
-                onClick={() => ratingsFeatureFlag && setOpenReviewsDialog(true)}
-              >
-                {`(${recipe.numberOfReviews || 0})`}
-              </Link>
-            </Box>
+            <IconButton
+              disabled={!ratingsFeatureFlag}
+              size="small"
+              color="primary"
+              onClick={() => ratingsFeatureFlag && setOpenReviewsDialog(true)}
+            >
+              {`(${recipe.numberOfReviews || 0})`}
+            </IconButton>
           </Box>
         </Box>
 

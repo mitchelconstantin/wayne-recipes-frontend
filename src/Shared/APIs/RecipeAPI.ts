@@ -73,7 +73,7 @@ export class RecipeAPI {
 
   //todo complete this endpoint
   static getReviews = async (id: string): Promise<IReview[]> => {
-    const url = apiUrl(`recipes/review/${id}`);
+    // const url = apiUrl(`recipes/review/${id}`);
     // const res = await fetch(url);
     // // if (!res.ok) window.location.href = "/all";
     // const reviews = await res.json();
