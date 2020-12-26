@@ -1,15 +1,15 @@
-import React from 'react';
-import { Box, Typography, makeStyles } from '@material-ui/core/';
+import React from "react";
+import { Box, Typography, makeStyles } from "@material-ui/core/";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   ingredientsLine: {
-    marginTop: '10px',
+    marginTop: "10px",
     fontWeight: 500,
-    fontSize: '1rem',
-    '@media print': {
-      fontSize: '1.2rem',
-    }
-  }
+    fontSize: "1rem",
+    "@media print": {
+      fontSize: "1.2rem",
+    },
+  },
 }));
 
 interface props {
@@ -21,7 +21,7 @@ export const IngredientsList = ({ ingredients }: props) => {
   if (!ingredients) return <div>no ingredients found</div>;
 
   const processedIngredients = ingredients
-    .split('\n')
+    .split("\n")
     .map((line, i: number) => {
       return (
         <Typography key={i} className={classes.ingredientsLine}>
@@ -31,7 +31,7 @@ export const IngredientsList = ({ ingredients }: props) => {
     });
   return (
     <Box mt="20px" mb="20px">
-      <Typography variant="h2">Ingredients</Typography>
+      <Typography variant="h4">Ingredients</Typography>
       {processedIngredients}
     </Box>
   );

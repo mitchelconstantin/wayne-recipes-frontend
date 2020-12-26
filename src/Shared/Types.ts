@@ -10,6 +10,8 @@ export interface IRecipe {
   mainIngredient?: string;
   region: string;
   netCarbs?: string;
+  reviewScore?: number;
+  numberOfReviews?: number;
 }
 
 export interface IFilterOptions {

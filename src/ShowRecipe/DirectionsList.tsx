@@ -1,15 +1,15 @@
-import React from 'react';
-import { Box, Typography, makeStyles } from '@material-ui/core/';
+import React from "react";
+import { Box, Typography, makeStyles } from "@material-ui/core/";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   directionsLine: {
-    marginTop: '10px',
+    marginTop: "10px",
     fontWeight: 500,
-    fontSize: '1rem',
-    '@media print': {
-      fontSize: '1.2rem'
-    }
-  }
+    fontSize: "1rem",
+    "@media print": {
+      fontSize: "1.2rem",
+    },
+  },
 }));
 
 const getLine = (index: number, line: string) => {
@@ -25,7 +25,7 @@ interface props {
 export const DirectionsList = ({ directions }: props) => {
   const classes = useStyles();
   if (!directions) return <div>no directions found</div>;
-  const processedDirections = directions.split('\n').map((line, i: number) => {
+  const processedDirections = directions.split("\n").map((line, i: number) => {
     return (
       <Typography key={i} className={classes.directionsLine}>
         {getLine(i, line)}
@@ -34,7 +34,7 @@ export const DirectionsList = ({ directions }: props) => {
   });
   return (
     <Box mt="20px" mb="20px">
-      <Typography variant="h2">Directions</Typography>
+      <Typography variant="h4">Directions</Typography>
       {processedDirections}
     </Box>
   );

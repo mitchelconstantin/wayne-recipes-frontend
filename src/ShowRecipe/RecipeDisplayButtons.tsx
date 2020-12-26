@@ -15,7 +15,7 @@ interface props {
 
 export const RecipeDisplayButtons = ({ recipe }: props) => {
   return (
-    <Box display="flex" displayPrint="none">
+    <Box display="flex" displayPrint="none" ml="-8px">
       {isLoggedIn() && <AddToShoppingListButton recipe={recipe} />}
       {isLoggedIn() && <IMadeItButton recipe={recipe} />}
       <PrintButton label="Recipe" />

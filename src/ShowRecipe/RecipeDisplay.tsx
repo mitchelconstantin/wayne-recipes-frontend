@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import noImage from "../Shared/Images/noImage.png";
-import { Box, Divider, makeStyles } from "@material-ui/core/";
+import { Box, Divider, makeStyles, Typography } from "@material-ui/core/";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
 import { useParams } from "react-router-dom";
 import { Loading } from "../Shared/Components/Loading";
@@ -10,6 +10,7 @@ import { RecipeDisplayButtons } from "./RecipeDisplayButtons";
 import { RecipeSpecifications } from "./RecipeSpecifications";
 import { DirectionsList } from "./DirectionsList";
 import { IngredientsList } from "./IngredientsList";
+import { Rating } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
   recipeDetails: {
@@ -30,14 +31,32 @@ const useStyles = makeStyles((theme) => ({
       display: "block",
     },
   },
+  recipeInteraction: {
+    display: "flex",
+    [theme.breakpoints.down("sm")]: {
+      flexDirection: "column",
+      alignItems: "left",
+    },
+    [theme.breakpoints.up("md")]: {
+      flexDirection: "row",
+      alignItems: "center",
+    },
+  },
+  recipeTags: {
+    display: "flex",
+    [theme.breakpoints.down("sm")]: {},
+    [theme.breakpoints.up("md")]: {
+      marginLeft: "auto",
+    },
+  },
   image: {
     objectFit: "cover",
     [theme.breakpoints.down("sm")]: {
       maxWidth: "80vw",
     },
     [theme.breakpoints.up("md")]: {
+      padding: "16px",
       maxWidth: "30vw",
-      objectFit: "cover",
     },
   },
 }));
@@ -60,11 +79,10 @@ export const RecipeDisplay = () => {
     eventTarget.src = noImage;
   };
 
-  const [Container, RecipeDetails] = [Box, Box];
   const tags = [recipe.type, recipe.mainIngredient, recipe.region];
   if (loading) return <Loading />;
   return (
-    <Container className={classes.container}>
+    <Box className={classes.container}>
       <Box displayPrint="none">
         <img
           onError={onError}
@@ -73,20 +91,26 @@ export const RecipeDisplay = () => {
           alt={"a tasty dish"}
         />
       </Box>
-      <RecipeDetails className={classes.recipeDetails}>
-        <Box display="flex">
-          <h2>{recipe.title}</h2>
-          <RecipeDisplayButtons recipe={recipe} />
+      <Box className={classes.recipeDetails}>
+        <Box display="flex" flexDirection="column">
+          <Typography variant="h3">{recipe.title}</Typography>
+          <Box display="flex" flexDirection="row" alignItems="center">
+            <Rating name="read-only" value={recipe.reviewScore} readOnly />
+            <Box ml={1}>{`(${recipe.numberOfReviews || 0})`}</Box>
+          </Box>
         </Box>
-        <Box display="flex" mb="10px">
-          <div>{`from: ${recipe.source || "unknown"}`}</div>
-          <Box ml="auto">{tags.map((tag) => !!tag && `#${tag} `)}</Box>
+
+        <Box className={classes.recipeInteraction}>
+          <RecipeDisplayButtons recipe={recipe} />
+          <Box className={classes.recipeTags}>
+            {tags.map((tag) => !!tag && `#${tag} `)}
+          </Box>
         </Box>
         <Divider />
         <RecipeSpecifications recipe={recipe} />
         <IngredientsList ingredients={recipe.ingredients} />
         <DirectionsList directions={recipe.directions} />
-      </RecipeDetails>
-    </Container>
+      </Box>
+    </Box>
   );
 };
