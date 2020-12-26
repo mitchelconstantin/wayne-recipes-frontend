@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -13,9 +13,9 @@ import {
 } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 import { Rating } from "@material-ui/lab";
-
+import { isEmpty } from "lodash";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
-import SnackbarService from "../Shared/SnackbarService";
+import { SnackbarService } from "../Shared/SnackbarService";
 import { IRecipe, IReview } from "../Shared/Types";
 import { userEmail } from "../Shared/AppBehaviors";
 
@@ -75,31 +75,57 @@ interface RateRecipeDialogProps {
   handleClose: any;
   open: boolean;
   recipe: IRecipe;
+  reloadRecipe: Function;
 }
 
 export const RateRecipeDialog = ({
   handleClose,
   recipe,
   open,
+  reloadRecipe,
 }: RateRecipeDialogProps) => {
-  const [value, setValue] = useState(null);
-  const textFieldRef = useRef();
-  //@ts-ignore
-  const getCommentValue = () => textFieldRef?.current?.value;
+  const [score, setScore] = useState(null);
+  const [comment, setComment] = useState("");
+  const [title, setTitle] = useState(`Leave a review for ${recipe.title}`);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setComment(event.target.value);
+  };
+
+  const getInitialValues = async () => {
+    if (!recipe.id) return;
+    const prevReview = await RecipeAPI.getUserRecipeReview(
+      userEmail(),
+      recipe.id
+    );
+    if (isEmpty(prevReview)) return;
+    setTitle(`Update your review for ${recipe.title}`);
+    //@ts-ignore
+    setScore(prevReview.score);
+    //@ts-ignore
+    setComment(prevReview.comment);
+  };
+
+  useEffect(() => {
+    if (open) {
+      getInitialValues();
+    }
+  }, [open]);
 
   const handleSendRating = async () => {
-    if (!value || !recipe.id) return;
+    if (!score || !recipe.id) return;
     const review: IReview = {
-      score: value,
+      score: score,
       recipeId: recipe.id,
       reviewerEmail: userEmail(),
-      comment: getCommentValue(),
+      comment: comment,
     };
     await RecipeAPI.reviewRecipe(review);
     SnackbarService.success("Recipe Reviewed successfully");
-    setTimeout(() => handleClose(), 1500);
+    reloadRecipe();
+    setTimeout(() => handleClose(), 500);
   };
-  const disabled = value === null;
+  const disabled = score === null;
 
   return (
     <Dialog
@@ -109,7 +135,7 @@ export const RateRecipeDialog = ({
     >
       <DialogTitle id="id">
         <Box display="flex" alignItems="center">
-          <Box flexGrow={1}>{`Leave a review for ${recipe.title}`}</Box>
+          <Box flexGrow={1}>{title}</Box>
           <Box>
             <IconButton onClick={handleClose}>
               <Close />
@@ -118,13 +144,14 @@ export const RateRecipeDialog = ({
         </Box>
       </DialogTitle>
       <DialogContent>
-        <HoverRating value={value} setValue={setValue} />
+        <HoverRating value={score} setValue={setScore} />
         <TextField
           margin="dense"
           id="comments"
           label="Comments"
           fullWidth
-          inputRef={textFieldRef}
+          value={comment}
+          onChange={handleChange}
           multiline
           rows={4}
         />

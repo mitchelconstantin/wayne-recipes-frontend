@@ -11,7 +11,10 @@ const toggleTheme = (): void => {
   localStorage.setItem("enableDarkTheme", toggledValue);
 };
 
-export const useDarkThemeEnabled = (): [boolean, () => void] => {
+export const useDarkThemeEnabled = (): {
+  darkThemeEnabled: boolean;
+  toggleDarkThemeEnabled: () => void;
+} => {
   const [darkThemeEnabled, setDarkThemeEnabled] = useState(
     getDarkThemeEnabled()
   );
@@ -20,5 +23,5 @@ export const useDarkThemeEnabled = (): [boolean, () => void] => {
     toggleTheme();
     setDarkThemeEnabled(getDarkThemeEnabled());
   };
-  return [darkThemeEnabled, toggleDarkThemeEnabled];
+  return { darkThemeEnabled, toggleDarkThemeEnabled };
 };

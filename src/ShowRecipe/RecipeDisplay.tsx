@@ -19,7 +19,6 @@ import { IngredientsList } from "./IngredientsList";
 import { Rating } from "@material-ui/lab";
 import { useMobileQuery } from "../Shared/Hooks/isMobile";
 import { ReviewsChartDialog } from "./ReviewsChartDialog";
-import { ratingsFeatureFlag } from "../Shared/AppBehaviors";
 
 const useStyles = makeStyles((theme) => ({
   recipeDetails: {
@@ -78,11 +77,15 @@ export const RecipeDisplay = () => {
   const classes = useStyles();
   const isMobile = useMobileQuery();
 
-  useEffect(() => {
+  const loadRecipe = () => {
     RecipeAPI.getRecipe(recipeId).then((recipe) => {
       setRecipe(recipe);
       setLoading(false);
     });
+  };
+
+  useEffect(() => {
+    loadRecipe();
   }, []);
 
   const onError = (ev: { target: any }) => {
@@ -108,12 +111,17 @@ export const RecipeDisplay = () => {
             {recipe.title}
           </Typography>
           <Box display="flex" flexDirection="row" alignItems="center">
-            <Rating name="read-only" value={recipe.reviewScore} readOnly />
+            <Rating
+              name="read-only"
+              precision={0.5}
+              value={recipe.reviewScore}
+              readOnly
+            />
             <IconButton
-              disabled={!ratingsFeatureFlag}
+              disabled={!recipe.numberOfReviews}
               size="small"
               color="primary"
-              onClick={() => ratingsFeatureFlag && setOpenReviewsDialog(true)}
+              onClick={() => setOpenReviewsDialog(true)}
             >
               {`(${recipe.numberOfReviews || 0})`}
             </IconButton>
@@ -121,7 +129,7 @@ export const RecipeDisplay = () => {
         </Box>
 
         <Box className={classes.recipeInteraction}>
-          <RecipeDisplayButtons recipe={recipe} />
+          <RecipeDisplayButtons reloadRecipe={loadRecipe} recipe={recipe} />
           <Box className={classes.recipeTags}>
             {tags.map((tag) => !!tag && `#${tag} `)}
           </Box>

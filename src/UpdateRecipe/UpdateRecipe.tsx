@@ -6,7 +6,7 @@ import { ImageUploader } from "./ImageUploader";
 import { isOwner } from "../Shared/AppBehaviors";
 import { IRecipe, emptyRecipe, emptyFilterOptions } from "../Shared/Types";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
-import SnackbarService from "../Shared/SnackbarService";
+import { SnackbarService } from "../Shared/SnackbarService";
 import { useContainerStyles } from "../Shared/formStyles";
 import { Loading } from "../Shared/Components/Loading";
 import { Dropdown } from "./Dropdown";

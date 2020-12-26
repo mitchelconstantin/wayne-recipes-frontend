@@ -25,6 +25,3 @@ export const isLoggedIn = (): boolean => !!getLocalStorage("isLoggedIn");
 export const userEmail = (): string => getLocalStorage("userEmail", true);
 export const isAdmin = (): boolean => !!getLocalStorage("isAdmin");
 export const isOwner = (): boolean => !!getLocalStorage("isOwner");
-
-//todo remove this once ratings are ready, toggle while developing
-export const ratingsFeatureFlag = false;

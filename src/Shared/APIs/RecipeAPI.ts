@@ -1,14 +1,10 @@
-import { fakeReviews, IRecipe, IReview } from "../Types";
+import { IRecipe, IReview } from "../Types";
 
 interface FiltersPayload {
   regions: string[];
   types: string[];
   mainIngredients: string[];
   sources: string[];
-}
-
-async function stall(stallTime = 3000) {
-  await new Promise((resolve) => setTimeout(resolve, stallTime));
 }
 
 const apiUrl = (path: string) => `${process.env.REACT_APP_API_URL}/api/${path}`;
@@ -57,29 +53,34 @@ export class RecipeAPI {
 
   //todo complete this endpoint
   static reviewRecipe = async (review: IReview): Promise<string> => {
-    const url = apiUrl("recipes/review");
-
+    const url = apiUrl("reviews");
     const res = await fetch(url, {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(review),
+      body: JSON.stringify({ review }),
     });
     const json = await res.json();
-    return json.link;
+    return json;
   };
 
-  //todo complete this endpoint
+  static getUserRecipeReview = async (
+    userEmail: string,
+    recipeId: string
+  ): Promise<IReview | undefined> => {
+    const url = apiUrl(`reviews/${recipeId}/${userEmail}`);
+    const res = await fetch(url);
+    const json = await res.json();
+    return json;
+  };
+
   static getReviews = async (id: string): Promise<IReview[]> => {
-    // const url = apiUrl(`recipes/review/${id}`);
-    // const res = await fetch(url);
-    // // if (!res.ok) window.location.href = "/all";
-    // const reviews = await res.json();
-    // return reviews;
-    await stall();
-    return fakeReviews;
+    const url = apiUrl(`reviews/${id}`);
+    const res = await fetch(url);
+    const reviews = await res.json();
+    return reviews;
   };
 
   static uploadImage = async (

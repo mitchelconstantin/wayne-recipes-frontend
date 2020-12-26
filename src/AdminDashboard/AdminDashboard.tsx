@@ -10,7 +10,7 @@ import {
   Box,
 } from "@material-ui/core";
 import { IUser } from "../Shared/Types";
-import SnackbarService from "../Shared/SnackbarService";
+import { SnackbarService } from "../Shared/SnackbarService";
 import { UserAPI } from "../Shared/APIs/UserAPI";
 import { useContainerStyles } from "../Shared/formStyles";
 import { Loading } from "../Shared/Components/Loading";

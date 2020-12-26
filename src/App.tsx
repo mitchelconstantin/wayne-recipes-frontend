@@ -28,7 +28,7 @@ export const DarkThemeContext = createContext<ContextProps>({
 });
 
 export const App = () => {
-  const [darkThemeEnabled, toggleDarkThemeEnabled] = useDarkThemeEnabled();
+  const { darkThemeEnabled, toggleDarkThemeEnabled } = useDarkThemeEnabled();
   return (
     <BrowserRouter>
       <DarkThemeContext.Provider

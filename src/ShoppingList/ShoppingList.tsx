@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Box, Divider, Typography } from "@material-ui/core";
 import { IShoppingListItem } from "../Shared/Types";
-import SnackbarService from "../Shared/SnackbarService";
+import { SnackbarService } from "../Shared/SnackbarService";
 import { PrintButton } from "../Shared/Components/CustomButtons";
 import { Loading } from "../Shared/Components/Loading";
 import { ShoppingListItems } from "./ShoppingListItems";

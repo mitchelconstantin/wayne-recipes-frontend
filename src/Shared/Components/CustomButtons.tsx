@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { Tooltip, IconButton } from "@material-ui/core";
 import { Print, Edit, Grade, AddShoppingCart } from "@material-ui/icons";
-import SnackbarService from "../SnackbarService";
+import { SnackbarService } from "../SnackbarService";
 import { IRecipe } from "../Types";
 import { ShoppingListAPI } from "../APIs/ShoppingListAPI";
 import { RateRecipeDialog } from "../../ShowRecipe/RateRecipeDialog";
-import { ratingsFeatureFlag } from "../AppBehaviors";
 
 interface PrintButtonProps {
   label: string;
@@ -57,25 +56,22 @@ export const EditRecipeButton = ({ id }: EditButtonProps) => {
 
 interface ImadeItButtonProps {
   recipe: IRecipe;
+  reloadRecipe: Function;
 }
-export const IMadeItButton = ({ recipe }: ImadeItButtonProps) => {
+export const IMadeItButton = ({ recipe, reloadRecipe }: ImadeItButtonProps) => {
   const [openModal, setOpenModal] = useState(false);
 
   return (
     <>
       <Tooltip title="Leave a review">
-        <IconButton
-          //todo enable this once ratings are live
-          disabled={!ratingsFeatureFlag}
-          onClick={() => setOpenModal(true)}
-          aria-label="rate recipe"
-        >
+        <IconButton onClick={() => setOpenModal(true)} aria-label="rate recipe">
           <Grade />
         </IconButton>
       </Tooltip>
       <RateRecipeDialog
         open={openModal}
         recipe={recipe}
+        reloadRecipe={reloadRecipe}
         handleClose={() => setOpenModal(false)}
       />
     </>

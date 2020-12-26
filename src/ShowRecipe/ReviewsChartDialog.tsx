@@ -44,7 +44,7 @@ const ReviewsTable = ({ reviews }: { reviews: IReview[] }) => {
         </TableHead>
         <TableBody>
           {reviews.map((review) => (
-            <TableRow key={review.reviewerEmail}>
+            <TableRow key={review.reviewerName}>
               <TableCell style={{ width: "10%" }} component="th" scope="row">
                 <Rating
                   size="small"
@@ -57,7 +57,9 @@ const ReviewsTable = ({ reviews }: { reviews: IReview[] }) => {
                 {review.reviewerName}
               </TableCell>
               <TableCell style={{ width: "10%" }} align="right">
-                {review.date}
+                {/* 
+                //@ts-ignore */}
+                {new Date(review.date).toLocaleDateString("en-US")}
               </TableCell>
               <TableCell style={{ width: "70%" }} align="right">
                 {review.comment}
@@ -103,7 +105,7 @@ export const ReviewsChartDialog = ({
       aria-labelledby="customized-dialog-title"
       open={open}
     >
-      <DialogTitle id="id">
+      <DialogTitle id="recipes-dialog">
         <Box display="flex" alignItems="center">
           <Box flexGrow={1}>{`Reviews for ${recipe.title}`}</Box>
           <Box>
