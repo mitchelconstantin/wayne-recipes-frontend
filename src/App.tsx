@@ -18,7 +18,6 @@ import { useDarkThemeEnabled } from "./Shared/Hooks/darkTheme";
 import { ThemeProvider, CssBaseline } from "@material-ui/core";
 import { getTheme } from "./Shared/theme";
 import { SnackbarContainer } from "./Shared/SnackbarService";
-import { About } from "./About/About";
 
 type ContextProps = {
   darkThemeEnabled: boolean;
@@ -57,11 +56,6 @@ export const App = () => {
               exact
               path="/r/:recipeId"
               render={(props: any) => <RecipeDisplay {...props} />}
-            />
-            <Route
-              exact
-              path="/about"
-              render={(props: any) => <About {...props} />}
             />
             <PrivateRoute
               path="/list"

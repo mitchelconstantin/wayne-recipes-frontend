@@ -1,10 +1,14 @@
-import { IRecipe, IReview } from "../Types";
+import { fakeReviews, IRecipe, IReview } from "../Types";
 
 interface FiltersPayload {
   regions: string[];
   types: string[];
   mainIngredients: string[];
   sources: string[];
+}
+
+async function stall(stallTime = 3000) {
+  await new Promise((resolve) => setTimeout(resolve, stallTime));
 }
 
 const apiUrl = (path: string) => `${process.env.REACT_APP_API_URL}/api/${path}`;
@@ -64,6 +68,16 @@ export class RecipeAPI {
     });
     const json = await res.json();
     return json.link;
+  };
+
+  static getReviews = async (id: string): Promise<IReview[]> => {
+    const url = apiUrl(`recipes/review/${id}`);
+    // const res = await fetch(url);
+    // // if (!res.ok) window.location.href = "/all";
+    // const reviews = await res.json();
+    // return reviews;
+    await stall();
+    return fakeReviews;
   };
 
   //todo move this to different API file, change apiUrl to be local to this class

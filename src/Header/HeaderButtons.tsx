@@ -12,6 +12,7 @@ import { isLoggedIn, logOut, isAdmin, isOwner } from "../Shared/AppBehaviors";
 import { DarkThemeContext } from "../App";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import preval from "preval.macro";
+import { AboutDialog } from "../About/AboutDialog";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -25,6 +26,7 @@ export const HeaderButtons = () => {
     DarkThemeContext
   );
   const classes = useStyles();
+  const [aboutDialogOpen, setAboutDialogOpen] = useState(false);
 
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -56,7 +58,7 @@ export const HeaderButtons = () => {
         {isLoggedIn() ? (
           <div>
             <MenuItem onClick={logOut}>Logout</MenuItem>
-            <MenuItem component={Link} to="/list">
+            <MenuItem onClick={handleClose} component={Link} to="/list">
               Shopping List
             </MenuItem>
           </div>
@@ -79,12 +81,20 @@ export const HeaderButtons = () => {
           <div style={{ marginRight: "auto" }}>Use Dark Theme</div>
           <Switch checked={darkThemeEnabled} color="primary" />
         </MenuItem>
-        {/* timestamp */}
-        <MenuItem>updated: {dateTimeStamp}</MenuItem>
-        <MenuItem component={Link} to="/about">
+        <MenuItem
+          onClick={() => {
+            setAboutDialogOpen(true);
+            handleClose();
+          }}
+        >
           About
         </MenuItem>
+        <MenuItem>updated: {dateTimeStamp}</MenuItem>
       </Menu>
+      <AboutDialog
+        open={aboutDialogOpen}
+        handleClose={() => setAboutDialogOpen(false)}
+      />
     </Box>
   );
 };

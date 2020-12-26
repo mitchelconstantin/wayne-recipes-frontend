@@ -92,7 +92,7 @@ export const RateRecipeDialog = ({
     const review: IReview = {
       score: value,
       recipeId: recipe.id,
-      reviewer: userEmail(),
+      reviewerEmail: userEmail(),
       comment: getCommentValue(),
     };
     await RecipeAPI.reviewRecipe(review);

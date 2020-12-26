@@ -86,8 +86,67 @@ export const emptyUser: IUser = {
 };
 
 export interface IReview {
-  reviewer: string;
+  reviewerEmail: string;
+  reviewerName?: string;
   recipeId: string;
   score: number | null;
   comment: string;
+  date?: string;
 }
+
+export const fakeReviews: IReview[] = [
+  {
+    reviewerEmail: "asdf@gmail.com",
+    reviewerName: "Mitchel C",
+    recipeId: "123",
+    score: 4,
+    comment:
+      " I really liked this recipe it was really tasty thanks for the tips",
+    date: "12/26/20",
+  },
+  {
+    reviewerEmail: "asdf@gmail.com",
+    reviewerName: "Mitchel C",
+    recipeId: "123",
+    score: 4,
+    comment:
+      " I really liked this recipe it was really tasty thanks for the tips",
+    date: "12/26/20",
+  },
+  {
+    reviewerEmail: "asdf@gmail.com",
+    reviewerName: "Mitchel C",
+    recipeId: "123",
+    score: 4,
+    comment:
+      " I really liked this recipe it was really tasty thanks for the tips",
+    date: "12/26/20",
+  },
+  {
+    reviewerEmail: "asdf@gmail.com",
+    reviewerName: "Mitchel C",
+    recipeId: "123",
+    score: 4,
+    comment:
+      " I really liked this recipe it was really tasty thanks for the tips",
+    date: "12/26/20",
+  },
+  {
+    reviewerEmail: "asdf@gmail.com",
+    reviewerName: "Mitchel C",
+    recipeId: "123",
+    score: 4,
+    comment:
+      " I really liked this recipe it was really tasty thanks for the tips",
+    date: "12/26/20",
+  },
+  {
+    reviewerEmail: "asdf@gmail.com",
+    reviewerName: "Mitchel C",
+    recipeId: "123",
+    score: 4,
+    comment:
+      " I really liked this recipe it was really tasty thanks for the tips",
+    date: "12/26/20",
+  },
+];

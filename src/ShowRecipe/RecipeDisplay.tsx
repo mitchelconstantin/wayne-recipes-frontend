@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import noImage from "../Shared/Images/noImage.png";
-import { Box, Divider, makeStyles, Typography } from "@material-ui/core/";
+import { Box, Divider, Link, makeStyles, Typography } from "@material-ui/core/";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
 import { useParams } from "react-router-dom";
 import { Loading } from "../Shared/Components/Loading";
@@ -12,6 +12,7 @@ import { DirectionsList } from "./DirectionsList";
 import { IngredientsList } from "./IngredientsList";
 import { Rating } from "@material-ui/lab";
 import { useMobileQuery } from "../Shared/Hooks/isMobile";
+import { ReviewsChartDialog } from "./ReviewsChartDialog";
 
 const useStyles = makeStyles((theme) => ({
   recipeDetails: {
@@ -65,6 +66,7 @@ const useStyles = makeStyles((theme) => ({
 export const RecipeDisplay = () => {
   const [recipe, setRecipe] = useState<IRecipe>(emptyRecipe);
   const [loading, setLoading] = useState(true);
+  const [openReviewsDialog, setOpenReviewsDialog] = useState(false);
   const { recipeId } = useParams();
   const classes = useStyles();
   const isMobile = useMobileQuery();
@@ -100,7 +102,11 @@ export const RecipeDisplay = () => {
           </Typography>
           <Box display="flex" flexDirection="row" alignItems="center">
             <Rating name="read-only" value={recipe.reviewScore} readOnly />
-            <Box ml={1}>{`(${recipe.numberOfReviews || 0})`}</Box>
+            <Box ml={1}>
+              <Link href="#" onClick={() => setOpenReviewsDialog(true)}>
+                {`(${recipe.numberOfReviews || 0})`}
+              </Link>
+            </Box>
           </Box>
         </Box>
 
@@ -115,6 +121,11 @@ export const RecipeDisplay = () => {
         <IngredientsList ingredients={recipe.ingredients} />
         <DirectionsList directions={recipe.directions} />
       </Box>
+      <ReviewsChartDialog
+        open={openReviewsDialog}
+        handleClose={() => setOpenReviewsDialog(false)}
+        recipe={recipe}
+      />
     </Box>
   );
 };

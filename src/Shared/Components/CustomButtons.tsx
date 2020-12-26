@@ -61,21 +61,21 @@ export const IMadeItButton = ({ recipe }: ImadeItButtonProps) => {
   const [openModal, setOpenModal] = useState(false);
 
   return (
-    <Tooltip title="Leave a review!">
-      <>
+    <>
+      <Tooltip title="Leave a review">
         <IconButton
+          disabled
           onClick={() => setOpenModal(true)}
-          // href={`/r/${recipe.id}/edit`}
           aria-label="rate recipe"
         >
           <Grade />
         </IconButton>
-        <RateRecipeDialog
-          open={openModal}
-          recipe={recipe}
-          handleClose={() => setOpenModal(false)}
-        />
-      </>
-    </Tooltip>
+      </Tooltip>
+      <RateRecipeDialog
+        open={openModal}
+        recipe={recipe}
+        handleClose={() => setOpenModal(false)}
+      />
+    </>
   );
 };
