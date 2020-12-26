@@ -1,5 +1,11 @@
 import React from "react";
-import { Box, Typography, makeStyles } from "@material-ui/core/";
+import {
+  Box,
+  Typography,
+  makeStyles,
+  useMediaQuery,
+  useTheme,
+} from "@material-ui/core/";
 
 const useStyles = makeStyles((theme) => ({
   ingredientsLine: {
@@ -18,6 +24,8 @@ interface props {
 
 export const IngredientsList = ({ ingredients }: props) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   if (!ingredients) return <div>no ingredients found</div>;
 
   const processedIngredients = ingredients
@@ -31,7 +39,7 @@ export const IngredientsList = ({ ingredients }: props) => {
     });
   return (
     <Box mt="20px" mb="20px">
-      <Typography variant="h4">Ingredients</Typography>
+      <Typography variant={isMobile ? "h5" : "h4"}>Ingredients</Typography>
       {processedIngredients}
     </Box>
   );

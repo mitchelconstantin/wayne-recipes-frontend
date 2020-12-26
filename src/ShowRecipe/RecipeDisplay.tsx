@@ -1,7 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import noImage from "../Shared/Images/noImage.png";
-import { Box, Divider, makeStyles, Typography } from "@material-ui/core/";
+import {
+  Box,
+  Divider,
+  makeStyles,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@material-ui/core/";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
 import { useParams } from "react-router-dom";
 import { Loading } from "../Shared/Components/Loading";
@@ -66,6 +73,8 @@ export const RecipeDisplay = () => {
   const [loading, setLoading] = useState(true);
   const { recipeId } = useParams();
   const classes = useStyles();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     RecipeAPI.getRecipe(recipeId).then((recipe) => {
@@ -93,7 +102,9 @@ export const RecipeDisplay = () => {
       </Box>
       <Box className={classes.recipeDetails}>
         <Box display="flex" flexDirection="column">
-          <Typography variant="h3">{recipe.title}</Typography>
+          <Typography variant={isMobile ? "h5" : "h3"}>
+            {recipe.title}
+          </Typography>
           <Box display="flex" flexDirection="row" alignItems="center">
             <Rating name="read-only" value={recipe.reviewScore} readOnly />
             <Box ml={1}>{`(${recipe.numberOfReviews || 0})`}</Box>

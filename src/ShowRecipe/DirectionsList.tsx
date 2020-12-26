@@ -1,5 +1,11 @@
 import React from "react";
-import { Box, Typography, makeStyles } from "@material-ui/core/";
+import {
+  Box,
+  Typography,
+  makeStyles,
+  useMediaQuery,
+  useTheme,
+} from "@material-ui/core/";
 
 const useStyles = makeStyles((theme) => ({
   directionsLine: {
@@ -24,6 +30,9 @@ interface props {
 
 export const DirectionsList = ({ directions }: props) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   if (!directions) return <div>no directions found</div>;
   const processedDirections = directions.split("\n").map((line, i: number) => {
     return (
@@ -34,7 +43,7 @@ export const DirectionsList = ({ directions }: props) => {
   });
   return (
     <Box mt="20px" mb="20px">
-      <Typography variant="h4">Directions</Typography>
+      <Typography variant={isMobile ? "h5" : "h4"}>Directions</Typography>
       {processedDirections}
     </Box>
   );
