@@ -55,6 +55,7 @@ export class RecipeAPI {
     return json;
   };
 
+  //todo complete this endpoint
   static reviewRecipe = async (review: IReview): Promise<string> => {
     const url = apiUrl("recipes/review");
 
@@ -70,6 +71,7 @@ export class RecipeAPI {
     return json.link;
   };
 
+  //todo complete this endpoint
   static getReviews = async (id: string): Promise<IReview[]> => {
     const url = apiUrl(`recipes/review/${id}`);
     // const res = await fetch(url);
@@ -80,7 +82,6 @@ export class RecipeAPI {
     return fakeReviews;
   };
 
-  //todo move this to different API file, change apiUrl to be local to this class
   static uploadImage = async (
     image: string,
     recipeId: string

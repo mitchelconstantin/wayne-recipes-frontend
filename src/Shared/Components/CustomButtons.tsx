@@ -5,6 +5,7 @@ import SnackbarService from "../SnackbarService";
 import { IRecipe } from "../Types";
 import { ShoppingListAPI } from "../APIs/ShoppingListAPI";
 import { RateRecipeDialog } from "../../ShowRecipe/RateRecipeDialog";
+import { ratingsFeatureFlag } from "../AppBehaviors";
 
 interface PrintButtonProps {
   label: string;
@@ -64,7 +65,8 @@ export const IMadeItButton = ({ recipe }: ImadeItButtonProps) => {
     <>
       <Tooltip title="Leave a review">
         <IconButton
-          disabled
+          //todo enable this once ratings are live
+          disabled={!ratingsFeatureFlag}
           onClick={() => setOpenModal(true)}
           aria-label="rate recipe"
         >

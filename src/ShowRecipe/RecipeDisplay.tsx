@@ -13,6 +13,7 @@ import { IngredientsList } from "./IngredientsList";
 import { Rating } from "@material-ui/lab";
 import { useMobileQuery } from "../Shared/Hooks/isMobile";
 import { ReviewsChartDialog } from "./ReviewsChartDialog";
+import { ratingsFeatureFlag } from "../Shared/AppBehaviors";
 
 const useStyles = makeStyles((theme) => ({
   recipeDetails: {
@@ -103,7 +104,10 @@ export const RecipeDisplay = () => {
           <Box display="flex" flexDirection="row" alignItems="center">
             <Rating name="read-only" value={recipe.reviewScore} readOnly />
             <Box ml={1}>
-              <Link href="#" onClick={() => setOpenReviewsDialog(true)}>
+              <Link
+                href="#"
+                onClick={() => ratingsFeatureFlag && setOpenReviewsDialog(true)}
+              >
                 {`(${recipe.numberOfReviews || 0})`}
               </Link>
             </Box>
