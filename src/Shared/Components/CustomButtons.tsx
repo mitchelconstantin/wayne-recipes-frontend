@@ -1,11 +1,10 @@
-import React from 'react';
-import { Tooltip, IconButton } from '@material-ui/core';
-import AddShoppingCart from '@material-ui/icons/AddShoppingCart';
-import Print from '@material-ui/icons/Print';
-import Edit from '@material-ui/icons/Edit';
-import SnackbarService from '../SnackbarService';
-import { IRecipe } from '../Types';
-import { ShoppingListAPI } from '../APIs/ShoppingListAPI';
+import React, { useState } from "react";
+import { Tooltip, IconButton } from "@material-ui/core";
+import { Print, Edit, Grade, AddShoppingCart } from "@material-ui/icons";
+import SnackbarService from "../SnackbarService";
+import { IRecipe } from "../Types";
+import { ShoppingListAPI } from "../APIs/ShoppingListAPI";
+import { RateRecipeDialog } from "../../ShowRecipe/RateRecipeDialog";
 
 interface PrintButtonProps {
   label: string;
@@ -30,7 +29,7 @@ export const AddToShoppingListButton = ({ recipe }: ShoppingButtonProps) => {
       SnackbarService.error(res.message);
       return;
     }
-    SnackbarService.success('added to list!');
+    SnackbarService.success("added to list!");
     return;
   };
   return (
@@ -51,6 +50,32 @@ export const EditRecipeButton = ({ id }: EditButtonProps) => {
       <IconButton href={`/r/${id}/edit`} aria-label="edit recipe">
         <Edit />
       </IconButton>
+    </Tooltip>
+  );
+};
+
+interface ImadeItButtonProps {
+  recipe: IRecipe;
+}
+export const IMadeItButton = ({ recipe }: ImadeItButtonProps) => {
+  const [openModal, setOpenModal] = useState(false);
+
+  return (
+    <Tooltip title="Leave a review!">
+      <>
+        <IconButton
+          onClick={() => setOpenModal(true)}
+          // href={`/r/${recipe.id}/edit`}
+          aria-label="rate recipe"
+        >
+          <Grade />
+        </IconButton>
+        <RateRecipeDialog
+          open={openModal}
+          recipe={recipe}
+          handleClose={() => setOpenModal(false)}
+        />
+      </>
     </Tooltip>
   );
 };

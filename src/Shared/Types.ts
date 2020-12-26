@@ -35,25 +35,25 @@ export interface IFilters {
 }
 
 export const emptyFilters: IFilters = {
-  debouncedSearchTerm: '',
-  mainIngredient: '',
-  region: '',
-  type: '',
-  source: ''
+  debouncedSearchTerm: "",
+  mainIngredient: "",
+  region: "",
+  type: "",
+  source: "",
 };
 
 export const emptyRecipe: IRecipe = {
   id: undefined,
-  type: '',
-  title: '',
-  picture: '',
-  source: '',
-  serves: '',
-  ingredients: '',
-  directions: '',
-  mainIngredient: '',
-  region: '',
-  netCarbs: ''
+  type: "",
+  title: "",
+  picture: "",
+  source: "",
+  serves: "",
+  ingredients: "",
+  directions: "",
+  mainIngredient: "",
+  region: "",
+  netCarbs: "",
 };
 
 export type IShoppingListItem = {
@@ -75,10 +75,17 @@ export interface IUser {
 }
 
 export const emptyUser: IUser = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  password: '',
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
   isAdmin: false,
-  isOwner: false
+  isOwner: false,
 };
+
+export interface IReview {
+  reviewer: string;
+  recipeId: string;
+  score: number | null;
+  comment: string;
+}
