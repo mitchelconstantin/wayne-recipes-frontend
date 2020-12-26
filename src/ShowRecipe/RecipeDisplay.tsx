@@ -1,14 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import noImage from "../Shared/Images/noImage.png";
-import {
-  Box,
-  Divider,
-  makeStyles,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@material-ui/core/";
+import { Box, Divider, makeStyles, Typography } from "@material-ui/core/";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
 import { useParams } from "react-router-dom";
 import { Loading } from "../Shared/Components/Loading";
@@ -18,6 +11,7 @@ import { RecipeSpecifications } from "./RecipeSpecifications";
 import { DirectionsList } from "./DirectionsList";
 import { IngredientsList } from "./IngredientsList";
 import { Rating } from "@material-ui/lab";
+import { useMobileQuery } from "../Shared/Hooks/isMobile";
 
 const useStyles = makeStyles((theme) => ({
   recipeDetails: {
@@ -73,8 +67,7 @@ export const RecipeDisplay = () => {
   const [loading, setLoading] = useState(true);
   const { recipeId } = useParams();
   const classes = useStyles();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useMobileQuery();
 
   useEffect(() => {
     RecipeAPI.getRecipe(recipeId).then((recipe) => {

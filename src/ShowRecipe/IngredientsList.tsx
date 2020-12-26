@@ -1,11 +1,6 @@
 import React from "react";
-import {
-  Box,
-  Typography,
-  makeStyles,
-  useMediaQuery,
-  useTheme,
-} from "@material-ui/core/";
+import { Box, Typography, makeStyles } from "@material-ui/core/";
+import { useMobileQuery } from "../Shared/Hooks/isMobile";
 
 const useStyles = makeStyles((theme) => ({
   ingredientsLine: {
@@ -24,8 +19,8 @@ interface props {
 
 export const IngredientsList = ({ ingredients }: props) => {
   const classes = useStyles();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useMobileQuery();
+
   if (!ingredients) return <div>no ingredients found</div>;
 
   const processedIngredients = ingredients

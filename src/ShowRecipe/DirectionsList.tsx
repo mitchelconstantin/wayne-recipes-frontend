@@ -1,11 +1,6 @@
 import React from "react";
-import {
-  Box,
-  Typography,
-  makeStyles,
-  useMediaQuery,
-  useTheme,
-} from "@material-ui/core/";
+import { Box, Typography, makeStyles } from "@material-ui/core/";
+import { useMobileQuery } from "../Shared/Hooks/isMobile";
 
 const useStyles = makeStyles((theme) => ({
   directionsLine: {
@@ -30,8 +25,7 @@ interface props {
 
 export const DirectionsList = ({ directions }: props) => {
   const classes = useStyles();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useMobileQuery();
 
   if (!directions) return <div>no directions found</div>;
   const processedDirections = directions.split("\n").map((line, i: number) => {
