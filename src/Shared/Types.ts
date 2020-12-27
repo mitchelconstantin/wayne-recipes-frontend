@@ -56,6 +56,7 @@ export const emptyRecipe: IRecipe = {
   mainIngredient: "",
   region: "",
   netCarbs: "",
+  reviewScore: undefined,
 };
 
 export type IShoppingListItem = {

@@ -18,7 +18,9 @@ export const Login = () => {
     const userCopy = { ...user, email: user.email.toLowerCase() };
     try {
       const response = await UserAPI.loginToServer(userCopy);
-      if (response.status === 400) {
+      console.log("response", response);
+      //@ts-ignore
+      if (response.ok === false) {
         SnackbarService.error("yikes, that user does not exist");
         setUser(emptyUser);
       }
