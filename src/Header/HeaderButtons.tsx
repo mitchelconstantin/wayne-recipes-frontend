@@ -63,7 +63,7 @@ export const HeaderButtons = () => {
             </MenuItem>
           </div>
         ) : (
-          <MenuItem component={Link} to="/login">
+          <MenuItem onClick={handleClose} component={Link} to="/login">
             Login
           </MenuItem>
         )}
@@ -78,7 +78,7 @@ export const HeaderButtons = () => {
           </MenuItem>
         )}
         <MenuItem onClick={toggleDarkThemeEnabled}>
-          <div style={{ marginRight: "auto" }}>Use Dark theme</div>
+          <div style={{ marginRight: "auto" }}>Use Dark Theme</div>
           <Switch checked={darkThemeEnabled} color="primary" />
         </MenuItem>
         <MenuItem
