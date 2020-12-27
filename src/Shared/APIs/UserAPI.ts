@@ -4,8 +4,6 @@ import { instance } from "../axiosInstance";
 import { AxiosRequestConfig } from "axios";
 import { logIn } from "../AppBehaviors";
 
-const apiUrl = (path: string) => `${process.env.REACT_APP_API_URL}/api/${path}`;
-
 export class UserAPI {
   static loginToServer = async (user: IUser) => {
     const config: AxiosRequestConfig = {
@@ -46,18 +44,17 @@ export class UserAPI {
     const res = await instance.get("users");
     return res.data;
   };
-  //todo convert to axios
+
   static updateUsers = async (users: IUser[]) => {
-    const url = apiUrl("users");
-    const res = await fetch(url, {
-      method: "PATCH",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ users }),
-    });
-    const json = await res.json();
-    return json;
+    const config: AxiosRequestConfig = {
+      data: { users: users },
+    };
+    try {
+      const res = await instance.patch("users", config);
+      return res.data;
+    } catch {
+      SnackbarService.error("that user already exists, please try logging in");
+      return;
+    }
   };
 }
