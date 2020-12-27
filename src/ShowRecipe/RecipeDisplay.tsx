@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@material-ui/core/";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { Loading } from "../Shared/Components/Loading";
 import { IRecipe, emptyRecipe } from "../Shared/Types";
 import { RecipeDisplayButtons } from "./RecipeDisplayButtons";
@@ -70,7 +70,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const RecipeDisplay = () => {
-  const [recipe, setRecipe] = useState<IRecipe>(emptyRecipe);
+  const { state } = useLocation();
+  const [recipe, setRecipe] = useState<IRecipe>({
+    ...emptyRecipe,
+    picture: state?.picture || null,
+    title: state?.title || "",
+  });
   const [loading, setLoading] = useState(true);
   const [openReviewsDialog, setOpenReviewsDialog] = useState(false);
   const { recipeId } = useParams();

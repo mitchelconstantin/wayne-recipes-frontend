@@ -83,7 +83,12 @@ export const RecipeCard = ({ recipe }: Props) => {
 
   return (
     <Paper className={classes.link}>
-      <Link to={`/r/${recipe.id}`}>
+      <Link
+        to={{
+          pathname: `/r/${recipe.id}`,
+          state: { picture: recipe.picture, title: recipe.title },
+        }}
+      >
         <img
           onError={onError}
           src={imageToUse()}
