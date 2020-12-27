@@ -78,7 +78,7 @@ export const HeaderButtons = () => {
           </MenuItem>
         )}
         <MenuItem onClick={toggleDarkThemeEnabled}>
-          <div style={{ marginRight: "auto" }}>Use Dark Theme</div>
+          <div style={{ marginRight: "auto" }}>Use Dark theme</div>
           <Switch checked={darkThemeEnabled} color="primary" />
         </MenuItem>
         <MenuItem
