@@ -13,8 +13,8 @@ export const SignUp = () => {
   };
 
   const handleSignUpClick = async () => {
-    await UserAPI.createUser(user);
-    setSignedUp(true);
+    const isCreated = await UserAPI.createUser(user);
+    if (isCreated) setSignedUp(true);
   };
 
   if (signedUp)

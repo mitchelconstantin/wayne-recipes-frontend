@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Box, Button, TextField } from "@material-ui/core";
-import { logIn } from "../Shared/AppBehaviors";
 import { emptyUser } from "../Shared/Types";
-import { SnackbarService } from "../Shared/SnackbarService";
 import { UserAPI } from "../Shared/APIs/UserAPI";
 import { useContainerStyles } from "../Shared/formStyles";
 
@@ -16,24 +14,8 @@ export const Login = () => {
 
   const handleLoginClick = async () => {
     const userCopy = { ...user, email: user.email.toLowerCase() };
-    try {
-      const response = await UserAPI.loginToServer(userCopy);
-      console.log("response", response);
-      //@ts-ignore
-      if (response.ok === false) {
-        SnackbarService.error("yikes, that user does not exist");
-        setUser(emptyUser);
-      }
-      if (response.status === 200) {
-        const u = await response.json();
-        logIn(u);
-        setLoggedIn(true);
-        SnackbarService.success("you are now logged in");
-      }
-    } catch (e) {
-      console.log(e);
-    } finally {
-    }
+    const successfulLogin = await UserAPI.loginToServer(userCopy);
+    setLoggedIn(successfulLogin);
   };
   if (loggedIn)
     return (

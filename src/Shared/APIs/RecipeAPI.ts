@@ -6,7 +6,7 @@ interface FiltersPayload {
   mainIngredients: string[];
   sources: string[];
 }
-
+//todo convert file to axios
 const apiUrl = (path: string) => `${process.env.REACT_APP_API_URL}/api/${path}`;
 
 export class RecipeAPI {
