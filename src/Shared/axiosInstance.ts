@@ -1,6 +1,5 @@
 import axios from "axios";
-import { getToken, getUserInfo, logOut } from "./AppBehaviors";
-import { SnackbarService } from "./SnackbarService";
+import { getToken } from "./AppBehaviors";
 
 const instance = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}/api/`,
@@ -9,7 +8,6 @@ const instance = axios.create({
 instance.interceptors.request.use(
   function (config) {
     const token = getToken();
-    console.log("token", token);
     config.headers.Authorization = token;
     return config;
   },
