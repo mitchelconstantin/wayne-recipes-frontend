@@ -1,4 +1,6 @@
 import { IRecipe, IReview } from "../Types";
+import { instance } from "../axiosInstance";
+import { AxiosRequestConfig } from "axios";
 
 interface FiltersPayload {
   regions: string[];
@@ -6,98 +8,72 @@ interface FiltersPayload {
   mainIngredients: string[];
   sources: string[];
 }
-//todo convert file to axios
-const apiUrl = (path: string) => `${process.env.REACT_APP_API_URL}/api/${path}`;
 
 export class RecipeAPI {
   static getAllRecipes = async (): Promise<IRecipe[]> => {
-    const url = apiUrl("recipes");
-    const res = await fetch(url);
-    const { recipes } = await res.json();
-    return recipes;
+    const res = await instance.get("recipes");
+    return res.data.recipes;
   };
+
   static getFilters = async (): Promise<FiltersPayload> => {
-    const url = apiUrl("recipes/filters");
-    const res = await fetch(url);
-    const json = await res.json();
-    return json;
+    const res = await instance.get("recipes/filters");
+    return res.data;
   };
 
   static getRecipe = async (id: string): Promise<IRecipe> => {
-    const url = apiUrl(`recipes/${id}`);
-    const res = await fetch(url);
-    if (!res.ok) window.location.href = "/all";
-    const recipe = await res.json();
-    return recipe;
+    try {
+      const res = await instance.get(`recipes/${id}`);
+      return res.data;
+    } catch {
+      window.location.href = "/all";
+      //@ts-ignore
+      return;
+    }
   };
 
   static deleteRecipe = async (id: string) => {
-    const url = apiUrl(`recipes/${id}`);
-    await fetch(url, { method: "DELETE" });
+    await instance.delete(`recipes/${id}`);
     return;
   };
 
   static saveRecipe = async (recipe: IRecipe) => {
-    const url = apiUrl(`recipes/${recipe.id}`);
-    const res = await fetch(url, {
-      method: "PATCH",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ recipe }),
-    });
-    const json = await res.json();
-    return json;
+    const config: AxiosRequestConfig = {
+      data: { recipe },
+    };
+    const res = await instance.patch(`recipes/${recipe.id}`, config);
+    return res.data;
   };
 
-  //todo complete this endpoint
   static reviewRecipe = async (review: IReview): Promise<string> => {
-    const url = apiUrl("reviews");
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ review }),
-    });
-    const json = await res.json();
-    return json;
+    const config: AxiosRequestConfig = {
+      data: { review },
+    };
+    const res = await instance.post("reviews", config);
+    return res.data;
   };
 
   static getUserRecipeReview = async (
     userEmail: string,
     recipeId: string
   ): Promise<IReview | undefined> => {
-    const url = apiUrl(`reviews/${recipeId}/${userEmail}`);
-    const res = await fetch(url);
-    const json = await res.json();
-    return json;
+    const url = `reviews/${recipeId}/${userEmail}`;
+    const res = await instance.get(url);
+    return res.data;
   };
 
   static getReviews = async (id: string): Promise<IReview[]> => {
-    const url = apiUrl(`reviews/${id}`);
-    const res = await fetch(url);
-    const reviews = await res.json();
-    return reviews;
+    const res = await instance.get(`reviews/${id}`);
+    return res.data;
   };
 
   static uploadImage = async (
     image: string,
     recipeId: string
   ): Promise<string> => {
-    const url = apiUrl("image");
-
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ image, recipeId }),
-    });
-    const json = await res.json();
-    return json.link;
+    const config: AxiosRequestConfig = {
+      data: { image, recipeId },
+    };
+    const res = await instance.post("image", config);
+    return res.data.link;
   };
 }

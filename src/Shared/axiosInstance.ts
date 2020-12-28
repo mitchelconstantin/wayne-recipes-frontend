@@ -25,19 +25,22 @@ instance.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.log("got an err", error);
-    //todo reconfigure these if statements
-    if (error?.config?.url === "auth/login/") {
-      SnackbarService.error(error.response.data.detail);
-    } else if (error?.response?.status === 401) {
-      alert("Your session has expired, please login again");
-      logOut();
-    } else if (error?.response?.status === 403) {
-      SnackbarService.error(
-        "You do not have permission to access that resource"
-      );
-    }
+    console.log("got an err (in handler)", error);
     return Promise.reject(error);
+
+    //todo reconfigure these if statements once using token validation
+    //one route for logged out users, one for not enough permission
+    // if (error?.config?.url === "auth/login/") {
+    //   SnackbarService.error(error.response.data.detail);
+    // } else if (error?.response?.status === 401) {
+    //   alert("Your session has expired, please login again");
+    //   logOut();
+    // } else if (error?.response?.status === 403) {
+    //   SnackbarService.error(
+    //     "You do not have permission to access that resource"
+    //   );
+    // }
+    // return Promise.reject(error);
   }
 );
 
