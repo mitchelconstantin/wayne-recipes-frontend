@@ -13,7 +13,7 @@ export class UserAPI {
       const res = await instance.post("login", config);
       console.log("res", res);
 
-      logIn(res.data);
+      logIn(res.data.token);
       SnackbarService.success("you are now logged in");
       return true;
     } catch (e) {
@@ -31,7 +31,7 @@ export class UserAPI {
     try {
       await instance.post("users", config);
       SnackbarService.success(
-        "user created, now login with that username and password"
+        "user created, now login with that email and password"
       );
       return true;
     } catch {

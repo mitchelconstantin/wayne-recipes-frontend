@@ -16,6 +16,7 @@
     "axios": "^0.21.1",
     "clsx": "^1.1.1",
     "fuzzaldrin-plus": "^0.6.0",
+    "jwt-decode": "^3.1.2",
     "lodash": "^4.17.19",
     "preval.macro": "^5.0.0",
     "react": "next",

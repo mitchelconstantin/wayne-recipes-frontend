@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getUserInfo, logOut } from "./AppBehaviors";
+import { getToken, getUserInfo, logOut } from "./AppBehaviors";
 import { SnackbarService } from "./SnackbarService";
 
 const instance = axios.create({
@@ -8,7 +8,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   function (config) {
-    const { token } = getUserInfo();
+    const token = getToken();
     console.log("token", token);
     config.headers.Authorization = token;
     return config;
