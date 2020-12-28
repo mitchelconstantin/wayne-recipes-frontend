@@ -11,14 +11,10 @@ export class UserAPI {
     };
     try {
       const res = await instance.post("login", config);
-      console.log("res", res);
-
       logIn(res.data.token);
       SnackbarService.success("you are now logged in");
       return true;
     } catch (e) {
-      console.log(e);
-      SnackbarService.error("yikes, that user does not exist");
       return false;
     }
   };
@@ -35,7 +31,6 @@ export class UserAPI {
       );
       return true;
     } catch {
-      SnackbarService.error("that user already exists, please try logging in");
       return false;
     }
   };
