@@ -41,8 +41,13 @@ export class UserAPI {
   };
 
   static getAllUsers = async (): Promise<IUser[]> => {
-    const res = await instance.get("users");
-    return res.data;
+    try {
+      const res = await instance.get("users");
+      return res.data;
+    } catch (err) {
+      SnackbarService.error(err.message);
+      return [];
+    }
   };
 
   static updateUsers = async (users: IUser[]) => {
