@@ -13,7 +13,7 @@ instance.interceptors.request.use(
     return config;
   },
   function (error) {
-    console.log("looks like an err", error);
+    console.log("err in intercepted request", error);
     return Promise.reject(error);
   }
 );
@@ -23,7 +23,7 @@ instance.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.log("got an err", error);
+    console.log("err in intercepted response", error);
 
     if (error?.config?.url === "login") {
       SnackbarService.error(error.response.data.message);
