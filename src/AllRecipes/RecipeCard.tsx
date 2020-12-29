@@ -1,9 +1,11 @@
 import React from "react";
 import noImage from "../Shared//Images/noImage.png";
+import noImageDark from "../Shared//Images/noImageDark.png";
 import { Box, Paper, Typography, makeStyles } from "@material-ui/core/";
 import { IRecipe } from "../Shared/Types";
 import { HoverTitle } from "./HoverTitle";
 import { Link } from "react-router-dom";
+import { useDarkThemeEnabled } from "../Shared/Hooks/darkTheme";
 
 const useStyles = makeStyles((theme) => ({
   link: {
@@ -12,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     [theme.breakpoints.down("sm")]: {
       margin: "8px",
-      width: "43%",
+      width: "155px",
     },
     [theme.breakpoints.up("md")]: {
       margin: "20px",
@@ -46,8 +48,16 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     objectFit: "cover",
-    maxHeight: "300px",
-    maxWidth: "100%",
+    borderTopLeftRadius: "4px",
+    borderTopRightRadius: "4px",
+    [theme.breakpoints.down("sm")]: {
+      height: "155px",
+      width: "155px",
+    },
+    [theme.breakpoints.up("md")]: {
+      height: "300px",
+      width: "300px",
+    },
   },
   textBox: {
     display: "flex",
@@ -68,17 +78,18 @@ interface Props {
 
 export const RecipeCard = ({ recipe }: Props) => {
   const classes = useStyles();
+  const { darkThemeEnabled } = useDarkThemeEnabled();
+  const defaultImage = darkThemeEnabled ? noImageDark : noImage;
 
   const onError = (ev: any) => {
     const eventTarget = ev.target;
-    eventTarget.src = noImage;
+    eventTarget.src = defaultImage;
   };
 
   const imageToUse = () => {
-    if (!recipe.picture) return noImage;
-    const ar = recipe.picture.split("upload");
-    const newUrl = `${ar[0]}upload/w_300,h_300,c_fill,g_auto${ar[1]}`;
-    return newUrl;
+    if (!recipe.picture) return defaultImage;
+    const [baseUrl, imageId] = recipe.picture.split("upload");
+    return `${baseUrl}upload/ar_1:1,c_fill,g_auto${imageId}`;
   };
 
   return (

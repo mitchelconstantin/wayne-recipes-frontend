@@ -35,7 +35,9 @@ instance.interceptors.response.use(
         "You do not have permission to access that resource"
       );
     } else {
-      SnackbarService.error(error.response.data.message);
+      SnackbarService.error(
+        error?.response?.data?.message || "unknown error occured"
+      );
     }
     return Promise.reject(error);
   }
