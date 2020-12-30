@@ -6,6 +6,7 @@ import { IRecipe } from "../Shared/Types";
 import { HoverTitle } from "./HoverTitle";
 import { Link } from "react-router-dom";
 import { DarkThemeContext } from "../App";
+import Image from "material-ui-image";
 
 const useStyles = makeStyles((theme) => ({
   link: {
@@ -101,7 +102,8 @@ export const RecipeCard = ({ recipe }: Props) => {
           state: { picture: recipe.picture, title: recipe.title },
         }}
       >
-        <img
+        <Image
+          color={darkThemeEnabled ? "999" : "white"}
           onError={onError}
           src={imageToUse()}
           alt={"a tasty dish!"}

@@ -9,7 +9,7 @@ interface props {
 export const RecipeSpecifications = ({ recipe }: props) => {
   return (
     <Box mt="10px" display="flex" flexDirection="column">
-      <div>{`from: ${recipe.source || "unknown"}`}</div>
+      <div>{`From: ${recipe.source || "unknown"}`}</div>
       <div>{`Yield: ${recipe.serves || "unknown"}`}</div>
       {/* <div>{`Time: ${recipe.time || 'unknown'}`}</div> */}
       <div>{`NetCarbs: ${recipe.netCarbs || "unknown"}`}</div>
