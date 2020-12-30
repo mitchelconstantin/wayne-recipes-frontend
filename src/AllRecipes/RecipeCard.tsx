@@ -89,7 +89,7 @@ export const RecipeCard = ({ recipe }: Props) => {
   const imageToUse = () => {
     if (!recipe.picture) return defaultImage;
     const [baseUrl, imageId] = recipe.picture.split("upload");
-    return `${baseUrl}upload/ar_1:1,c_fill,g_auto${imageId}`;
+    return `${baseUrl}upload/ar_1:1,c_fill,g_auto,q_auto,f_auto${imageId}`;
   };
 
   return (
