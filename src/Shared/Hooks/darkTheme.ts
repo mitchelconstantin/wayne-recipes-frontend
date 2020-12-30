@@ -3,7 +3,7 @@ import { useState } from "react";
 const ENABLE_DARK_THEME = "enableDarkTheme";
 
 const browserDarkThemeEnabled = () =>
-  window.matchMedia("(prefers-color-scheme: dark)").matches;
+  window?.matchMedia("(prefers-color-scheme: dark)")?.matches;
 
 const getDarkThemeEnabled = (): boolean => {
   let enabled = localStorage.getItem(ENABLE_DARK_THEME);
