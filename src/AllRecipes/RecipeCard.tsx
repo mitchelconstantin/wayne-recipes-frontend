@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import noImage from "../Shared//Images/noImage.png";
 import noImageDark from "../Shared//Images/noImageDark.png";
 import { Box, Paper, Typography, makeStyles } from "@material-ui/core/";
 import { IRecipe } from "../Shared/Types";
 import { HoverTitle } from "./HoverTitle";
 import { Link } from "react-router-dom";
-import { useDarkThemeEnabled } from "../Shared/Hooks/darkTheme";
+import { DarkThemeContext } from "../App";
 
 const useStyles = makeStyles((theme) => ({
   link: {
@@ -78,7 +78,8 @@ interface Props {
 
 export const RecipeCard = ({ recipe }: Props) => {
   const classes = useStyles();
-  const { darkThemeEnabled } = useDarkThemeEnabled();
+  const { darkThemeEnabled } = useContext(DarkThemeContext);
+
   const defaultImage = darkThemeEnabled ? noImageDark : noImage;
 
   const onError = (ev: any) => {
