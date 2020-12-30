@@ -7,7 +7,6 @@ import {
   Grid,
   IconButton,
   makeStyles,
-  Paper,
   Typography,
 } from "@material-ui/core/";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
