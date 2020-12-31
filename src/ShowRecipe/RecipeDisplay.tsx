@@ -20,7 +20,7 @@ import { IngredientsList } from "./IngredientsList";
 import { Rating } from "@material-ui/lab";
 import { useMobileQuery } from "../Shared/Hooks/isMobile";
 import { ReviewsChartDialog } from "./ReviewsChartDialog";
-import Image from "material-ui-image";
+import Img from "material-ui-image";
 import { DarkThemeContext } from "../App";
 
 const useStyles = makeStyles((theme) => ({
@@ -57,14 +57,20 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   image: {
+    "@media print": {
+      display: "none",
+    },
     [theme.breakpoints.down("sm")]: {
       width: "80vw",
-      paddingBottom: "8px",
-      paddingTop: "8px",
+      paddingBottom: "16px",
+      paddingTop: "18px",
     },
     [theme.breakpoints.up("md")]: {
+      maxHeight: "80vh",
+      paddingTop: "28px",
       paddingLeft: "5vw",
-      width: "36vw",
+      marginRight: "auto",
+      overflow: "hidden",
     },
   },
 }));
@@ -82,6 +88,13 @@ export const RecipeDisplay = () => {
   const classes = useStyles();
   const isMobile = useMobileQuery();
   const { darkThemeEnabled } = useContext(DarkThemeContext);
+  const [aspectRatio, setAspectRatio] = useState(1);
+
+  const getAspectRatio = (url: string) => {
+    const img = new Image();
+    img.onload = () => setAspectRatio(img.width / img.height);
+    img.src = url;
+  };
 
   const loadRecipe = () => {
     RecipeAPI.getRecipe(recipeId).then((recipe) => {
@@ -92,32 +105,30 @@ export const RecipeDisplay = () => {
 
   useEffect(() => {
     loadRecipe();
+    getAspectRatio(recipe.picture || noImage);
   }, []);
 
   const onError = (ev: any) => {
     const eventTarget = ev.target;
     eventTarget.src = noImage;
   };
-
   const tags = [recipe.type, recipe.mainIngredient, recipe.region];
   if (loading) return <Loading />;
   return (
     <Grid
       container
-      direction={isMobile ? "column" : "row"}
+      direction="row"
       justify="center"
-      alignItems="center"
       className={classes.container}
     >
-      <Grid item xs={10} md={5}>
-        <Box displayPrint="none" className={classes.image}>
-          <Image
-            color={darkThemeEnabled ? "999" : "white"}
-            onError={onError}
-            src={recipe.picture || noImage}
-            alt={"a tasty dish"}
-          />
-        </Box>
+      <Grid className={classes.image} item xs={10} md={5}>
+        <Img
+          color={darkThemeEnabled ? "999" : "white"}
+          aspectRatio={aspectRatio}
+          onError={onError}
+          src={recipe.picture || noImage}
+          alt={"a tasty dish"}
+        />
       </Grid>
       <Grid item xs={10} md={6} className={classes.recipeDetails}>
         <Box display="flex" flexDirection="column">
