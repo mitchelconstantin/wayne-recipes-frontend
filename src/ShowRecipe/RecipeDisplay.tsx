@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: "auto",
     },
   },
-  image: {
+  imageContainer: {
     "@media print": {
       display: "none",
     },
@@ -66,11 +66,18 @@ const useStyles = makeStyles((theme) => ({
       paddingTop: "18px",
     },
     [theme.breakpoints.up("md")]: {
-      maxHeight: "80vh",
+      width: "40vw",
+      height: "80vh",
       paddingTop: "28px",
       paddingLeft: "5vw",
       marginRight: "auto",
       overflow: "hidden",
+    },
+  },
+  image: {
+    [theme.breakpoints.up("md")]: {
+      maxHeight: "80vh",
+      maxWidth: "40vw",
     },
   },
 }));
@@ -121,8 +128,10 @@ export const RecipeDisplay = () => {
       justify="center"
       className={classes.container}
     >
-      <Grid className={classes.image} item xs={10} md={5}>
+      <Grid className={classes.imageContainer} item xs={10} md={5}>
         <Img
+          className={classes.image}
+          style={{ objectFit: "contain" }}
           color={darkThemeEnabled ? "999" : "white"}
           aspectRatio={aspectRatio}
           onError={onError}
