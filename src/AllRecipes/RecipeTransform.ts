@@ -12,6 +12,16 @@ export class RecipeTransform {
     return result;
   };
 
+  static filterByAttributeMinimmum = (
+    recipes: IRecipe[],
+    atttribute: string,
+    val: any
+  ) => {
+    //@ts-ignore
+    const result = recipes.filter((recipe) => recipe[atttribute] >= val);
+    return result;
+  };
+
   static filterBySearchTerm = (recipes: IRecipe[], searchTerm: string) => {
     return filter(recipes, searchTerm, {
       key: "title",
@@ -24,8 +34,10 @@ export class RecipeTransform {
       region,
       type,
       source,
+      rating,
       debouncedSearchTerm,
     } = selectedFilters;
+
     let filteredResults = recipes;
     if (mainIngredient) {
       filteredResults = RecipeTransform.filterByAttribute(
@@ -56,6 +68,14 @@ export class RecipeTransform {
         filteredResults,
         "source",
         source
+      );
+    }
+
+    if (rating) {
+      filteredResults = RecipeTransform.filterByAttributeMinimmum(
+        filteredResults,
+        "rating",
+        rating
       );
     }
 

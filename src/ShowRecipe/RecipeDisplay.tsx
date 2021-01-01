@@ -148,7 +148,7 @@ export const RecipeDisplay = () => {
             <Rating
               name="read-only"
               precision={0.5}
-              value={recipe.reviewScore}
+              value={recipe.rating}
               readOnly
             />
             <IconButton

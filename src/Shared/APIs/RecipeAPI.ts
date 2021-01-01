@@ -7,6 +7,7 @@ interface FiltersPayload {
   types: string[];
   mainIngredients: string[];
   sources: string[];
+  ratings: number[];
 }
 
 export class RecipeAPI {

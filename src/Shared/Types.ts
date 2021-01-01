@@ -10,7 +10,8 @@ export interface IRecipe {
   mainIngredient?: string;
   region: string;
   netCarbs?: string;
-  reviewScore?: number;
+  rating?: number;
+  // reviewScore?: number;
   numberOfReviews?: number;
 }
 
@@ -19,6 +20,7 @@ export interface IFilterOptions {
   regions: string[];
   types: string[];
   sources: string[];
+  ratings: number[];
 }
 
 export const emptyFilterOptions: IFilterOptions = {
@@ -26,6 +28,7 @@ export const emptyFilterOptions: IFilterOptions = {
   regions: [] as string[],
   types: [] as string[],
   sources: [] as string[],
+  ratings: [0, 1, 2, 3, 4, 5],
 };
 
 export interface IFilters {
@@ -34,6 +37,7 @@ export interface IFilters {
   region: string;
   type: string;
   source: string;
+  rating: number;
 }
 
 export const emptyFilters: IFilters = {
@@ -42,6 +46,7 @@ export const emptyFilters: IFilters = {
   region: "",
   type: "",
   source: "",
+  rating: 0,
 };
 
 export const emptyRecipe: IRecipe = {
@@ -56,7 +61,7 @@ export const emptyRecipe: IRecipe = {
   mainIngredient: "",
   region: "",
   netCarbs: "",
-  reviewScore: undefined,
+  rating: undefined,
 };
 
 export type IShoppingListItem = {

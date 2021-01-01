@@ -88,7 +88,8 @@ export const Home = () => {
           history.location.state.mainIngredient ||
           history.location.state.region ||
           history.location.state.type ||
-          history.location.state.source
+          history.location.state.source ||
+          history.location.state.rating
         ) {
           setFiltersExpanded(true);
         }
