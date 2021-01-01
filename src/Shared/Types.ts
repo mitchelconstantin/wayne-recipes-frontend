@@ -11,7 +11,6 @@ export interface IRecipe {
   region: string;
   netCarbs?: string;
   rating?: number;
-  // reviewScore?: number;
   numberOfReviews?: number;
 }
 

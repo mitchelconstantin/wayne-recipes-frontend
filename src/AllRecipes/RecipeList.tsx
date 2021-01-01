@@ -1,33 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { RecipeCard } from "./RecipeCard";
-import { Box, makeStyles, Typography } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import { IRecipe } from "../Shared/Types";
 import { Loading } from "../Shared/Components/Loading";
-import HelpOutline from "@material-ui/icons/HelpOutline";
+import { Warning } from "@material-ui/icons";
 import Pagination from "@material-ui/lab/Pagination";
-
-const useStyles = makeStyles((theme) => ({
-  recipesContainer: {
-    display: "flex",
-    justifyContent: "center",
-    flexWrap: "wrap",
-    maxWidth: "100%",
-  },
-  noRecipesContainer: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingTop: "40px",
-  },
-  pageContainer: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingBottom: "20px",
-  },
-}));
+import { isEmpty } from "lodash";
+import { useMobileQuery } from "../Shared/Hooks/isMobile";
 
 interface Props {
   recipes: IRecipe[];
@@ -35,11 +14,12 @@ interface Props {
 }
 
 export const RecipeList = ({ loading, recipes }: Props) => {
-  const classes = useStyles();
   const [page, setPage] = useState(1);
+  const isMobile = useMobileQuery();
+
   const handleChange = (event: any, value: number) => {
-    setPage(value);
     setTimeout(() => window.scrollTo(0, 0), 400);
+    setPage(value);
   };
 
   useEffect(() => {
@@ -53,29 +33,43 @@ export const RecipeList = ({ loading, recipes }: Props) => {
   };
 
   if (loading) return <Loading />;
-  if (!recipes.length) {
-    return (
-      <Box className={classes.noRecipesContainer}>
-        <HelpOutline />
-        <Typography>no recipes match that search!</Typography>
-      </Box>
-    );
-  }
+
   return (
-    <Box className={classes.pageContainer}>
-      <Box className={classes.recipesContainer}>
-        {recipes.map((recipe, i) =>
-          isInRange(i) ? (
-            <RecipeCard key={recipe.id} recipe={recipe} />
-          ) : undefined
+    <Grid container direction="column" alignItems="center">
+      <Grid
+        container
+        justify="space-evenly"
+        spacing={isMobile ? 2 : 6}
+        style={{ maxWidth: "100%", marginTop: "0px" }}
+      >
+        {isEmpty(recipes) && (
+          <Grid
+            container
+            style={{ padding: "18px" }}
+            justify="center"
+            alignItems="center"
+            direction="column"
+          >
+            <Typography gutterBottom>no matching recipes</Typography>
+            <Warning />
+          </Grid>
         )}
-      </Box>
+        {!isEmpty(recipes) &&
+          recipes.map((recipe, i) =>
+            isInRange(i) ? (
+              <Grid xs={5} sm={4} md={3} item>
+                <RecipeCard key={recipe.id} recipe={recipe} />
+              </Grid>
+            ) : undefined
+          )}
+      </Grid>
       <Pagination
         count={Math.ceil(recipes.length / 30)}
         page={page}
         color="primary"
         onChange={handleChange}
+        style={{ padding: "16px" }}
       />
-    </Box>
+    </Grid>
   );
 };
