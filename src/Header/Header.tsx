@@ -6,6 +6,7 @@ import {
   Slide,
   Toolbar,
   useScrollTrigger,
+  Typography,
 } from "@material-ui/core/";
 import { DarkThemeContext } from "../App";
 import { Logo } from "../Shared/Components/Logo";
@@ -20,6 +21,11 @@ const useStyles = makeStyles((theme) => ({
     height: "40px",
     width: "40px",
     cursor: "pointer",
+    marginRight: theme.spacing(4),
+  },
+  title: {
+    flexGrow: 1,
+    color: theme.palette.type === "dark" ? "silver" : "white",
   },
 }));
 
@@ -28,6 +34,8 @@ export const Header = () => {
   const { darkThemeEnabled } = useContext(DarkThemeContext);
   const trigger = useScrollTrigger();
 
+  const title = `WAYNE'S FAMILY RECIPES`;
+
   return (
     <>
       <CssBaseline />
@@ -35,6 +43,9 @@ export const Header = () => {
         <AppBar className={classes.toolbar}>
           <Toolbar>
             <Logo className={classes.image} dark={darkThemeEnabled} />
+            <Typography variant="h6" className={classes.title}>
+              {title}
+            </Typography>
             <HeaderButtons />
           </Toolbar>
         </AppBar>

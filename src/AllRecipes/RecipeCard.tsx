@@ -52,12 +52,10 @@ export const RecipeCard = ({ recipe }: Props) => {
   const [open, setOpen] = useState(false);
 
   const handleTooltipClose = () => {
-    console.log("close");
     setOpen(false);
   };
 
   const handleTooltipOpen = () => {
-    console.log("opening");
     setOpen(true);
   };
 
