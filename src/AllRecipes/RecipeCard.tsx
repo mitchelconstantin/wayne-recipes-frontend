@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     whiteSpace: "nowrap",
     overflow: "hidden",
     [theme.breakpoints.down("sm")]: {
-      maxWidth: "130px",
+      maxWidth: "110px",
       fontWeight: 600,
       fontSize: ".8rem",
     },

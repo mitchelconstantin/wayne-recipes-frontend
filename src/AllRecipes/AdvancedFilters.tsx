@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import {
-  makeStyles,
   MenuItem,
   InputLabel,
   Select,
@@ -14,12 +13,6 @@ import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
 import { emptyFilterOptions, emptyFilters, IFilters } from "../Shared/Types";
 import { Rating } from "@material-ui/lab";
 
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    width: "100%",
-  },
-}));
-
 interface AdvancedFiltersProps {
   selectedFilters: IFilters;
   setSelectedFilters: any;
@@ -30,7 +23,6 @@ export const AdvancedFilters = ({
   setSelectedFilters,
   expanded,
 }: AdvancedFiltersProps) => {
-  const classes = useStyles();
   const [allFilters, setAllFilters] = useState(emptyFilterOptions);
 
   useEffect(() => {
@@ -73,17 +65,15 @@ export const AdvancedFilters = ({
         justify="space-around"
         alignItems="center"
         style={{ paddingBottom: "16px" }}
-        spacing={5}
       >
         <Grid xs={5} md={4} item>
-          <FormControl className={classes.formControl}>
+          <FormControl fullWidth>
             <InputLabel>Main Ingredient</InputLabel>
             <Select
               value={selectedFilters.mainIngredient}
               name="mainIngredient"
               onChange={handleChange}
             >
-              {/* <MenuItem value={""}>All</MenuItem> */}
               {mainIngredients.map((mi) => (
                 <MenuItem key={mi} value={mi}>
                   {mi || "All"}
@@ -93,7 +83,7 @@ export const AdvancedFilters = ({
           </FormControl>
         </Grid>
         <Grid xs={5} md={4} item>
-          <FormControl className={classes.formControl}>
+          <FormControl fullWidth>
             <InputLabel>Region</InputLabel>
             <Select
               value={selectedFilters.region}
@@ -109,7 +99,7 @@ export const AdvancedFilters = ({
           </FormControl>
         </Grid>
         <Grid xs={5} md={4} item>
-          <FormControl className={classes.formControl}>
+          <FormControl fullWidth>
             <InputLabel>Recipe Type</InputLabel>
             <Select
               value={selectedFilters.type}
@@ -126,7 +116,7 @@ export const AdvancedFilters = ({
           </FormControl>
         </Grid>
         <Grid xs={5} md={4} item>
-          <FormControl className={classes.formControl}>
+          <FormControl fullWidth>
             <InputLabel>Source</InputLabel>
             <Select
               value={selectedFilters.source}
@@ -142,7 +132,7 @@ export const AdvancedFilters = ({
           </FormControl>
         </Grid>
         <Grid xs={5} md={4} item>
-          <FormControl className={classes.formControl}>
+          <FormControl fullWidth>
             <InputLabel>Rating (minimum)</InputLabel>
             <Select
               value={selectedFilters.rating}
@@ -158,7 +148,7 @@ export const AdvancedFilters = ({
           </FormControl>
         </Grid>
         <Grid xs={5} md={4} item>
-          <Button className={classes.formControl} onClick={handleClear}>
+          <Button fullWidth onClick={handleClear}>
             Clear Filters
           </Button>
         </Grid>
