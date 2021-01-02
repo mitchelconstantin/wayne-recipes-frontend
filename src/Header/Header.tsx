@@ -7,23 +7,27 @@ import {
   Toolbar,
   useScrollTrigger,
   Typography,
+  IconButton,
 } from "@material-ui/core/";
 import { DarkThemeContext } from "../App";
-import { Logo } from "../Shared/Components/Logo";
 import { HeaderButtons } from "./HeaderButtons";
+import logo from "../Shared/Images/logo.svg";
+import darkLogo from "../Shared/Images/darkLogo.svg";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
+    margin: "auto",
+    width: "100vw",
     background: "linear-gradient(90deg, #f44723, #f56730, #f44723)",
     boxShadow: "none",
   },
   image: {
     height: "40px",
     width: "40px",
-    cursor: "pointer",
-    marginRight: theme.spacing(4),
   },
   title: {
+    paddingLeft: theme.spacing(4),
     flexGrow: 1,
     color: theme.palette.type === "dark" ? "silver" : "white",
   },
@@ -42,7 +46,18 @@ export const Header = () => {
       <Slide appear={false} direction="down" in={!trigger}>
         <AppBar className={classes.toolbar}>
           <Toolbar>
-            <Logo className={classes.image} dark={darkThemeEnabled} />
+            <IconButton
+              edge="start"
+              color="inherit"
+              component={Link}
+              to={"/all"}
+            >
+              <img
+                src={darkThemeEnabled ? darkLogo : logo}
+                className={classes.image}
+                alt={"Logo"}
+              />
+            </IconButton>
             <Typography variant="h6" className={classes.title}>
               {title}
             </Typography>

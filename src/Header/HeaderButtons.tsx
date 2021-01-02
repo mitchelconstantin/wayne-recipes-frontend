@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import {
-  Box,
   Menu,
   makeStyles,
   MenuItem,
@@ -39,7 +38,7 @@ export const HeaderButtons = () => {
   const dateTimeStamp = preval`module.exports = new Date().toLocaleString();`;
 
   return (
-    <Box display="flex" justifyContent="center" height={"100%"} ml="auto">
+    <>
       <IconButton
         aria-label="more"
         aria-controls="long-menu"
@@ -95,6 +94,6 @@ export const HeaderButtons = () => {
         open={aboutDialogOpen}
         handleClose={() => setAboutDialogOpen(false)}
       />
-    </Box>
+    </>
   );
 };

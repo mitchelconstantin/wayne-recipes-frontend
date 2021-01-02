@@ -21,42 +21,13 @@ import { Close } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   searchContainer: {
-    width: "100%",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
   },
-  titleBar: {
-    width: "100%",
-    // background: "linear-gradient(0.25turn, #f44723, #f56730, #f44723)",
-    zIndex: 1,
-    // paddingTop: "-1px",
-    border: "none",
-    marginTop: "0px",
-    paddingLeft: "20px",
-  },
-  title: {
-    marginRight: "auto",
-    fontWeight: 700,
-    color: theme.palette.type === "dark" ? "silver" : "white",
-    fontSize: 70,
-    [theme.breakpoints.down("sm")]: {
-      fontSize: 22,
-    },
-  },
-  subTitle: {
-    marginBottom: "10px",
-    marginRight: "auto",
-    fontWeight: 400,
-    color: theme.palette.type === "dark" ? "silver" : "white",
-    [theme.breakpoints.down("sm")]: {
-      fontSize: 16,
-    },
-  },
-  root: {
-    padding: "2px 4px",
-    margin: "8px",
+  searchBox: {
+    margin: theme.spacing(2),
     display: "flex",
     alignItems: "center",
     minWidth: "40%",
@@ -136,9 +107,9 @@ export const Home = () => {
   };
 
   return (
-    <Box>
+    <>
       <Paper className={classes.searchContainer}>
-        <Paper className={classes.root}>
+        <Paper className={classes.searchBox}>
           <InputBase
             className={classes.input}
             placeholder="Search Recipes"
@@ -146,21 +117,23 @@ export const Home = () => {
             value={searchTerm}
             onChange={handleChangeInput}
           />
-          <Tooltip title="Clear Search Term">
-            <IconButton
-              type="submit"
-              className={classes.iconButton}
-              onClick={() =>
-                handleChangeInput({
-                  //@ts-ignore
-                  target: { value: "" },
-                })
-              }
-              aria-label="search"
-            >
-              <Close />
-            </IconButton>
-          </Tooltip>
+          {searchTerm && (
+            <Tooltip title="Clear Search Term">
+              <IconButton
+                type="submit"
+                className={classes.iconButton}
+                onClick={() =>
+                  handleChangeInput({
+                    //@ts-ignore
+                    target: { value: "" },
+                  })
+                }
+                aria-label="search"
+              >
+                <Close />
+              </IconButton>
+            </Tooltip>
+          )}
           <Divider className={classes.divider} orientation="vertical" />
           <ShowFiltersChip
             expanded={filtersExpanded}
@@ -174,6 +147,6 @@ export const Home = () => {
         />
       </Paper>
       <RecipeList loading={loading} recipes={filteredRecipes} />
-    </Box>
+    </>
   );
 };
