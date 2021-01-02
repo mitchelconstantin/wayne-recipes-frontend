@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import noImage from "../Shared//Images/noImage.png";
 import noImageDark from "../Shared//Images/noImageDark.png";
 import {
@@ -7,9 +7,11 @@ import {
   CardMedia,
   CardActionArea,
   CardHeader,
+  Tooltip,
+  ClickAwayListener,
+  Box,
 } from "@material-ui/core/";
 import { IRecipe } from "../Shared/Types";
-import { HoverTitle } from "./HoverTitle";
 import { Link } from "react-router-dom";
 import { DarkThemeContext } from "../App";
 import Image from "material-ui-image";
@@ -47,6 +49,17 @@ interface Props {
 export const RecipeCard = ({ recipe }: Props) => {
   const classes = useStyles();
   const { darkThemeEnabled } = useContext(DarkThemeContext);
+  const [open, setOpen] = useState(false);
+
+  const handleTooltipClose = () => {
+    console.log("close");
+    setOpen(false);
+  };
+
+  const handleTooltipOpen = () => {
+    console.log("opening");
+    setOpen(true);
+  };
 
   const defaultImage = darkThemeEnabled ? noImageDark : noImage;
 
@@ -83,12 +96,25 @@ export const RecipeCard = ({ recipe }: Props) => {
           />
         </CardMedia>
       </CardActionArea>
-      <CardActionArea>
-        <CardHeader
-          disableTypography={true}
-          title={<HoverTitle classes={classes.title} title={recipe.title} />}
-          subheader={recipe.source || "Unknown"}
-        />
+      <CardActionArea onClick={handleTooltipOpen}>
+        <ClickAwayListener onClickAway={handleTooltipClose}>
+          <Tooltip
+            onClose={handleTooltipClose}
+            open={open}
+            title={recipe.title}
+          >
+            <Box>
+              <CardHeader
+                onClick={handleTooltipOpen}
+                title={recipe.title}
+                titleTypographyProps={{
+                  className: classes.title,
+                }}
+                subheader={recipe.source || "Unknown"}
+              />
+            </Box>
+          </Tooltip>
+        </ClickAwayListener>
       </CardActionArea>
     </Card>
   );
