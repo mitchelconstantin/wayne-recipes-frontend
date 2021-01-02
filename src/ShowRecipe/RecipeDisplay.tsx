@@ -27,9 +27,7 @@ const useStyles = makeStyles((theme) => ({
   recipeDetails: {
     [theme.breakpoints.up("md")]: {
       height: "90vh",
-      paddingTop: "20px",
-      paddingBottom: "20px",
-      paddingRight: "5vw",
+      padding: theme.spacing(3),
       marginLeft: "auto",
       overflow: "scroll",
     },
@@ -62,14 +60,12 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down("sm")]: {
       width: "80vw",
-      paddingBottom: "16px",
-      paddingTop: "18px",
+      padding: theme.spacing(2, 0),
     },
     [theme.breakpoints.up("md")]: {
       width: "40vw",
       height: "80vh",
-      paddingTop: "28px",
-      paddingLeft: "5vw",
+      padding: theme.spacing(3, 4),
       marginRight: "auto",
       overflow: "hidden",
     },

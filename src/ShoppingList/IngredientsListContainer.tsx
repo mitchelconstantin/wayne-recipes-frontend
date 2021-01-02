@@ -1,37 +1,37 @@
-import React from 'react';
+import React from "react";
 import {
   Box,
   Checkbox,
   Typography,
   FormControlLabel,
-  makeStyles
-} from '@material-ui/core';
+  makeStyles,
+} from "@material-ui/core";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   ListItemContainer: {
-    marginTop: '20px',
-    marginBottom: '20px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'left'
+    marginTop: "20px",
+    marginBottom: "20px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "left",
   },
   label: {
-    marginTop: '10px'
+    marginTop: "10px",
   },
   checkBox: {
-    color: '#e4673d'
-  }
+    color: "#e4673d",
+  },
 }));
 
-const isChecked = (line: string) => line.startsWith('<checked>');
+const isChecked = (line: string) => line.startsWith("<checked>");
 
 const formatLine = (line: string) =>
   isChecked(line) ? <del>{line.slice(9)}</del> : line;
 
-  interface ShoppingListLineProps {
-    line: string;
-    setLine: any;
-  };
+interface ShoppingListLineProps {
+  line: string;
+  setLine: any;
+}
 
 const ShoppingListLine = ({ line, setLine }: ShoppingListLineProps) => {
   const classes = useStyles();
@@ -49,7 +49,7 @@ const ShoppingListLine = ({ line, setLine }: ShoppingListLineProps) => {
       control={
         <Checkbox
           style={{
-            color: '#e4673d'
+            color: "#e4673d",
           }}
           checked={isChecked(line)}
           onChange={handleCheck}
@@ -60,13 +60,17 @@ const ShoppingListLine = ({ line, setLine }: ShoppingListLineProps) => {
   );
 };
 
-interface IngredientsListProps { 
+interface IngredientsListProps {
   ingredientsList: string[];
   setIngredientsList: Function;
   title: string;
 }
 
-export const IngredientsListContainer = ({ ingredientsList, setIngredientsList, title }: IngredientsListProps) => {
+export const IngredientsListContainer = ({
+  ingredientsList,
+  setIngredientsList,
+  title,
+}: IngredientsListProps) => {
   const classes = useStyles();
 
   const createSetLine = (i: number) => (newLine: string) => {

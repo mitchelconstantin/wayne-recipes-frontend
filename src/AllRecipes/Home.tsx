@@ -27,7 +27,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
   },
   searchBox: {
-    margin: theme.spacing(2),
+    margin: theme.spacing(1, 1, 1, 1),
+    [theme.breakpoints.down("xs")]: {
+      margin: theme.spacing(2, 1, 1, 1),
+    },
     display: "flex",
     alignItems: "center",
     minWidth: "40%",
@@ -109,7 +112,7 @@ export const Home = () => {
   return (
     <>
       <Paper className={classes.searchContainer}>
-        <Paper className={classes.searchBox}>
+        <Box className={classes.searchBox}>
           <InputBase
             className={classes.input}
             placeholder="Search Recipes"
@@ -139,7 +142,7 @@ export const Home = () => {
             expanded={filtersExpanded}
             setExpanded={setFiltersExpanded}
           />
-        </Paper>
+        </Box>
         <AdvancedFilters
           expanded={filtersExpanded}
           selectedFilters={selectedFilters}

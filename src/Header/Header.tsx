@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import {
+  Box,
   makeStyles,
   AppBar,
   CssBaseline,
@@ -17,10 +18,7 @@ import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
-    margin: "auto",
-    width: "100vw",
     background: "linear-gradient(90deg, #f44723, #f56730, #f44723)",
-    boxShadow: "none",
   },
   image: {
     height: "40px",
@@ -41,7 +39,7 @@ export const Header = () => {
   const title = `WAYNE'S FAMILY RECIPES`;
 
   return (
-    <>
+    <Box>
       <CssBaseline />
       <Slide appear={false} direction="down" in={!trigger}>
         <AppBar className={classes.toolbar}>
@@ -66,6 +64,6 @@ export const Header = () => {
         </AppBar>
       </Slide>
       <Toolbar />
-    </>
+    </Box>
   );
 };
