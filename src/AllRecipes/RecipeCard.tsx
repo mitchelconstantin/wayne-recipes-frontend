@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
       fontSize: ".8rem",
     },
     [theme.breakpoints.up("md")]: {
-      maxWidth: "250px",
+      maxWidth: "200px",
       fontSize: "1.3rem",
       fontWeight: 500,
     },

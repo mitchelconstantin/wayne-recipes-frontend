@@ -57,8 +57,8 @@ export const RecipeList = ({ loading, recipes }: Props) => {
         {!isEmpty(recipes) &&
           recipes.map((recipe, i) =>
             isInRange(i) ? (
-              <Grid xs={5} sm={4} md={3} item>
-                <RecipeCard key={recipe.id} recipe={recipe} />
+              <Grid xs={5} sm={4} md={3} item key={recipe.id}>
+                <RecipeCard recipe={recipe} />
               </Grid>
             ) : undefined
           )}

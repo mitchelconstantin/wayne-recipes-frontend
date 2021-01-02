@@ -8,20 +8,15 @@ import {
   Collapse,
   FormControl,
   Button,
+  Grid,
 } from "@material-ui/core";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
 import { emptyFilterOptions, emptyFilters, IFilters } from "../Shared/Types";
 import { Rating } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
-  container: {},
-  select: {
-    width: "140px",
-    margin: "10px",
-  },
-  button: {
-    height: "100%",
-    marginTop: "auto",
+  formControl: {
+    width: "100%",
   },
 }));
 
@@ -56,22 +51,11 @@ export const AdvancedFilters = ({
       setSelectedFilters(emptyFilters);
     }
   }, [expanded]);
-  const handleChangeMainIngredient = (
-    e: React.ChangeEvent<{ value: unknown }>
-  ) => handleChange(e, "mainIngredient");
-  const handleChangeRegion = (e: React.ChangeEvent<{ value: unknown }>) =>
-    handleChange(e, "region");
-  const handleChangeType = (e: React.ChangeEvent<{ value: unknown }>) =>
-    handleChange(e, "type");
-  const handleChangeSource = (e: React.ChangeEvent<{ value: unknown }>) =>
-    handleChange(e, "source");
-  const handleChangeRating = (e: React.ChangeEvent<{ value: unknown }>) =>
-    handleChange(e, "rating");
 
-  const handleChange = (e: React.ChangeEvent<{ value: unknown }>, x: any) => {
+  const handleChange = (e: React.ChangeEvent<any>) => {
     setSelectedFilters((prev: any) => ({
       ...prev,
-      [x]: e.target.value,
+      [e.target.name]: e.target.value,
     }));
   };
 
@@ -83,68 +67,102 @@ export const AdvancedFilters = ({
   const { mainIngredients, regions, types, sources, ratings } = allFilters;
 
   return (
-    <Collapse className={classes.container} in={expanded}>
-      <FormControl className={classes.select}>
-        <InputLabel>Main Ingredient</InputLabel>
-        <Select
-          value={selectedFilters.mainIngredient}
-          onChange={handleChangeMainIngredient}
-        >
-          <MenuItem value={""}>All</MenuItem>
-          {mainIngredients.map((mi) => (
-            <MenuItem key={mi} value={mi}>
-              {mi}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <FormControl className={classes.select}>
-        <InputLabel>Region</InputLabel>
-        <Select value={selectedFilters.region} onChange={handleChangeRegion}>
-          <MenuItem value={""}>All</MenuItem>
-          {regions.map((region) => (
-            <MenuItem key={region} value={region}>
-              {region}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <FormControl className={classes.select}>
-        <InputLabel>Recipe Type</InputLabel>
-        <Select value={selectedFilters.type} onChange={handleChangeType}>
-          <MenuItem value={""}>All</MenuItem>
-          {types.map((type) => (
-            <MenuItem key={type} value={type}>
-              {type}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <FormControl className={classes.select}>
-        <InputLabel>Source</InputLabel>
-        <Select value={selectedFilters.source} onChange={handleChangeSource}>
-          <MenuItem value={""}>All</MenuItem>
-          {sources.map((source) => (
-            <MenuItem key={source} value={source}>
-              {source}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <FormControl className={classes.select}>
-        <InputLabel>Rating (minimum)</InputLabel>
-        <Select value={selectedFilters.rating} onChange={handleChangeRating}>
-          {/* <MenuItem value={0}>All</MenuItem> */}
-          {ratings.map((rating) => (
-            <MenuItem key={rating} value={rating}>
-              <Rating size="small" precision={1} value={rating} readOnly />
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <Button className={classes.select} onClick={handleClear}>
-        Clear Filters
-      </Button>
+    <Collapse in={expanded}>
+      <Grid
+        container
+        justify="space-around"
+        alignItems="center"
+        style={{ paddingBottom: "16px" }}
+        spacing={5}
+      >
+        <Grid xs={5} md={4} item>
+          <FormControl className={classes.formControl}>
+            <InputLabel>Main Ingredient</InputLabel>
+            <Select
+              value={selectedFilters.mainIngredient}
+              name="mainIngredient"
+              onChange={handleChange}
+            >
+              {/* <MenuItem value={""}>All</MenuItem> */}
+              {mainIngredients.map((mi) => (
+                <MenuItem key={mi} value={mi}>
+                  {mi || "All"}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid xs={5} md={4} item>
+          <FormControl className={classes.formControl}>
+            <InputLabel>Region</InputLabel>
+            <Select
+              value={selectedFilters.region}
+              name="region"
+              onChange={handleChange}
+            >
+              {regions.map((region) => (
+                <MenuItem key={region} value={region}>
+                  {region || "All"}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid xs={5} md={4} item>
+          <FormControl className={classes.formControl}>
+            <InputLabel>Recipe Type</InputLabel>
+            <Select
+              value={selectedFilters.type}
+              name="type"
+              onChange={handleChange}
+            >
+              <MenuItem value={""}>All</MenuItem>
+              {types.map((type) => (
+                <MenuItem key={type} value={type}>
+                  {type}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid xs={5} md={4} item>
+          <FormControl className={classes.formControl}>
+            <InputLabel>Source</InputLabel>
+            <Select
+              value={selectedFilters.source}
+              name="source"
+              onChange={handleChange}
+            >
+              {sources.map((source) => (
+                <MenuItem key={source} value={source}>
+                  {source || "All"}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid xs={5} md={4} item>
+          <FormControl className={classes.formControl}>
+            <InputLabel>Rating (minimum)</InputLabel>
+            <Select
+              value={selectedFilters.rating}
+              name="rating"
+              onChange={handleChange}
+            >
+              {ratings.map((rating) => (
+                <MenuItem key={rating} value={rating}>
+                  <Rating size="small" precision={1} value={rating} readOnly />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid xs={5} md={4} item>
+          <Button className={classes.formControl} onClick={handleClear}>
+            Clear Filters
+          </Button>
+        </Grid>
+      </Grid>
     </Collapse>
   );
 };

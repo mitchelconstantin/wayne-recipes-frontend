@@ -1,23 +1,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
-import { Box, Paper, Input, makeStyles, Typography } from "@material-ui/core";
+import {
+  Box,
+  Paper,
+  makeStyles,
+  Divider,
+  IconButton,
+  InputBase,
+  Tooltip,
+} from "@material-ui/core";
 import { IRecipe, emptyFilters } from "../Shared/Types";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
-import SearchIcon from "@material-ui/icons/Search";
 import { AdvancedFilters } from "./AdvancedFilters";
 import { RecipeList } from "./RecipeList";
 import { RecipeTransform } from "./RecipeTransform";
 import { ShowFiltersChip } from "./ShowFiltersChip";
 import { useHistory } from "react-router-dom";
 import { isEqual, debounce } from "lodash";
+import { Close } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
-  mainContainer: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-  },
   searchContainer: {
     width: "100%",
     display: "flex",
@@ -25,26 +27,13 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
-  searchBarLine: {
-    width: "100%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  searchBox: {
-    borderRadius: "25px",
-    backgroundColor: theme.palette.type === "dark" ? "grey" : "#DFE1E5",
-    height: "40px",
-    width: "40%",
-    paddingLeft: "10px",
-    paddingRight: "10px",
-    margin: "10px",
-  },
   titleBar: {
     width: "100%",
-    background: "linear-gradient(0.25turn, #f44723, #f56730, #f44723)",
+    // background: "linear-gradient(0.25turn, #f44723, #f56730, #f44723)",
     zIndex: 1,
-    marginTop: "-1px",
+    // paddingTop: "-1px",
+    border: "none",
+    marginTop: "0px",
     paddingLeft: "20px",
   },
   title: {
@@ -64,6 +53,27 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("sm")]: {
       fontSize: 16,
     },
+  },
+  root: {
+    padding: "2px 4px",
+    margin: "8px",
+    display: "flex",
+    alignItems: "center",
+    minWidth: "40%",
+    maxWidth: "60vw",
+    borderRadius: "25px",
+    backgroundColor: theme.palette.type === "dark" ? "grey" : "#DFE1E5",
+  },
+  input: {
+    marginLeft: theme.spacing(2),
+    flex: 1,
+  },
+  iconButton: {
+    padding: 10,
+  },
+  divider: {
+    height: 28,
+    margin: 4,
   },
 }));
 
@@ -125,34 +135,45 @@ export const Home = () => {
     setDebouncedSearchTerm(event.target.value);
   };
 
-  const title = `WAYNE'S FAMILY RECIPES`;
-  const description = "Traditional Cajun food and so much more!";
+  // const title = `WAYNE'S FAMILY RECIPES`;
+  // const description = "Traditional Cajun food and so much more!";
 
   return (
     <Box>
+      {/* <Box className={classes.titleBar}>
+        <Typography className={classes.title} variant="h2" display="inline">
+          {title}
+        </Typography>
+        <Typography className={classes.subTitle} variant="h6" display="inline">
+          {description}
+        </Typography>
+      </Box> */}
+
       <Paper className={classes.searchContainer}>
-        <Box className={classes.titleBar}>
-          <Typography className={classes.title} variant="h2">
-            {title}
-          </Typography>
-          <Typography className={classes.subTitle} variant="h6">
-            {description}
-          </Typography>
-        </Box>
-        <Box className={classes.searchBarLine}>
-          <Input
-            placeholder="search"
-            disableUnderline
-            className={classes.searchBox}
+        <Paper component="form" className={classes.root}>
+          <InputBase
+            className={classes.input}
+            placeholder="Search Recipes"
+            inputProps={{ "aria-label": "search" }}
             value={searchTerm}
             onChange={handleChangeInput}
-            endAdornment={<SearchIcon style={{ color: "grey" }} />}
           />
+          <Tooltip title="Clear Search Term">
+            <IconButton
+              type="submit"
+              className={classes.iconButton}
+              onClick={() => setSearchTerm("")}
+              aria-label="search"
+            >
+              <Close />
+            </IconButton>
+          </Tooltip>
+          <Divider className={classes.divider} orientation="vertical" />
           <ShowFiltersChip
             expanded={filtersExpanded}
             setExpanded={setFiltersExpanded}
           />
-        </Box>
+        </Paper>
         <AdvancedFilters
           expanded={filtersExpanded}
           selectedFilters={selectedFilters}
