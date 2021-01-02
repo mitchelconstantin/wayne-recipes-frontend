@@ -135,22 +135,10 @@ export const Home = () => {
     setDebouncedSearchTerm(event.target.value);
   };
 
-  // const title = `WAYNE'S FAMILY RECIPES`;
-  // const description = "Traditional Cajun food and so much more!";
-
   return (
     <Box>
-      {/* <Box className={classes.titleBar}>
-        <Typography className={classes.title} variant="h2" display="inline">
-          {title}
-        </Typography>
-        <Typography className={classes.subTitle} variant="h6" display="inline">
-          {description}
-        </Typography>
-      </Box> */}
-
       <Paper className={classes.searchContainer}>
-        <Paper component="form" className={classes.root}>
+        <Paper className={classes.root}>
           <InputBase
             className={classes.input}
             placeholder="Search Recipes"
@@ -162,7 +150,12 @@ export const Home = () => {
             <IconButton
               type="submit"
               className={classes.iconButton}
-              onClick={() => setSearchTerm("")}
+              onClick={() =>
+                handleChangeInput({
+                  //@ts-ignore
+                  target: { value: "" },
+                })
+              }
               aria-label="search"
             >
               <Close />
