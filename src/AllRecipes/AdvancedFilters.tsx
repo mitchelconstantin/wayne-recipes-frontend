@@ -6,12 +6,19 @@ import {
   Select,
   Collapse,
   FormControl,
-  Button,
   Grid,
+  makeStyles,
 } from "@material-ui/core";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
 import { emptyFilterOptions, emptyFilters, IFilters } from "../Shared/Types";
 import { Rating } from "@material-ui/lab";
+
+const useStyles = makeStyles((theme) => ({
+  menuPaper: {
+    maxHeight: 300,
+    maxWidth: 200,
+  },
+}));
 
 interface AdvancedFiltersProps {
   selectedFilters: IFilters;
@@ -24,6 +31,7 @@ export const AdvancedFilters = ({
   expanded,
 }: AdvancedFiltersProps) => {
   const [allFilters, setAllFilters] = useState(emptyFilterOptions);
+  const classes = useStyles();
 
   useEffect(() => {
     if (expanded && !allFilters.mainIngredients.length) {
@@ -51,28 +59,20 @@ export const AdvancedFilters = ({
     }));
   };
 
-  const handleClear = () => {
-    const debouncedSearchTerm = selectedFilters.debouncedSearchTerm;
-    setSelectedFilters({ ...emptyFilters, debouncedSearchTerm });
-  };
-
   const { mainIngredients, regions, types, sources, ratings } = allFilters;
 
   return (
     <Collapse in={expanded}>
-      <Grid
-        container
-        justify="space-around"
-        alignItems="center"
-        style={{ paddingBottom: "16px" }}
-      >
-        <Grid xs={5} md={4} item>
-          <FormControl fullWidth>
+      <Grid container spacing={2} style={{ paddingBottom: "16px" }}>
+        <Grid xs={6} item>
+          <FormControl style={{ maxWidth: "30vw" }} fullWidth>
             <InputLabel>Main Ingredient</InputLabel>
             <Select
               value={selectedFilters.mainIngredient}
               name="mainIngredient"
+              style={{ maxWidth: "30vw" }}
               onChange={handleChange}
+              MenuProps={{ classes: { paper: classes.menuPaper } }}
             >
               {mainIngredients.map((mi) => (
                 <MenuItem key={mi} value={mi}>
@@ -82,13 +82,14 @@ export const AdvancedFilters = ({
             </Select>
           </FormControl>
         </Grid>
-        <Grid xs={5} md={4} item>
-          <FormControl fullWidth>
+        <Grid xs={6} item>
+          <FormControl style={{ maxWidth: "30vw" }} fullWidth>
             <InputLabel>Region</InputLabel>
             <Select
               value={selectedFilters.region}
               name="region"
               onChange={handleChange}
+              MenuProps={{ classes: { paper: classes.menuPaper } }}
             >
               {regions.map((region) => (
                 <MenuItem key={region} value={region}>
@@ -98,13 +99,14 @@ export const AdvancedFilters = ({
             </Select>
           </FormControl>
         </Grid>
-        <Grid xs={5} md={4} item>
-          <FormControl fullWidth>
+        <Grid xs={6} item>
+          <FormControl fullWidth style={{ maxWidth: "30vw" }}>
             <InputLabel>Recipe Type</InputLabel>
             <Select
               value={selectedFilters.type}
               name="type"
               onChange={handleChange}
+              MenuProps={{ classes: { paper: classes.menuPaper } }}
             >
               <MenuItem value={""}>All</MenuItem>
               {types.map((type) => (
@@ -115,13 +117,14 @@ export const AdvancedFilters = ({
             </Select>
           </FormControl>
         </Grid>
-        <Grid xs={5} md={4} item>
-          <FormControl fullWidth>
+        <Grid xs={6} item>
+          <FormControl style={{ maxWidth: "30vw" }} fullWidth>
             <InputLabel>Source</InputLabel>
             <Select
               value={selectedFilters.source}
               name="source"
               onChange={handleChange}
+              MenuProps={{ classes: { paper: classes.menuPaper } }}
             >
               {sources.map((source) => (
                 <MenuItem key={source} value={source}>
@@ -131,13 +134,14 @@ export const AdvancedFilters = ({
             </Select>
           </FormControl>
         </Grid>
-        <Grid xs={5} md={4} item>
-          <FormControl fullWidth>
+        <Grid xs={6} item>
+          <FormControl style={{ maxWidth: "30vw" }} fullWidth>
             <InputLabel>Rating (minimum)</InputLabel>
             <Select
               value={selectedFilters.rating}
               name="rating"
               onChange={handleChange}
+              MenuProps={{ classes: { paper: classes.menuPaper } }}
             >
               {ratings.map((rating) => (
                 <MenuItem key={rating} value={rating}>
@@ -146,11 +150,6 @@ export const AdvancedFilters = ({
               ))}
             </Select>
           </FormControl>
-        </Grid>
-        <Grid xs={5} md={4} item>
-          <Button fullWidth onClick={handleClear}>
-            Clear Filters
-          </Button>
         </Grid>
       </Grid>
     </Collapse>

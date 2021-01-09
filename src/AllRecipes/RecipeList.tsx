@@ -37,10 +37,15 @@ export const RecipeList = ({ loading, recipes }: Props) => {
   return (
     <Grid container direction="column" alignItems="center">
       <Grid
+        item
         container
-        justify="space-evenly"
-        spacing={isMobile ? 2 : 6}
-        style={{ maxWidth: "100%", marginTop: "0px" }}
+        justify={isMobile ? "space-evenly" : undefined}
+        spacing={isMobile ? 2 : 4}
+        style={{
+          maxWidth: "100%",
+          marginTop: "0px",
+          minHeight: "calc(100vh - 175px)",
+        }}
       >
         {isEmpty(recipes) && (
           <Grid
@@ -57,19 +62,21 @@ export const RecipeList = ({ loading, recipes }: Props) => {
         {!isEmpty(recipes) &&
           recipes.map((recipe, i) =>
             isInRange(i) ? (
-              <Grid xs={5} sm={4} md={3} item key={recipe.id}>
+              <Grid xs={5} sm={4} md={3} lg={2} xl={1} item key={recipe.id}>
                 <RecipeCard recipe={recipe} />
               </Grid>
             ) : undefined
           )}
       </Grid>
-      <Pagination
-        count={Math.ceil(recipes.length / 30)}
-        page={page}
-        color="primary"
-        onChange={handleChange}
-        style={{ padding: "16px" }}
-      />
+      <Grid item>
+        <Pagination
+          count={Math.ceil(recipes.length / 30)}
+          page={page}
+          color="primary"
+          onChange={handleChange}
+          style={{ padding: "16px" }}
+        />
+      </Grid>
     </Grid>
   );
 };

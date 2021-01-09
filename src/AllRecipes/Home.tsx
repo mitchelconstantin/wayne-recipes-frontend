@@ -109,6 +109,14 @@ export const Home = () => {
     setDebouncedSearchTerm(event.target.value);
   };
 
+  const clearInput = () => {
+    setSearchTerm("");
+    setDebouncedSearchTerm("");
+    setSelectedFilters(emptyFilters);
+  };
+
+  const isPristine = !searchTerm && isEqual(selectedFilters, emptyFilters);
+
   return (
     <>
       <Paper className={classes.searchContainer}>
@@ -120,17 +128,12 @@ export const Home = () => {
             value={searchTerm}
             onChange={handleChangeInput}
           />
-          {searchTerm && (
-            <Tooltip title="Clear Search Term">
+          {!isPristine && (
+            <Tooltip title="Clear Search Term and Filters">
               <IconButton
                 type="submit"
                 className={classes.iconButton}
-                onClick={() =>
-                  handleChangeInput({
-                    //@ts-ignore
-                    target: { value: "" },
-                  })
-                }
+                onClick={clearInput}
                 aria-label="search"
               >
                 <Close />

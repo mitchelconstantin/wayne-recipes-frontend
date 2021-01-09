@@ -21,11 +21,12 @@ const useStyles = makeStyles((theme) => ({
     background: "linear-gradient(90deg, #f44723, #f56730, #f44723)",
   },
   image: {
-    height: "40px",
-    width: "40px",
+    height: "36px",
+    width: "36px",
   },
   title: {
-    paddingLeft: theme.spacing(4),
+    paddingLeft: theme.spacing(1),
+    marginRight: "-5px",
     flexGrow: 1,
     color: theme.palette.type === "dark" ? "silver" : "white",
   },
