@@ -1,4 +1,3 @@
-import React from "react";
 import { Button, Dialog, DialogTitle } from "@material-ui/core";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
 import { SnackbarService } from "../Shared/SnackbarService";

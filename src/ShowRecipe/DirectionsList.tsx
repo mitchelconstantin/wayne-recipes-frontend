@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, Typography, makeStyles } from "@material-ui/core/";
 import { useMobileQuery } from "../Shared/Hooks/isMobile";
 
