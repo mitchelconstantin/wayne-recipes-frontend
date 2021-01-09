@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import {
   MenuItem,
   InputLabel,
@@ -52,7 +52,7 @@ export const AdvancedFilters = ({
     }
   }, [expanded]);
 
-  const handleChange = (e: React.ChangeEvent<any>) => {
+  const handleChange = (e: ChangeEvent<any>) => {
     setSelectedFilters((prev: any) => ({
       ...prev,
       [e.target.name]: e.target.value,

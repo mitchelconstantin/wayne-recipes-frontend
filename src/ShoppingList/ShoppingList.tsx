@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Box, Divider, Typography } from "@material-ui/core";
 import { IShoppingListItem } from "../Shared/Types";
 import { SnackbarService } from "../Shared/SnackbarService";

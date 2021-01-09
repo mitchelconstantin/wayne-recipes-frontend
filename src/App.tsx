@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import { createContext } from "react";
 import { Header } from "./Header/Header";
 import { UpdateRecipe } from "./UpdateRecipe/UpdateRecipe";
 import { ShoppingList } from "./ShoppingList/ShoppingList";

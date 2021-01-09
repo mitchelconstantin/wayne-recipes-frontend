@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, ChangeEvent } from "react";
 import {
   Box,
   Paper,
@@ -104,7 +104,7 @@ export const Home = () => {
     []
   );
 
-  const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
     setDebouncedSearchTerm(event.target.value);
   };

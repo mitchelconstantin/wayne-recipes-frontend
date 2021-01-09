@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import ReactDOM from "react-dom";
 import { Snackbar, ThemeProvider, SnackbarOrigin } from "@material-ui/core";
 import { Alert, Color } from "@material-ui/lab";
@@ -19,7 +19,7 @@ export const CustomSnackbar = ({ message, severity }: Props) => {
   const theme = getTheme(darkThemeEnabled);
   const isMobile = useMobileQuery();
 
-  const handleClose = (_event?: React.SyntheticEvent, reason?: string) => {
+  const handleClose = (_event?: SyntheticEvent, reason?: string) => {
     if (reason === "clickaway") return;
     setOpen(false);
   };

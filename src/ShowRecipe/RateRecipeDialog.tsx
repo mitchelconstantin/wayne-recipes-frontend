@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -47,7 +47,7 @@ interface HoverRatingProps {
 }
 
 const HoverRating = ({ value, setValue }: HoverRatingProps) => {
-  const [hover, setHover] = React.useState(-1);
+  const [hover, setHover] = useState(-1);
   const classes = useStyles();
 
   return (
@@ -88,7 +88,7 @@ export const RateRecipeDialog = ({
   const [comment, setComment] = useState("");
   const [title, setTitle] = useState(`Leave a review for ${recipe.title}`);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setComment(event.target.value);
   };
 

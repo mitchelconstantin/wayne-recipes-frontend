@@ -1,30 +1,29 @@
-import React from 'react';
 import {
   Box,
   IconButton,
   Tooltip,
   Typography,
-  makeStyles
-} from '@material-ui/core';
-import { IShoppingListItem } from '../Shared/Types';
-import RemoveShoppingCart from '@material-ui/icons/RemoveShoppingCart';
+  makeStyles,
+} from "@material-ui/core";
+import { IShoppingListItem } from "../Shared/Types";
+import RemoveShoppingCart from "@material-ui/icons/RemoveShoppingCart";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%'
+    width: "100%",
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
-    flexBasis: '33.33%',
-    flexShrink: 0
+    flexBasis: "33.33%",
+    flexShrink: 0,
   },
   secondaryHeading: {
     fontSize: theme.typography.pxToRem(15),
-    color: theme.palette.text.secondary
+    color: theme.palette.text.secondary,
   },
   details: {
-    flexDirection: 'column'
-  }
+    flexDirection: "column",
+  },
 }));
 
 const getTitle = (title: string, quantity: number) => {
@@ -39,7 +38,7 @@ interface ShoppingListProps {
 
 export const ShoppingListItems = ({
   shoppingList,
-  removeFromShoppingList
+  removeFromShoppingList,
 }: ShoppingListProps) => {
   const classes = useStyles();
 

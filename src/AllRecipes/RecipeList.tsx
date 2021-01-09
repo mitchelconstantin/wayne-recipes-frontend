@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { RecipeCard } from "./RecipeCard";
 import { Grid, Typography } from "@material-ui/core";
 import { IRecipe } from "../Shared/Types";
