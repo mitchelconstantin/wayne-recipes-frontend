@@ -12,6 +12,7 @@ import {
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
 import { emptyFilterOptions, emptyFilters, IFilters } from "../Shared/Types";
 import { Rating } from "@material-ui/lab";
+import { useMobileQuery } from "../Shared/Hooks/isMobile";
 
 const useStyles = makeStyles((theme) => ({
   menuPaper: {
@@ -32,6 +33,7 @@ export const AdvancedFilters = ({
 }: AdvancedFiltersProps) => {
   const [allFilters, setAllFilters] = useState(emptyFilterOptions);
   const classes = useStyles();
+  const isMobile = useMobileQuery();
 
   useEffect(() => {
     if (expanded && !allFilters.mainIngredients.length) {
@@ -60,17 +62,22 @@ export const AdvancedFilters = ({
   };
 
   const { mainIngredients, regions, types, sources, ratings } = allFilters;
-
   return (
     <Collapse in={expanded}>
-      <Grid container spacing={2} style={{ paddingBottom: "16px" }}>
-        <Grid xs={6} item>
-          <FormControl style={{ maxWidth: "30vw" }} fullWidth>
+      <Grid
+        style={{ width: isMobile ? undefined : "60vw", paddingBottom: "8px" }}
+        direction="row"
+        alignItems="center"
+        justify="center"
+        container
+        spacing={isMobile ? 1 : 3}
+      >
+        <Grid xs={6} md={4} item>
+          <FormControl fullWidth>
             <InputLabel>Main Ingredient</InputLabel>
             <Select
               value={selectedFilters.mainIngredient}
               name="mainIngredient"
-              style={{ maxWidth: "30vw" }}
               onChange={handleChange}
               MenuProps={{ classes: { paper: classes.menuPaper } }}
             >
@@ -82,8 +89,8 @@ export const AdvancedFilters = ({
             </Select>
           </FormControl>
         </Grid>
-        <Grid xs={6} item>
-          <FormControl style={{ maxWidth: "30vw" }} fullWidth>
+        <Grid xs={6} md={4} item>
+          <FormControl fullWidth>
             <InputLabel>Region</InputLabel>
             <Select
               value={selectedFilters.region}
@@ -99,8 +106,8 @@ export const AdvancedFilters = ({
             </Select>
           </FormControl>
         </Grid>
-        <Grid xs={6} item>
-          <FormControl fullWidth style={{ maxWidth: "30vw" }}>
+        <Grid xs={6} md={4} item>
+          <FormControl fullWidth>
             <InputLabel>Recipe Type</InputLabel>
             <Select
               value={selectedFilters.type}
@@ -117,8 +124,8 @@ export const AdvancedFilters = ({
             </Select>
           </FormControl>
         </Grid>
-        <Grid xs={6} item>
-          <FormControl style={{ maxWidth: "30vw" }} fullWidth>
+        <Grid xs={6} md={4} item>
+          <FormControl fullWidth>
             <InputLabel>Source</InputLabel>
             <Select
               value={selectedFilters.source}
@@ -134,8 +141,8 @@ export const AdvancedFilters = ({
             </Select>
           </FormControl>
         </Grid>
-        <Grid xs={6} item>
-          <FormControl style={{ maxWidth: "30vw" }} fullWidth>
+        <Grid xs={6} md={4} item>
+          <FormControl fullWidth>
             <InputLabel>Rating (minimum)</InputLabel>
             <Select
               value={selectedFilters.rating}
