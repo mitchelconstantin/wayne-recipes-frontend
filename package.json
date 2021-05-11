@@ -23,7 +23,7 @@
     "clsx": "^1.1.1",
     "fuzzaldrin-plus": "^0.6.0",
     "jwt-decode": "^3.1.2",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "material-ui-image": "^3.3.1",
     "preval.macro": "^5.0.0",
     "react": "17.0.1",
