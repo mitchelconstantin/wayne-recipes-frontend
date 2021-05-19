@@ -21,7 +21,7 @@ export const Login = () => {
     return (
       <Box className={classes.formContainer}>
         <Button href="/all" color="primary" variant="contained">
-          Go to All Reicpes
+          Go to All Recipes
         </Button>
       </Box>
     );
