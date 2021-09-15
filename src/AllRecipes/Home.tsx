@@ -18,6 +18,7 @@ import { RecipeTransform } from "./RecipeTransform";
 import { ShowFiltersChip } from "./ShowFiltersChip";
 import { useHistory } from "react-router-dom";
 import { isEqual, debounce } from "lodash";
+import { grey } from "@mui/material/colors";
 
 const useStyles = makeStyles((theme: any) => ({
   searchContainer: {
@@ -25,6 +26,7 @@ const useStyles = makeStyles((theme: any) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: theme.palette.mode === "dark" ? grey[900] : "white",
   },
   searchBox: {
     margin: theme.spacing(1, 1, 1, 1),
@@ -36,7 +38,7 @@ const useStyles = makeStyles((theme: any) => ({
     minWidth: "40%",
     maxWidth: "60vw",
     borderRadius: "25px",
-    backgroundColor: theme.palette.mode === "dark" ? "grey" : "#DFE1E5",
+    backgroundColor: theme.palette.mode === "dark" ? grey[800] : "#DFE1E5",
   },
   input: {
     marginLeft: theme.spacing(2),
