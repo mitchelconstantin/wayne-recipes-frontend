@@ -15,7 +15,7 @@ import { makeStyles } from "@mui/styles";
 import { IRecipe } from "../Shared/Types";
 import { Link } from "react-router-dom";
 import { DarkThemeContext } from "../App";
-import { Image as MaterialImage } from "./CopyImage";
+import { Image as MaterialImage } from "./MaterialImage";
 
 const useStyles = makeStyles((theme) => ({
   actionArea: {
@@ -72,7 +72,6 @@ export const RecipeCard = ({ recipe }: Props) => {
     const [baseUrl, imageId] = recipe.picture.split("upload");
     return `${baseUrl}upload/ar_1:1,w_300,h_300,c_fill,g_auto,q_auto,f_auto${imageId}`;
   };
-  console.log(imageToUse());
 
   return (
     <Card>

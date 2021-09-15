@@ -15,7 +15,7 @@ import { Rating } from "@mui/material";
 import { useMobileQuery } from "../Shared/Hooks/isMobile";
 import { ReviewsChartDialog } from "./ReviewsChartDialog";
 import { DarkThemeContext } from "../App";
-import { Image as MaterialImage } from "../AllRecipes/CopyImage";
+import { Image as MaterialImage } from "../AllRecipes/MaterialImage";
 
 const useStyles = makeStyles((theme) => ({
   recipeDetails: {
