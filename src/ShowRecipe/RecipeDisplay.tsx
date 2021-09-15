@@ -2,7 +2,7 @@
 import { useState, useEffect, useContext } from "react";
 import noImage from "../Shared/Images/noImage.png";
 import { Box, Divider, Grid, IconButton, Typography } from "@mui/material/";
-import makeStyles from '@mui/styles/makeStyles';
+import { makeStyles } from "@mui/styles";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
 import { useParams, useLocation } from "react-router-dom";
 import { Loading } from "../Shared/Components/Loading";
@@ -11,7 +11,7 @@ import { RecipeDisplayButtons } from "./RecipeDisplayButtons";
 import { RecipeSpecifications } from "./RecipeSpecifications";
 import { DirectionsList } from "./DirectionsList";
 import { IngredientsList } from "./IngredientsList";
-import { Rating } from '@mui/material';
+import { Rating } from "@mui/material";
 import { useMobileQuery } from "../Shared/Hooks/isMobile";
 import { ReviewsChartDialog } from "./ReviewsChartDialog";
 import Img from "material-ui-image";
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
   recipeInteraction: {
     display: "flex",
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down("md")]: {
       flexDirection: "column",
       alignItems: "left",
     },
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     "@media print": {
       display: "none",
     },
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down("md")]: {
       width: "80vw",
       padding: theme.spacing(2, 0),
     },

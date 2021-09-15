@@ -7,8 +7,8 @@ import {
   SnackbarOrigin,
   Alert,
   AlertColor,
+  ThemeProvider,
 } from "@mui/material";
-import { ThemeProvider } from "@mui/material/styles";
 import { getTheme } from "./theme";
 import { useMobileQuery } from "./Hooks/isMobile";
 import { useDarkThemeEnabled } from "./Hooks/darkTheme";

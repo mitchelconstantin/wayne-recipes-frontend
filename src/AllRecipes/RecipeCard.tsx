@@ -10,7 +10,7 @@ import {
   ClickAwayListener,
   Box,
 } from "@mui/material/";
-import makeStyles from '@mui/styles/makeStyles';
+import { makeStyles } from "@mui/styles";
 import { IRecipe } from "../Shared/Types";
 import { Link } from "react-router-dom";
 import { DarkThemeContext } from "../App";
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     textOverflow: "ellipsis",
     whiteSpace: "nowrap",
     overflow: "hidden",
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down("md")]: {
       maxWidth: "110px",
       fontWeight: 600,
       fontSize: ".8rem",

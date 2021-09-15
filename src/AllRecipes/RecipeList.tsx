@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { RecipeCard } from "./RecipeCard";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, Pagination } from "@mui/material";
 import { IRecipe } from "../Shared/Types";
 import { Loading } from "../Shared/Components/Loading";
 import { Warning } from "@mui/icons-material";
-import Pagination from '@mui/material/Pagination';
 import { isEmpty } from "lodash";
 import { useMobileQuery } from "../Shared/Hooks/isMobile";
 

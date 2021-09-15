@@ -39,7 +39,7 @@ export class UserAPI {
     try {
       const res = await instance.get("users");
       return res.data;
-    } catch (err) {
+    } catch (err: any) {
       SnackbarService.error(err.message);
       return [];
     }

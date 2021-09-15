@@ -7,14 +7,16 @@ import {
   Collapse,
   FormControl,
   Grid,
+  // todo: figure out why this import isn't working
+  // makeStyles,
+  Rating,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "@mui/styles";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
 import { emptyFilterOptions, emptyFilters, IFilters } from "../Shared/Types";
-import { Rating } from "@mui/material";
 import { useMobileQuery } from "../Shared/Hooks/isMobile";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   menuPaper: {
     maxHeight: 300,
     maxWidth: 200,

@@ -9,10 +9,10 @@ import {
   TextField,
   DialogActions,
   DialogContent,
+  Rating,
 } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
+import { makeStyles } from "@mui/styles";
 import { Close } from "@mui/icons-material";
-import { Rating } from '@mui/material';
 import { isEmpty } from "lodash";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
 import { SnackbarService } from "../Shared/SnackbarService";

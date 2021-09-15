@@ -7,6 +7,7 @@ import {
   IconButton,
   DialogContent,
   Paper,
+  Rating,
   Table,
   TableBody,
   TableCell,
@@ -15,8 +16,6 @@ import {
   TableRow,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
-import { Rating } from '@mui/material';
-
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
 import { IRecipe, IReview } from "../Shared/Types";
 import { Loading } from "../Shared/Components/Loading";

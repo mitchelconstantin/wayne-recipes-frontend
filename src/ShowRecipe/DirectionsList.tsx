@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material/";
-import makeStyles from '@mui/styles/makeStyles';
+import { makeStyles } from "@mui/styles";
 import { useMobileQuery } from "../Shared/Hooks/isMobile";
 
 const useStyles = makeStyles((theme) => ({

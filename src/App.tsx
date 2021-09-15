@@ -15,8 +15,12 @@ import {
   OwnerRoute,
 } from "./Shared/Components/customRoutes/CustomRoutes";
 import { useDarkThemeEnabled } from "./Shared/Hooks/darkTheme";
-import { Theme, StyledEngineProvider, CssBaseline } from "@mui/material";
-import { ThemeProvider } from "@mui/material/styles";
+import {
+  Theme,
+  ThemeProvider,
+  StyledEngineProvider,
+  CssBaseline,
+} from "@mui/material";
 import { getTheme } from "./Shared/theme";
 import { SnackbarContainer } from "./Shared/SnackbarService";
 

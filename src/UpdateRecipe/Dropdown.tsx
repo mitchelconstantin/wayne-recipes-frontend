@@ -1,6 +1,5 @@
 import { useContainerStyles } from "../Shared/formStyles";
-import { TextField } from "@mui/material";
-import Autocomplete from '@mui/material/Autocomplete';
+import { TextField, Autocomplete } from "@mui/material";
 interface props {
   handleChange: any;
   items: string[];

@@ -9,7 +9,7 @@ import {
   Typography,
   IconButton,
 } from "@mui/material/";
-import makeStyles from '@mui/styles/makeStyles';
+import { makeStyles } from "@mui/styles";
 import { DarkThemeContext } from "../App";
 import { HeaderButtons } from "./HeaderButtons";
 import logo from "../Shared/Images/logo.svg";
@@ -45,7 +45,13 @@ export const Header = () => {
       <Slide appear={false} direction="down" in={!trigger}>
         <AppBar className={classes.toolbar}>
           <Toolbar>
-            <IconButton edge="start" color="inherit" component={Link} to={"/all"} size="large">
+            <IconButton
+              edge="start"
+              color="inherit"
+              component={Link}
+              to={"/all"}
+              size="large"
+            >
               <img
                 src={darkThemeEnabled ? darkLogo : logo}
                 className={classes.image}
