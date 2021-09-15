@@ -13,9 +13,9 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-} from "@material-ui/core";
-import { Close } from "@material-ui/icons";
-import { Rating } from "@material-ui/lab";
+} from "@mui/material";
+import { Close } from "@mui/icons-material";
+import { Rating } from '@mui/material';
 
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
 import { IRecipe, IReview } from "../Shared/Types";
@@ -109,7 +109,7 @@ export const ReviewsChartDialog = ({
         <Box display="flex" alignItems="center">
           <Box flexGrow={1}>{`Reviews for ${recipe.title}`}</Box>
           <Box>
-            <IconButton onClick={handleClose}>
+            <IconButton onClick={handleClose} size="large">
               <Close />
             </IconButton>
           </Box>

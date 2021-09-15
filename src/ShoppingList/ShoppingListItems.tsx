@@ -1,12 +1,7 @@
-import {
-  Box,
-  IconButton,
-  Tooltip,
-  Typography,
-  makeStyles,
-} from "@material-ui/core";
+import { Box, IconButton, Tooltip, Typography } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import { IShoppingListItem } from "../Shared/Types";
-import RemoveShoppingCart from "@material-ui/icons/RemoveShoppingCart";
+import RemoveShoppingCart from "@mui/icons-material/RemoveShoppingCart";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,26 +37,24 @@ export const ShoppingListItems = ({
 }: ShoppingListProps) => {
   const classes = useStyles();
 
-  return (
-    <>
-      <Box display="flex" alignItems="center">
-        <Typography variant="h6">Recipes on the shopping list</Typography>
+  return <>
+    <Box display="flex" alignItems="center">
+      <Typography variant="h6">Recipes on the shopping list</Typography>
+    </Box>
+    {shoppingList.map((item, i: number) => (
+      <Box key={i} display="flex" alignItems="center">
+        <Typography className={classes.secondaryHeading}>
+          {getTitle(item.title, item.quantity)}
+        </Typography>
+        <Tooltip title="Remove from Shopping List">
+          <IconButton
+            onClick={() => removeFromShoppingList(item.recipe_id, item.title)}
+            aria-label="upload picture"
+            size="large">
+            <RemoveShoppingCart />
+          </IconButton>
+        </Tooltip>
       </Box>
-      {shoppingList.map((item, i: number) => (
-        <Box key={i} display="flex" alignItems="center">
-          <Typography className={classes.secondaryHeading}>
-            {getTitle(item.title, item.quantity)}
-          </Typography>
-          <Tooltip title="Remove from Shopping List">
-            <IconButton
-              onClick={() => removeFromShoppingList(item.recipe_id, item.title)}
-              aria-label="upload picture"
-            >
-              <RemoveShoppingCart />
-            </IconButton>
-          </Tooltip>
-        </Box>
-      ))}
-    </>
-  );
+    ))}
+  </>;
 };

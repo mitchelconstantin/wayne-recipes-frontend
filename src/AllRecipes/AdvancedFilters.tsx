@@ -7,11 +7,11 @@ import {
   Collapse,
   FormControl,
   Grid,
-  makeStyles,
-} from "@material-ui/core";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
 import { emptyFilterOptions, emptyFilters, IFilters } from "../Shared/Types";
-import { Rating } from "@material-ui/lab";
+import { Rating } from "@mui/material";
 import { useMobileQuery } from "../Shared/Hooks/isMobile";
 
 const useStyles = makeStyles((theme) => ({
@@ -68,7 +68,7 @@ export const AdvancedFilters = ({
         style={{ width: isMobile ? undefined : "60vw", paddingBottom: "8px" }}
         direction="row"
         alignItems="center"
-        justify="center"
+        justifyContent="center"
         container
         spacing={isMobile ? 1 : 3}
       >
@@ -78,6 +78,7 @@ export const AdvancedFilters = ({
             <Select
               value={selectedFilters.mainIngredient}
               name="mainIngredient"
+              //@ts-ignore
               onChange={handleChange}
               MenuProps={{ classes: { paper: classes.menuPaper } }}
             >
@@ -95,6 +96,7 @@ export const AdvancedFilters = ({
             <Select
               value={selectedFilters.region}
               name="region"
+              //@ts-ignore
               onChange={handleChange}
               MenuProps={{ classes: { paper: classes.menuPaper } }}
             >
@@ -112,6 +114,7 @@ export const AdvancedFilters = ({
             <Select
               value={selectedFilters.type}
               name="type"
+              //@ts-ignore
               onChange={handleChange}
               MenuProps={{ classes: { paper: classes.menuPaper } }}
             >
@@ -130,6 +133,7 @@ export const AdvancedFilters = ({
             <Select
               value={selectedFilters.source}
               name="source"
+              //@ts-ignore
               onChange={handleChange}
               MenuProps={{ classes: { paper: classes.menuPaper } }}
             >
@@ -147,6 +151,7 @@ export const AdvancedFilters = ({
             <Select
               value={selectedFilters.rating}
               name="rating"
+              //@ts-ignore
               onChange={handleChange}
               MenuProps={{ classes: { paper: classes.menuPaper } }}
             >

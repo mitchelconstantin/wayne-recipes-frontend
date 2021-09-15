@@ -1,14 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useCallback, ChangeEvent } from "react";
-import {
-  Box,
-  Paper,
-  makeStyles,
-  Divider,
-  IconButton,
-  InputBase,
-  Tooltip,
-} from "@material-ui/core";
+import { Box, Paper, Divider, IconButton, InputBase, Tooltip } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import { IRecipe, emptyFilters } from "../Shared/Types";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
 import { AdvancedFilters } from "./AdvancedFilters";
@@ -17,7 +10,7 @@ import { RecipeTransform } from "./RecipeTransform";
 import { ShowFiltersChip } from "./ShowFiltersChip";
 import { useHistory } from "react-router-dom";
 import { isEqual, debounce } from "lodash";
-import { Close } from "@material-ui/icons";
+import { Close } from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
   searchContainer: {
@@ -28,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
   searchBox: {
     margin: theme.spacing(1, 1, 1, 1),
-    [theme.breakpoints.down("xs")]: {
+    [theme.breakpoints.down('sm')]: {
       margin: theme.spacing(2, 1, 1, 1),
     },
     display: "flex",
@@ -36,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: "40%",
     maxWidth: "60vw",
     borderRadius: "25px",
-    backgroundColor: theme.palette.type === "dark" ? "grey" : "#DFE1E5",
+    backgroundColor: theme.palette.mode === "dark" ? "grey" : "#DFE1E5",
   },
   input: {
     marginLeft: theme.spacing(2),
@@ -117,42 +110,40 @@ export const Home = () => {
 
   const isPristine = !searchTerm && isEqual(selectedFilters, emptyFilters);
 
-  return (
-    <>
-      <Paper className={classes.searchContainer}>
-        <Box className={classes.searchBox}>
-          <InputBase
-            className={classes.input}
-            placeholder="Search Recipes"
-            inputProps={{ "aria-label": "search" }}
-            value={searchTerm}
-            onChange={handleChangeInput}
-          />
-          {!isPristine && (
-            <Tooltip title="Clear Search Term and Filters">
-              <IconButton
-                type="submit"
-                className={classes.iconButton}
-                onClick={clearInput}
-                aria-label="search"
-              >
-                <Close />
-              </IconButton>
-            </Tooltip>
-          )}
-          <Divider className={classes.divider} orientation="vertical" />
-          <ShowFiltersChip
-            expanded={filtersExpanded}
-            setExpanded={setFiltersExpanded}
-          />
-        </Box>
-        <AdvancedFilters
-          expanded={filtersExpanded}
-          selectedFilters={selectedFilters}
-          setSelectedFilters={setSelectedFilters}
+  return <>
+    <Paper className={classes.searchContainer}>
+      <Box className={classes.searchBox}>
+        <InputBase
+          className={classes.input}
+          placeholder="Search Recipes"
+          inputProps={{ "aria-label": "search" }}
+          value={searchTerm}
+          onChange={handleChangeInput}
         />
-      </Paper>
-      <RecipeList loading={loading} recipes={filteredRecipes} />
-    </>
-  );
+        {!isPristine && (
+          <Tooltip title="Clear Search Term and Filters">
+            <IconButton
+              type="submit"
+              className={classes.iconButton}
+              onClick={clearInput}
+              aria-label="search"
+              size="large">
+              <Close />
+            </IconButton>
+          </Tooltip>
+        )}
+        <Divider className={classes.divider} orientation="vertical" />
+        <ShowFiltersChip
+          expanded={filtersExpanded}
+          setExpanded={setFiltersExpanded}
+        />
+      </Box>
+      <AdvancedFilters
+        expanded={filtersExpanded}
+        selectedFilters={selectedFilters}
+        setSelectedFilters={setSelectedFilters}
+      />
+    </Paper>
+    <RecipeList loading={loading} recipes={filteredRecipes} />
+  </>;
 };

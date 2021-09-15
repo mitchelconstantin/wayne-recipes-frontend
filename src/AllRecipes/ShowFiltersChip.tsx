@@ -1,5 +1,6 @@
-import { makeStyles, Tooltip, IconButton } from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { Tooltip, IconButton } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import clsx from "clsx";
 
 const useStyles = makeStyles((theme) => ({
@@ -35,7 +36,7 @@ export const ShowFiltersChip = ({
         onClick={handleExpandClick}
         aria-expanded={expanded}
         aria-label="show more"
-      >
+        size="large">
         <ExpandMoreIcon />
       </IconButton>
     </Tooltip>

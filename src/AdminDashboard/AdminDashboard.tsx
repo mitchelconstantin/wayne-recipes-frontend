@@ -8,7 +8,7 @@ import {
   Button,
   Typography,
   Box,
-} from "@material-ui/core";
+} from "@mui/material";
 import { IUser } from "../Shared/Types";
 import { SnackbarService } from "../Shared/SnackbarService";
 import { UserAPI } from "../Shared/APIs/UserAPI";

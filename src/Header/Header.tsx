@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import {
   Box,
-  makeStyles,
   AppBar,
   CssBaseline,
   Slide,
@@ -9,7 +8,8 @@ import {
   useScrollTrigger,
   Typography,
   IconButton,
-} from "@material-ui/core/";
+} from "@mui/material/";
+import makeStyles from '@mui/styles/makeStyles';
 import { DarkThemeContext } from "../App";
 import { HeaderButtons } from "./HeaderButtons";
 import logo from "../Shared/Images/logo.svg";
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(1),
     marginRight: "-5px",
     flexGrow: 1,
-    color: theme.palette.type === "dark" ? "silver" : "white",
+    color: theme.palette.mode === "dark" ? "silver" : "white",
   },
 }));
 
@@ -45,12 +45,7 @@ export const Header = () => {
       <Slide appear={false} direction="down" in={!trigger}>
         <AppBar className={classes.toolbar}>
           <Toolbar>
-            <IconButton
-              edge="start"
-              color="inherit"
-              component={Link}
-              to={"/all"}
-            >
+            <IconButton edge="start" color="inherit" component={Link} to={"/all"} size="large">
               <img
                 src={darkThemeEnabled ? darkLogo : logo}
                 className={classes.image}

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Tooltip, IconButton } from "@material-ui/core";
-import { Print, Edit, Grade, AddShoppingCart } from "@material-ui/icons";
+import { Tooltip, IconButton } from "@mui/material";
+import { Print, Edit, Grade, AddShoppingCart } from "@mui/icons-material";
 import { SnackbarService } from "../SnackbarService";
 import { IRecipe } from "../Types";
 import { ShoppingListAPI } from "../APIs/ShoppingListAPI";
@@ -12,7 +12,7 @@ interface PrintButtonProps {
 export const PrintButton = ({ label }: PrintButtonProps) => {
   return (
     <Tooltip title={`Print ${label}`}>
-      <IconButton onClick={window.print}>
+      <IconButton onClick={window.print} size="large">
         <Print />
       </IconButton>
     </Tooltip>
@@ -34,7 +34,7 @@ export const AddToShoppingListButton = ({ recipe }: ShoppingButtonProps) => {
   };
   return (
     <Tooltip title="Add to Shopping List">
-      <IconButton onClick={addToShoppingList} aria-label="add to list">
+      <IconButton onClick={addToShoppingList} aria-label="add to list" size="large">
         <AddShoppingCart />
       </IconButton>
     </Tooltip>
@@ -47,7 +47,7 @@ interface EditButtonProps {
 export const EditRecipeButton = ({ id }: EditButtonProps) => {
   return (
     <Tooltip title="Edit Recipe">
-      <IconButton href={`/r/${id}/edit`} aria-label="edit recipe">
+      <IconButton href={`/r/${id}/edit`} aria-label="edit recipe" size="large">
         <Edit />
       </IconButton>
     </Tooltip>
@@ -61,19 +61,17 @@ interface ImadeItButtonProps {
 export const IMadeItButton = ({ recipe, reloadRecipe }: ImadeItButtonProps) => {
   const [openModal, setOpenModal] = useState(false);
 
-  return (
-    <>
-      <Tooltip title="Leave a review">
-        <IconButton onClick={() => setOpenModal(true)} aria-label="rate recipe">
-          <Grade />
-        </IconButton>
-      </Tooltip>
-      <RateRecipeDialog
-        open={openModal}
-        recipe={recipe}
-        reloadRecipe={reloadRecipe}
-        handleClose={() => setOpenModal(false)}
-      />
-    </>
-  );
+  return <>
+    <Tooltip title="Leave a review">
+      <IconButton onClick={() => setOpenModal(true)} aria-label="rate recipe" size="large">
+        <Grade />
+      </IconButton>
+    </Tooltip>
+    <RateRecipeDialog
+      open={openModal}
+      recipe={recipe}
+      reloadRecipe={reloadRecipe}
+      handleClose={() => setOpenModal(false)}
+    />
+  </>;
 };

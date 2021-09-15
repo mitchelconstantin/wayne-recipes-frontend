@@ -1,16 +1,28 @@
 import { SyntheticEvent, useState } from "react";
 import ReactDOM from "react-dom";
-import { Snackbar, ThemeProvider, SnackbarOrigin } from "@material-ui/core";
-import { Alert, Color } from "@material-ui/lab";
+import {
+  Snackbar,
+  Theme,
+  StyledEngineProvider,
+  SnackbarOrigin,
+  Alert,
+  AlertColor,
+} from "@mui/material";
+import { ThemeProvider } from "@mui/material/styles";
 import { getTheme } from "./theme";
 import { useMobileQuery } from "./Hooks/isMobile";
 import { useDarkThemeEnabled } from "./Hooks/darkTheme";
+
+declare module "@mui/styles/defaultTheme" {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
 
 const uniqueSnackbarID = "SnackbarContainer-12345";
 
 interface Props {
   message: string;
-  severity: Color;
+  severity: AlertColor;
 }
 
 export const CustomSnackbar = ({ message, severity }: Props) => {
@@ -29,18 +41,20 @@ export const CustomSnackbar = ({ message, severity }: Props) => {
     : { vertical: "bottom", horizontal: "right" };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Snackbar
-        anchorOrigin={anchorOrigin}
-        open={open}
-        autoHideDuration={4500}
-        onClose={handleClose}
-      >
-        <Alert onClose={handleClose} severity={severity}>
-          {message}
-        </Alert>
-      </Snackbar>
-    </ThemeProvider>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        <Snackbar
+          anchorOrigin={anchorOrigin}
+          open={open}
+          autoHideDuration={4500}
+          onClose={handleClose}
+        >
+          <Alert onClose={handleClose} severity={severity as AlertColor}>
+            {message}
+          </Alert>
+        </Snackbar>
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 };
 
@@ -63,7 +77,7 @@ export class SnackbarService {
     this.showSnackbar(message, "info");
   }
 
-  private static showSnackbar(message: string, severity: Color) {
+  private static showSnackbar(message: string, severity: AlertColor) {
     const container = document.getElementById(uniqueSnackbarID);
     const Snackbar = () => (
       <CustomSnackbar message={message} severity={severity} />

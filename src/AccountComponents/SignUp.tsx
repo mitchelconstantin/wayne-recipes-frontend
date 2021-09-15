@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Button, TextField } from "@material-ui/core";
+import { Box, Button, TextField } from "@mui/material";
 import { emptyUser } from "../Shared/Types";
 import { UserAPI } from "../Shared/APIs/UserAPI";
 import { useContainerStyles } from "../Shared/formStyles";

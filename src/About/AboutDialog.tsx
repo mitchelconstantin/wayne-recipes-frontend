@@ -6,8 +6,8 @@ import {
   DialogContent,
   Typography,
   Link,
-} from "@material-ui/core";
-import { Close } from "@material-ui/icons";
+} from "@mui/material";
+import { Close } from "@mui/icons-material";
 
 interface Props {
   handleClose: any;
@@ -25,7 +25,7 @@ export const AboutDialog = ({ handleClose, open }: Props) => {
         <Box display="flex" alignItems="center">
           <Box flexGrow={1}>{"About"}</Box>
           <Box>
-            <IconButton onClick={handleClose}>
+            <IconButton onClick={handleClose} size="large">
               <Close />
             </IconButton>
           </Box>

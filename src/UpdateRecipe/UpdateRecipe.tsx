@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
-import { Button, TextField, Typography, Box } from "@material-ui/core";
+import { Button, TextField, Typography, Box } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { ImageUploader } from "./ImageUploader";
 import { isOwner } from "../Shared/AppBehaviors";

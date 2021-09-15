@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { RecipeCard } from "./RecipeCard";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography } from "@mui/material";
 import { IRecipe } from "../Shared/Types";
 import { Loading } from "../Shared/Components/Loading";
-import { Warning } from "@material-ui/icons";
-import Pagination from "@material-ui/lab/Pagination";
+import { Warning } from "@mui/icons-material";
+import Pagination from '@mui/material/Pagination';
 import { isEmpty } from "lodash";
 import { useMobileQuery } from "../Shared/Hooks/isMobile";
 
@@ -39,7 +39,7 @@ export const RecipeList = ({ loading, recipes }: Props) => {
       <Grid
         item
         container
-        justify={isMobile ? "space-evenly" : undefined}
+        justifyContent={isMobile ? "space-evenly" : undefined}
         spacing={isMobile ? 2 : 4}
         style={{
           maxWidth: "100%",
@@ -51,7 +51,7 @@ export const RecipeList = ({ loading, recipes }: Props) => {
           <Grid
             container
             style={{ padding: "18px" }}
-            justify="center"
+            justifyContent="center"
             alignItems="center"
             direction="column"
           >

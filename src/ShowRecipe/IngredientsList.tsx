@@ -1,4 +1,5 @@
-import { Box, Typography, makeStyles } from "@material-ui/core/";
+import { Box, Typography } from "@mui/material/";
+import makeStyles from '@mui/styles/makeStyles';
 import { useMobileQuery } from "../Shared/Hooks/isMobile";
 
 const useStyles = makeStyles((theme) => ({

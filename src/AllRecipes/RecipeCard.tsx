@@ -3,14 +3,14 @@ import noImage from "../Shared//Images/noImage.png";
 import noImageDark from "../Shared//Images/noImageDark.png";
 import {
   Card,
-  makeStyles,
   CardMedia,
   CardActionArea,
   CardHeader,
   Tooltip,
   ClickAwayListener,
   Box,
-} from "@material-ui/core/";
+} from "@mui/material/";
+import makeStyles from '@mui/styles/makeStyles';
 import { IRecipe } from "../Shared/Types";
 import { Link } from "react-router-dom";
 import { DarkThemeContext } from "../App";
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     textOverflow: "ellipsis",
     whiteSpace: "nowrap",
     overflow: "hidden",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down('md')]: {
       maxWidth: "110px",
       fontWeight: 600,
       fontSize: ".8rem",

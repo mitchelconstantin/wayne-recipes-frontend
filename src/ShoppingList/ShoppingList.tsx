@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, Divider, Typography } from "@material-ui/core";
+import { Box, Divider, Typography } from "@mui/material";
 import { IShoppingListItem } from "../Shared/Types";
 import { SnackbarService } from "../Shared/SnackbarService";
 import { PrintButton } from "../Shared/Components/CustomButtons";

@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import noImage from "../Shared/Images/noImage.png";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
-import { Box } from "@material-ui/core";
+import { Box } from "@mui/material";
 import { useParams } from "react-router-dom";
 interface Props {
   picture?: string;

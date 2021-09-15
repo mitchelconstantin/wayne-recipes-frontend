@@ -1,10 +1,6 @@
-import {
-  Box,
-  Checkbox,
-  Typography,
-  FormControlLabel,
-  makeStyles,
-} from "@material-ui/core";
+import { Box, Checkbox, Typography, FormControlLabel } from "@mui/material";
+
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({
   ListItemContainer: {
