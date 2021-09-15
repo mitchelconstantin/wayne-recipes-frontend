@@ -14,8 +14,8 @@ import { IngredientsList } from "./IngredientsList";
 import { Rating } from "@mui/material";
 import { useMobileQuery } from "../Shared/Hooks/isMobile";
 import { ReviewsChartDialog } from "./ReviewsChartDialog";
-import Img from "material-ui-image";
 import { DarkThemeContext } from "../App";
+import { Image as MaterialImage } from "../AllRecipes/CopyImage";
 
 const useStyles = makeStyles((theme) => ({
   recipeDetails: {
@@ -119,7 +119,7 @@ export const RecipeDisplay = () => {
       className={classes.container}
     >
       <Grid className={classes.imageContainer} item xs={10} md={5}>
-        <Img
+        <MaterialImage
           className={classes.image}
           style={{ objectFit: "contain" }}
           color={darkThemeEnabled ? "999" : "white"}

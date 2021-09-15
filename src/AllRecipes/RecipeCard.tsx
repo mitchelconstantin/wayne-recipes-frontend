@@ -10,11 +10,12 @@ import {
   ClickAwayListener,
   Box,
 } from "@mui/material/";
+
 import { makeStyles } from "@mui/styles";
 import { IRecipe } from "../Shared/Types";
 import { Link } from "react-router-dom";
 import { DarkThemeContext } from "../App";
-import Image from "material-ui-image";
+import { Image as MaterialImage } from "./CopyImage";
 
 const useStyles = makeStyles((theme) => ({
   actionArea: {
@@ -71,6 +72,7 @@ export const RecipeCard = ({ recipe }: Props) => {
     const [baseUrl, imageId] = recipe.picture.split("upload");
     return `${baseUrl}upload/ar_1:1,w_300,h_300,c_fill,g_auto,q_auto,f_auto${imageId}`;
   };
+  console.log(imageToUse());
 
   return (
     <Card>
@@ -86,7 +88,7 @@ export const RecipeCard = ({ recipe }: Props) => {
         }}
       >
         <CardMedia>
-          <Image
+          <MaterialImage
             color={darkThemeEnabled ? "#999" : "white"}
             onError={onError}
             src={imageToUse()}
