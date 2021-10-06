@@ -88,10 +88,13 @@ export const RecipeCard = ({ recipe }: Props) => {
       >
         <CardMedia>
           <MaterialImage
-            color={darkThemeEnabled ? "#999" : "white"}
+            color={darkThemeEnabled ? "#RRGGBBAA" : "white"}
             onError={onError}
             src={imageToUse()}
             alt={"a tasty dish!"}
+            animationDuration={1}
+            disableTransition={true}
+            disableSpinner={true}
           />
         </CardMedia>
       </CardActionArea>
