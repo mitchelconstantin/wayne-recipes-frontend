@@ -42,7 +42,7 @@ export class RecipeAPI {
       data: { recipe },
     };
     const { data } = await netlifyInstance.patch(
-      `patch-one-recipe/$?id=${recipe.id}`,
+      `patch-one-recipe/?id=${recipe.id}`,
       config
     );
     return data.recipe;
@@ -60,9 +60,9 @@ export class RecipeAPI {
     userEmail: string,
     recipeId: string
   ): Promise<IReview | undefined> => {
-    const url = `reviews/${recipeId}/${userEmail}`;
-    const res = await herokuInstance.get(url);
-    return res.data;
+    const url = `get-user-recipe-review/?recipeId=${recipeId}&email=${userEmail}`;
+    const { data } = await netlifyInstance.get(url);
+    return data.review;
   };
 
   static getReviews = async (id: string): Promise<IReview[]> => {
