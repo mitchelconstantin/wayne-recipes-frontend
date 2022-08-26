@@ -65,9 +65,13 @@ export class RecipeAPI {
     return data.review;
   };
 
-  static getReviews = async (id: string): Promise<IReview[]> => {
-    const res = await herokuInstance.get(`reviews/${id}`);
-    return res.data;
+  static getReviews = async (recipeId: string): Promise<IReview[]> => {
+    const url = `get-all-recipe-reviews/?recipeId=${recipeId}`;
+    const { data } = await netlifyInstance.get(url);
+    return data.reviews;
+
+    // const res = await herokuInstance.get(`reviews/${id}`);
+    // return res.data;
   };
 
   static uploadImage = async (
