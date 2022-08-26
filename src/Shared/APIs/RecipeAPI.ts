@@ -78,7 +78,7 @@ export class RecipeAPI {
     const config: AxiosRequestConfig = {
       data: { image, recipeId },
     };
-    const res = await herokuInstance.post("image", config);
+    const res = await netlifyInstance.post("upload-one-photo", config);
     return res.data.link;
   };
 }
