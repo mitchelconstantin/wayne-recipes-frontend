@@ -1,6 +1,6 @@
 import { Handler } from "@netlify/functions";
-import { supabase } from "./db";
-import { authMiddleware } from "./middleware";
+import { supabase } from "../../utils/db";
+import { authMiddleware } from "../../utils/middleware";
 import middy from "middy";
 
 const getAllRecipes: Handler = async (event, context) => {

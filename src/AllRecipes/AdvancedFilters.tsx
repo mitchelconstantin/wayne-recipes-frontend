@@ -84,9 +84,10 @@ export const AdvancedFilters = ({
               onChange={handleChange}
               MenuProps={{ classes: { paper: classes.menuPaper } }}
             >
+              <MenuItem value={""}>All</MenuItem>
               {mainIngredients.map((mi) => (
                 <MenuItem key={mi} value={mi}>
-                  {mi || "All"}
+                  {mi}
                 </MenuItem>
               ))}
             </Select>
@@ -102,9 +103,10 @@ export const AdvancedFilters = ({
               onChange={handleChange}
               MenuProps={{ classes: { paper: classes.menuPaper } }}
             >
+              <MenuItem value={""}>All</MenuItem>
               {regions.map((region) => (
                 <MenuItem key={region} value={region}>
-                  {region || "All"}
+                  {region}
                 </MenuItem>
               ))}
             </Select>
@@ -139,9 +141,10 @@ export const AdvancedFilters = ({
               onChange={handleChange}
               MenuProps={{ classes: { paper: classes.menuPaper } }}
             >
+              <MenuItem value={""}>All</MenuItem>
               {sources.map((source) => (
                 <MenuItem key={source} value={source}>
-                  {source || "All"}
+                  {source}
                 </MenuItem>
               ))}
             </Select>

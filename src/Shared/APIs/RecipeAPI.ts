@@ -17,8 +17,8 @@ export class RecipeAPI {
   };
 
   static getFilters = async (): Promise<FiltersPayload> => {
-    const res = await herokuInstance.get("recipes/filters");
-    return res.data;
+    const { data } = await netlifyInstance.get("get-all-filters");
+    return data;
   };
 
   static getRecipe = async (id: string): Promise<IRecipe> => {
