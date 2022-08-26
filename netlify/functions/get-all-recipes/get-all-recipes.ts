@@ -46,6 +46,9 @@ const getAllRecipes: Handler = async (event, context) => {
   };
 };
 
-exports.handler = middy(getAllRecipes).use(
-  authMiddleware({ isAdminRoute: true })
-);
+exports.handler = middy(getAllRecipes);
+
+//how to use middleware
+// .use(
+//   authMiddleware({ isAdminRoute: true })
+// );
