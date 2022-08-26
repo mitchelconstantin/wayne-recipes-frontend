@@ -1,17 +1,18 @@
 import { IShoppingListItem } from "../Types";
 import { userEmail } from "../../Shared/AppBehaviors";
-import { herokuInstance } from "../axiosInstance";
+import { netlifyInstance, herokuInstance } from "../axiosInstance";
 import { AxiosRequestConfig } from "axios";
 
 export class ShoppingListAPI {
   static get = async (): Promise<IShoppingListItem[]> => {
-    const url = `shoppingList/${userEmail()}`;
-    const res = await herokuInstance.get(url);
-    return res.data.list;
+    const { data } = await netlifyInstance.get(
+      `get-user-shopping-list/?email=${userEmail()}`
+    );
+    return data.list;
   };
 
   static addToList = async (recipeId?: string) => {
-    const url = `shoppingList/${userEmail()}`;
+    const url = `add-one-to-shopping-list/?email=${userEmail()}`;
     const config: AxiosRequestConfig = {
       data: { recipeId },
     };
