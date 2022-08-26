@@ -1,7 +1,7 @@
 import { Handler } from "@netlify/functions";
 import { supabase } from "../../utils/db";
 import { decode, encode } from "../../utils/hashIds";
-import middy from "middy";
+import { middy } from "../../utils/middleware";
 
 const getOneRecipe: Handler = async (event, context) => {
   const dbId = decode(event.queryStringParameters?.id);

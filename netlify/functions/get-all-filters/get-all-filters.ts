@@ -1,6 +1,6 @@
 import { Handler } from "@netlify/functions";
 import { supabase } from "../../utils/db";
-import middy from "middy";
+import { middy } from "../../utils/middleware";
 
 const createFilterList = (arr: any[], field: string) => {
   return [...new Set(arr.flatMap((r) => r[field] || []))].sort();

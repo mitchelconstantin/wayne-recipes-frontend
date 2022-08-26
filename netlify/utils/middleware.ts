@@ -1,4 +1,6 @@
 import jwt from "jsonwebtoken";
+export { default as middy } from "middy";
+
 const secret = process.env.USER_AUTH_SECRET;
 
 const getToken = (headers) => {
@@ -16,6 +18,7 @@ export const authMiddleware = ({
   before: async (handler, next) => {
     try {
       const user = await jwt.verify(getToken(handler.event.headers), secret);
+      user.isAdmin = false;
       if (isOwnerRoute && !user.isOwner) {
         throw new Error();
       }

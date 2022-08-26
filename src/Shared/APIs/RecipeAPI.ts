@@ -33,7 +33,7 @@ export class RecipeAPI {
   };
 
   static deleteRecipe = async (id: string) => {
-    await herokuInstance.delete(`recipes/${id}`);
+    await netlifyInstance.delete(`delete-one-recipe/?id=${id}`);
     return;
   };
 

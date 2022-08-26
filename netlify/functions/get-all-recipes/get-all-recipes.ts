@@ -1,9 +1,7 @@
 import { Handler } from "@netlify/functions";
 import { supabase } from "../../utils/db";
-import { authMiddleware } from "../../utils/middleware";
+import { middy } from "../../utils/middleware";
 import { encode } from "../../utils/hashIds";
-
-import middy from "middy";
 
 const getAllRecipes: Handler = async (event, context) => {
   // const { name = "stranger" } = event.queryStringParameters;
