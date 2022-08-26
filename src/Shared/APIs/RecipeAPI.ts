@@ -25,7 +25,6 @@ export class RecipeAPI {
     try {
       const { data } = await netlifyInstance.get(`get-one-recipe/${id}`);
       return data.recipe;
-      console.log("data", data);
     } catch (e) {
       console.log("got netlify err", e);
       window.location.href = "/all";
