@@ -1,6 +1,8 @@
 import { Handler } from "@netlify/functions";
 import { supabase } from "../../utils/db";
 import { authMiddleware } from "../../utils/middleware";
+import { encode } from "../../utils/hashIds";
+
 import middy from "middy";
 
 const getAllRecipes: Handler = async (event, context) => {
@@ -35,7 +37,11 @@ const getAllRecipes: Handler = async (event, context) => {
     if (array.length === 1) return array[0].score;
     return array.reduce((a, b) => a.score + b.score) / array.length;
   };
-  const withAverages = data?.map((r) => ({ ...r, rating: average(r.reviews) }));
+  const withAverages = data?.map((r) => ({
+    ...r,
+    rating: average(r.reviews),
+    id: encode(r.id),
+  }));
 
   return {
     statusCode: 200,

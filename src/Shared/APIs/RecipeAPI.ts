@@ -23,12 +23,13 @@ export class RecipeAPI {
 
   static getRecipe = async (id: string): Promise<IRecipe> => {
     try {
-      const res = await herokuInstance.get(`recipes/${id}`);
-      return res.data;
-    } catch {
+      const { data } = await netlifyInstance.get(`get-one-recipe/${id}`);
+      return data.recipe;
+      console.log("data", data);
+    } catch (e) {
+      console.log("got netlify err", e);
       window.location.href = "/all";
-      //@ts-ignore
-      return;
+      throw new Error();
     }
   };
 
