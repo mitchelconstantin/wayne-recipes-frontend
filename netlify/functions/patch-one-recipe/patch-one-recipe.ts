@@ -1,8 +1,7 @@
 import { Handler } from "@netlify/functions";
 import { supabase } from "../../utils/db";
 import { decode, encode } from "../../utils/hashIds";
-import { authMiddleware } from "../../utils/middleware";
-import middy from "middy";
+import { middy, authMiddleware } from "../../utils/middleware";
 
 const patchOneRecipe: Handler = async (event, context) => {
   const dbId = decode(event.queryStringParameters?.id);

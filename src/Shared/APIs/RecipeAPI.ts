@@ -69,9 +69,6 @@ export class RecipeAPI {
     const url = `get-all-recipe-reviews/?recipeId=${recipeId}`;
     const { data } = await netlifyInstance.get(url);
     return data.reviews;
-
-    // const res = await herokuInstance.get(`reviews/${id}`);
-    // return res.data;
   };
 
   static uploadImage = async (

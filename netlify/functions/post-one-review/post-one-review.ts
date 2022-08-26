@@ -1,8 +1,7 @@
 import { Handler } from "@netlify/functions";
 import { supabase } from "../../utils/db";
 import { decode } from "../../utils/hashIds";
-import { authMiddleware } from "../../utils/middleware";
-import middy from "middy";
+import { middy, authMiddleware } from "../../utils/middleware";
 
 const getShortname = async (email: string) => {
   const { data } = await supabase
