@@ -1,5 +1,5 @@
 import { IRecipe, IReview } from "../Types";
-import { instance } from "../axiosInstance";
+import { instance, netlifyInstance } from "../axiosInstance";
 import { AxiosRequestConfig } from "axios";
 
 interface FiltersPayload {
@@ -12,8 +12,8 @@ interface FiltersPayload {
 
 export class RecipeAPI {
   static getAllRecipes = async (): Promise<IRecipe[]> => {
-    const res = await instance.get("recipes");
-    return res.data.recipes;
+    const { data } = await netlifyInstance.get("get-all-recipes");
+    return data.recipes;
   };
 
   static getFilters = async (): Promise<FiltersPayload> => {
