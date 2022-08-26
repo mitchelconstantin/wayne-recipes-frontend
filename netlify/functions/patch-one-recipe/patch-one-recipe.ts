@@ -5,7 +5,6 @@ import { authMiddleware } from "../../utils/middleware";
 import middy from "middy";
 
 const patchOneRecipe: Handler = async (event, context) => {
-  console.log("patched once!");
   const dbId = decode(event.queryStringParameters?.id);
   const body = JSON.parse(event.body || "");
   const r = body.data.recipe;
@@ -23,7 +22,6 @@ const patchOneRecipe: Handler = async (event, context) => {
     netCarbs: r.netCarbs,
     type: r.type,
   };
-  console.log("upserting", dbId);
 
   const { data, error } = await supabase.from("Recipes").upsert(recipeToUpdate);
 

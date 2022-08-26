@@ -52,7 +52,7 @@ export class RecipeAPI {
     const config: AxiosRequestConfig = {
       data: { review },
     };
-    const res = await herokuInstance.post("reviews", config);
+    const res = await netlifyInstance.post("post-one-review", config);
     return res.data;
   };
 
