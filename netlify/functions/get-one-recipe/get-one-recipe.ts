@@ -4,8 +4,7 @@ import { decode, encode } from "../../utils/hashIds";
 import middy from "middy";
 
 const getOneRecipe: Handler = async (event, context) => {
-  const id = event.path.substring(event.path.lastIndexOf("/") + 1);
-  const dbId = decode(id);
+  const dbId = decode(event.queryStringParameters?.id);
 
   const { data, error } = await supabase
     .from("Recipes")

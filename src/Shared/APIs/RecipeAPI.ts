@@ -23,7 +23,7 @@ export class RecipeAPI {
 
   static getRecipe = async (id: string): Promise<IRecipe> => {
     try {
-      const { data } = await netlifyInstance.get(`get-one-recipe/${id}`);
+      const { data } = await netlifyInstance.get(`get-one-recipe/?id=${id}`);
       return data.recipe;
     } catch (e) {
       console.log("got netlify err", e);
