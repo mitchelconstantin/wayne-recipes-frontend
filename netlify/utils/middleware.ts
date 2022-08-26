@@ -18,14 +18,13 @@ export const authMiddleware = ({
   before: async (handler, next) => {
     try {
       const user = await jwt.verify(getToken(handler.event.headers), secret);
-      user.isAdmin = false;
       if (isOwnerRoute && !user.isOwner) {
         throw new Error();
       }
       if (isAdminRoute && !user.isAdmin) {
         throw new Error();
       }
-      next();
+      // next();
     } catch (e) {
       console.log("error authenticating", e);
       return handler.callback(null, {

@@ -28,9 +28,8 @@ const getRecipeData = async (recipeId: string) => {
 };
 
 const saveRecipe = async (recipe: IRecipe) => {
-  const json = await RecipeAPI.saveRecipe(recipe);
-  SnackbarService.success("recipe saved");
-  setTimeout(() => (window.location.href = `/r/${json.id}`), 1500);
+  const { id } = await RecipeAPI.saveRecipe(recipe);
+  setTimeout(() => (window.location.href = `/r/${id}`), 1500);
 };
 
 export const UpdateRecipe = () => {

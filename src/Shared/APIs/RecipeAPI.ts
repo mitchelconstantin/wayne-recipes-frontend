@@ -41,8 +41,11 @@ export class RecipeAPI {
     const config: AxiosRequestConfig = {
       data: { recipe },
     };
-    const res = await herokuInstance.patch(`recipes/${recipe.id}`, config);
-    return res.data;
+    const { data } = await netlifyInstance.patch(
+      `patch-one-recipe/$?id=${recipe.id}`,
+      config
+    );
+    return data.recipe;
   };
 
   static reviewRecipe = async (review: IReview): Promise<string> => {
