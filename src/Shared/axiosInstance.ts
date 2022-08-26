@@ -2,11 +2,11 @@ import axios from "axios";
 import { getToken, logOut } from "./AppBehaviors";
 import { SnackbarService } from "./SnackbarService";
 
-const instance = axios.create({
+const herokuInstance = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}/api/`,
 });
 
-instance.interceptors.request.use(
+herokuInstance.interceptors.request.use(
   function (config) {
     const token = getToken();
     config.headers.Authorization = token;
@@ -18,7 +18,7 @@ instance.interceptors.request.use(
   }
 );
 
-instance.interceptors.response.use(
+herokuInstance.interceptors.response.use(
   (response) => {
     return response;
   },
@@ -84,4 +84,4 @@ netlifyInstance.interceptors.response.use(
   }
 );
 
-export { instance, netlifyInstance };
+export { herokuInstance, netlifyInstance };

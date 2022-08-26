@@ -1,6 +1,6 @@
 import { IUser } from "../Types";
 import { SnackbarService } from "../SnackbarService";
-import { instance } from "../axiosInstance";
+import { herokuInstance } from "../axiosInstance";
 import { AxiosRequestConfig } from "axios";
 import { logIn } from "../AppBehaviors";
 
@@ -10,7 +10,7 @@ export class UserAPI {
       data: { user },
     };
     try {
-      const res = await instance.post("login", config);
+      const res = await herokuInstance.post("login", config);
       logIn(res.data.token);
       SnackbarService.success("you are now logged in");
       return true;
@@ -25,7 +25,7 @@ export class UserAPI {
       data: { user: userCopy },
     };
     try {
-      await instance.post("users", config);
+      await herokuInstance.post("users", config);
       SnackbarService.success(
         "user created, now login with that email and password"
       );
@@ -37,7 +37,7 @@ export class UserAPI {
 
   static getAllUsers = async (): Promise<IUser[]> => {
     try {
-      const res = await instance.get("users");
+      const res = await herokuInstance.get("users");
       return res.data;
     } catch (err: any) {
       SnackbarService.error(err.message);
@@ -50,7 +50,7 @@ export class UserAPI {
       data: { users: users },
     };
     try {
-      const res = await instance.patch("users", config);
+      const res = await herokuInstance.patch("users", config);
       return res.data;
     } catch {
       SnackbarService.error("that user already exists, please try logging in");

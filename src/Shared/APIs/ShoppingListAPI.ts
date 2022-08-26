@@ -1,12 +1,12 @@
 import { IShoppingListItem } from "../Types";
 import { userEmail } from "../../Shared/AppBehaviors";
-import { instance } from "../axiosInstance";
+import { herokuInstance } from "../axiosInstance";
 import { AxiosRequestConfig } from "axios";
 
 export class ShoppingListAPI {
   static get = async (): Promise<IShoppingListItem[]> => {
     const url = `shoppingList/${userEmail()}`;
-    const res = await instance.get(url);
+    const res = await herokuInstance.get(url);
     return res.data.list;
   };
 
@@ -16,7 +16,7 @@ export class ShoppingListAPI {
       data: { recipeId },
     };
     try {
-      const res = await instance.post(url, config);
+      const res = await herokuInstance.post(url, config);
       return res.data;
     } catch {
       return { message: "unknown error", error: true };
@@ -28,7 +28,7 @@ export class ShoppingListAPI {
     const config: AxiosRequestConfig = {
       data: { recipeId },
     };
-    const res = await instance.delete(url, config);
+    const res = await herokuInstance.delete(url, config);
     return res.data;
   };
 
@@ -37,7 +37,7 @@ export class ShoppingListAPI {
     const config: AxiosRequestConfig = {
       data: { list },
     };
-    const res = await instance.patch(url, config);
+    const res = await herokuInstance.patch(url, config);
     return res.data;
   };
 }
