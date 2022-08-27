@@ -1,5 +1,5 @@
 import { IRecipe, IReview } from "../Types";
-import { herokuInstance, netlifyInstance } from "../axiosInstance";
+import { netlifyInstance } from "../axiosInstance";
 import { AxiosRequestConfig } from "axios";
 
 interface FiltersPayload {

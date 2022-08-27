@@ -1,6 +1,6 @@
 import { IUser } from "../Types";
 import { SnackbarService } from "../SnackbarService";
-import { herokuInstance } from "../axiosInstance";
+import { herokuInstance, netlifyInstance } from "../axiosInstance";
 import { AxiosRequestConfig } from "axios";
 import { logIn } from "../AppBehaviors";
 
@@ -37,8 +37,8 @@ export class UserAPI {
 
   static getAllUsers = async (): Promise<IUser[]> => {
     try {
-      const res = await herokuInstance.get("users");
-      return res.data;
+      const { data } = await netlifyInstance.get("get-all-users");
+      return data.users;
     } catch (err: any) {
       SnackbarService.error(err.message);
       return [];
