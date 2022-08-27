@@ -4,7 +4,6 @@ import { middy, authMiddleware } from "../../utils/middleware";
 
 const updateShoppingListItem: Handler = async (event, context) => {
   const body = JSON.parse(event.body || "");
-  console.log("got body. ", body);
   const { id, ingredients }: any = body.data.list;
   const user_email = body.data.userEmail;
 

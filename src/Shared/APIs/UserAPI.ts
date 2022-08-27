@@ -47,10 +47,10 @@ export class UserAPI {
 
   static updateUsers = async (users: IUser[]) => {
     const config: AxiosRequestConfig = {
-      data: { users: users },
+      data: { users },
     };
     try {
-      const res = await herokuInstance.patch("users", config);
+      const res = await netlifyInstance.patch("update-user-permission", config);
       return res.data;
     } catch {
       SnackbarService.error("that user already exists, please try logging in");
