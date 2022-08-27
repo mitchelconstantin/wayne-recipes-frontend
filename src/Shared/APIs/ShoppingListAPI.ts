@@ -1,6 +1,6 @@
 import { IShoppingListItem } from "../Types";
 import { userEmail } from "../../Shared/AppBehaviors";
-import { netlifyInstance, herokuInstance } from "../axiosInstance";
+import { netlifyInstance } from "../axiosInstance";
 import { AxiosRequestConfig } from "axios";
 
 export class ShoppingListAPI {
@@ -34,11 +34,11 @@ export class ShoppingListAPI {
   };
 
   static update = async (list: IShoppingListItem) => {
-    const url = `shoppingList/${userEmail()}`;
+    const url = `update-shopping-list-item`;
     const config: AxiosRequestConfig = {
-      data: { list },
+      data: { list, userEmail: userEmail() },
     };
-    const res = await herokuInstance.patch(url, config);
+    const res = await netlifyInstance.patch(url, config);
     return res.data;
   };
 }
