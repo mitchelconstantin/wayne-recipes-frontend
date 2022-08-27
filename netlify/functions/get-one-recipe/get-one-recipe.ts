@@ -7,7 +7,7 @@ const getOneRecipe: Handler = async (event, context) => {
   const dbId = decode(event.queryStringParameters?.id);
 
   const { data, error } = await supabase
-    .from("Recipes")
+    .from("recipes")
     .select(
       `*,
     reviews (

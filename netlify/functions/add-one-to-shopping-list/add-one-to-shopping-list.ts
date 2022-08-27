@@ -35,7 +35,7 @@ const addOneToShoppingList: Handler = async (event, context) => {
 
   //else, get the recipe, then insert it into the shoppingList
   const recipeToAdd = await supabase
-    .from("Recipes")
+    .from("recipes")
     .select("ingredients")
     .match({ id: recipe_id })
     .limit(1)

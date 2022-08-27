@@ -7,7 +7,7 @@ const createFilterList = (arr: any[], field: string) => {
 };
 
 const getAllFilters: Handler = async (event, context) => {
-  const { data } = await supabase.from("Recipes").select(
+  const { data } = await supabase.from("recipes").select(
     `
     source,
     mainIngredient,

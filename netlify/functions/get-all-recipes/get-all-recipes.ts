@@ -4,16 +4,8 @@ import { middy } from "../../utils/middleware";
 import { encode } from "../../utils/hashIds";
 
 const getAllRecipes: Handler = async (event, context) => {
-  // const { name = "stranger" } = event.queryStringParameters;
-
-  // const preRecipes = await db.any(
-  //   'select "Recipes".id, title, picture, type, source, "mainIngredient", region, type, avg(reviews.score) as rating FROM "Recipes" LEFT JOIN reviews ON "Recipes".id = reviews.recipe_id GROUP BY "Recipes".id ORDER BY "title" ASC'
-  // );
-
-  // const recipes = preRecipes.map(configureRecipe);
-  // res.json({ recipes });
   const { data, error } = await supabase
-    .from("Recipes")
+    .from("recipes")
     .select(
       `id,
     title,
@@ -51,8 +43,3 @@ const getAllRecipes: Handler = async (event, context) => {
 };
 
 exports.handler = middy(getAllRecipes);
-
-//how to use middleware
-// .use(
-//   authMiddleware({ isAdminRoute: true })
-// );

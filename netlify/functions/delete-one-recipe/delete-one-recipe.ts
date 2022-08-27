@@ -7,7 +7,7 @@ const deleteOneRecipe: Handler = async (event, context) => {
   const dbId = decode(event.queryStringParameters?.id);
   console.log("trying to delete", dbId);
   const { data, error } = await supabase
-    .from("Recipes")
+    .from("recipes")
     .delete()
     .eq("id", dbId);
 
