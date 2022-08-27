@@ -1,6 +1,6 @@
 import { IUser } from "../Types";
 import { SnackbarService } from "../SnackbarService";
-import { herokuInstance, netlifyInstance } from "../axiosInstance";
+import { netlifyInstance } from "../axiosInstance";
 import { AxiosRequestConfig } from "axios";
 import { logIn } from "../AppBehaviors";
 
@@ -26,7 +26,7 @@ export class UserAPI {
       data: { user: userCopy },
     };
     try {
-      await herokuInstance.post("users", config);
+      await netlifyInstance.post("create-one-user", config);
       SnackbarService.success(
         "user created, now login with that email and password"
       );
