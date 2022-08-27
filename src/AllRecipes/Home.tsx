@@ -17,8 +17,9 @@ import { RecipeList } from "./RecipeList";
 import { RecipeTransform } from "./RecipeTransform";
 import { ShowFiltersChip } from "./ShowFiltersChip";
 import { useHistory } from "react-router-dom";
-import { isEqual, debounce } from "lodash";
+import { isEqual, debounce, isEmpty } from "lodash";
 import { grey } from "@mui/material/colors";
+import { getLocalRecipes, storeLocalRecipes } from "../Shared/AppBehaviors";
 
 const useStyles = makeStyles((theme: any) => ({
   searchContainer: {
@@ -54,9 +55,9 @@ const useStyles = makeStyles((theme: any) => ({
 }));
 
 export const Home = () => {
-  const [recipes, setRecipes] = useState<IRecipe[]>([]);
+  const [recipes, setRecipes] = useState<IRecipe[]>(getLocalRecipes());
   const [filteredRecipes, setFilteredRecipes] = useState<IRecipe[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
   const [selectedFilters, setSelectedFilters] = useState(emptyFilters);
   const [searchTerm, setSearchTerm] = useState("");
@@ -64,6 +65,7 @@ export const Home = () => {
   const classes = useStyles();
   useEffect(() => {
     RecipeAPI.getAllRecipes().then((recipes) => {
+      storeLocalRecipes(recipes);
       setRecipes(recipes);
       setFilteredRecipes(recipes);
       setLoading(false);
@@ -155,7 +157,7 @@ export const Home = () => {
           setSelectedFilters={setSelectedFilters}
         />
       </Paper>
-      <RecipeList loading={loading} recipes={filteredRecipes} />
+      <RecipeList loading={isEmpty(recipes)} recipes={filteredRecipes} />
     </>
   );
 };

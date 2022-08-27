@@ -2,11 +2,11 @@ import axios from "axios";
 import { getToken, logOut } from "./AppBehaviors";
 import { SnackbarService } from "./SnackbarService";
 
-const instance = axios.create({
-  baseURL: `${process.env.REACT_APP_API_URL}/api/`,
+const netlifyInstance = axios.create({
+  baseURL: `/.netlify/functions/`,
 });
 
-instance.interceptors.request.use(
+netlifyInstance.interceptors.request.use(
   function (config) {
     const token = getToken();
     config.headers.Authorization = token;
@@ -18,7 +18,7 @@ instance.interceptors.request.use(
   }
 );
 
-instance.interceptors.response.use(
+netlifyInstance.interceptors.response.use(
   (response) => {
     return response;
   },
@@ -43,4 +43,4 @@ instance.interceptors.response.use(
   }
 );
 
-export { instance };
+export { netlifyInstance };

@@ -13,24 +13,20 @@ import { Dropdown } from "./Dropdown";
 import { DeleteRecipeDialog } from "./DeleteRecipeDialog";
 
 const getRecipeData = async (recipeId: string) => {
-  let recipe;
-  if (!recipeId) {
-    recipe = emptyRecipe;
-  } else {
-    recipe = await RecipeAPI.getRecipe(recipeId);
-  }
+  const recipe = recipeId ? await RecipeAPI.getRecipe(recipeId) : emptyRecipe;
   const filters = await RecipeAPI.getFilters();
+
   if (!recipe) {
     SnackbarService.error("could not find that recipe");
     window.location.href = "/";
+    return {};
   }
   return { recipe: { ...recipe }, filters: { ...filters } };
 };
 
 const saveRecipe = async (recipe: IRecipe) => {
-  const json = await RecipeAPI.saveRecipe(recipe);
-  SnackbarService.success("recipe saved");
-  setTimeout(() => (window.location.href = `/r/${json.id}`), 1500);
+  const { id } = await RecipeAPI.saveRecipe(recipe);
+  setTimeout(() => (window.location.href = `/r/${id}`), 1500);
 };
 
 export const UpdateRecipe = () => {
@@ -43,8 +39,8 @@ export const UpdateRecipe = () => {
 
   useEffect(() => {
     getRecipeData(recipeId).then(({ recipe, filters }) => {
-      setFilters(filters);
-      setRecipe(recipe);
+      filters && setFilters(filters);
+      recipe && setRecipe(recipe);
       setLoading(false);
     });
   }, []);

@@ -1,22 +1,23 @@
 import { IShoppingListItem } from "../Types";
 import { userEmail } from "../../Shared/AppBehaviors";
-import { instance } from "../axiosInstance";
+import { netlifyInstance } from "../axiosInstance";
 import { AxiosRequestConfig } from "axios";
 
 export class ShoppingListAPI {
   static get = async (): Promise<IShoppingListItem[]> => {
-    const url = `shoppingList/${userEmail()}`;
-    const res = await instance.get(url);
-    return res.data.list;
+    const { data } = await netlifyInstance.get(
+      `get-user-shopping-list/?email=${userEmail()}`
+    );
+    return data.list;
   };
 
   static addToList = async (recipeId?: string) => {
-    const url = `shoppingList/${userEmail()}`;
+    const url = `add-one-to-shopping-list/`;
     const config: AxiosRequestConfig = {
-      data: { recipeId },
+      data: { recipeId, userEmail: userEmail() },
     };
     try {
-      const res = await instance.post(url, config);
+      const res = await netlifyInstance.post(url, config);
       return res.data;
     } catch {
       return { message: "unknown error", error: true };
@@ -24,20 +25,20 @@ export class ShoppingListAPI {
   };
 
   static removeFromList = async (recipeId: string) => {
-    const url = `shoppingList/${userEmail()}`;
+    const url = `remove-one-from-shopping-list/`;
     const config: AxiosRequestConfig = {
-      data: { recipeId },
+      data: { recipeId, userEmail: userEmail() },
     };
-    const res = await instance.delete(url, config);
+    const res = await netlifyInstance.delete(url, config);
     return res.data;
   };
 
   static update = async (list: IShoppingListItem) => {
-    const url = `shoppingList/${userEmail()}`;
+    const url = `update-shopping-list-item`;
     const config: AxiosRequestConfig = {
-      data: { list },
+      data: { list, userEmail: userEmail() },
     };
-    const res = await instance.patch(url, config);
+    const res = await netlifyInstance.patch(url, config);
     return res.data;
   };
 }

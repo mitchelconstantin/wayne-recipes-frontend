@@ -1,6 +1,7 @@
 import { IRecipe, IReview } from "../Types";
-import { instance } from "../axiosInstance";
+import { netlifyInstance } from "../axiosInstance";
 import { AxiosRequestConfig } from "axios";
+import { SnackbarService } from "../SnackbarService";
 
 interface FiltersPayload {
   regions: string[];
@@ -12,28 +13,30 @@ interface FiltersPayload {
 
 export class RecipeAPI {
   static getAllRecipes = async (): Promise<IRecipe[]> => {
-    const res = await instance.get("recipes");
-    return res.data.recipes;
+    const { data } = await netlifyInstance.get("get-all-recipes");
+    return data.recipes;
   };
 
   static getFilters = async (): Promise<FiltersPayload> => {
-    const res = await instance.get("recipes/filters");
-    return res.data;
+    const { data } = await netlifyInstance.get("get-all-filters");
+    return data;
   };
 
-  static getRecipe = async (id: string): Promise<IRecipe> => {
+  static getRecipe = async (id: string): Promise<IRecipe | null> => {
     try {
-      const res = await instance.get(`recipes/${id}`);
-      return res.data;
-    } catch {
-      window.location.href = "/all";
-      //@ts-ignore
-      return;
+      const { data } = await netlifyInstance.get(`get-one-recipe/?id=${id}`);
+      console.log("got here, returning data", data);
+      return data.recipe;
+    } catch (e) {
+      console.log("got netlify err", e);
+      SnackbarService.error("Error fetching recipe");
+      setTimeout(() => (window.location.href = "/all"), 1500);
+      return null;
     }
   };
 
   static deleteRecipe = async (id: string) => {
-    await instance.delete(`recipes/${id}`);
+    await netlifyInstance.delete(`delete-one-recipe/?id=${id}`);
     return;
   };
 
@@ -41,15 +44,23 @@ export class RecipeAPI {
     const config: AxiosRequestConfig = {
       data: { recipe },
     };
-    const res = await instance.patch(`recipes/${recipe.id}`, config);
-    return res.data;
+    try {
+      const { data } = await netlifyInstance.patch(
+        `patch-one-recipe/?id=${recipe.id}`,
+        config
+      );
+      SnackbarService.success(`successfully updated ${data.recipe.title}`);
+      return data.recipe;
+    } catch {
+      SnackbarService.error("error updating recipe");
+    }
   };
 
   static reviewRecipe = async (review: IReview): Promise<string> => {
     const config: AxiosRequestConfig = {
       data: { review },
     };
-    const res = await instance.post("reviews", config);
+    const res = await netlifyInstance.post("post-one-review", config);
     return res.data;
   };
 
@@ -57,14 +68,15 @@ export class RecipeAPI {
     userEmail: string,
     recipeId: string
   ): Promise<IReview | undefined> => {
-    const url = `reviews/${recipeId}/${userEmail}`;
-    const res = await instance.get(url);
-    return res.data;
+    const url = `get-user-recipe-review/?recipeId=${recipeId}&email=${userEmail}`;
+    const { data } = await netlifyInstance.get(url);
+    return data.review;
   };
 
-  static getReviews = async (id: string): Promise<IReview[]> => {
-    const res = await instance.get(`reviews/${id}`);
-    return res.data;
+  static getReviews = async (recipeId: string): Promise<IReview[]> => {
+    const url = `get-all-recipe-reviews/?recipeId=${recipeId}`;
+    const { data } = await netlifyInstance.get(url);
+    return data.reviews;
   };
 
   static uploadImage = async (
@@ -74,7 +86,7 @@ export class RecipeAPI {
     const config: AxiosRequestConfig = {
       data: { image, recipeId },
     };
-    const res = await instance.post("image", config);
+    const res = await netlifyInstance.post("upload-one-photo", config);
     return res.data.link;
   };
 }

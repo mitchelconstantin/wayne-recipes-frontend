@@ -24,12 +24,15 @@ export const ShoppingList = () => {
   }, [load]);
   const [Container, Buttons] = [Box, Box];
 
-  const updateShoppingList = (newRecipe: IShoppingListItem[], i: number) => {
+  const updateShoppingList = async (
+    newRecipe: IShoppingListItem[],
+    i: number
+  ) => {
     //@ts-ignore
     const newList = [...shoppingList];
     newList[i].ingredients = newRecipe.join("\n");
     setShoppingList(newList);
-    ShoppingListAPI.update(newList[i]);
+    await ShoppingListAPI.update(newList[i]);
     setLoad(load + 1);
   };
 

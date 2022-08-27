@@ -1,7 +1,8 @@
-import { emptyUser, IUser } from "./Types";
+import { emptyUser, IRecipe, IUser } from "./Types";
 import jwt_decode from "jwt-decode";
 
 const TOKEN = "token";
+const LOCAL_RECIPES = "localRecipes";
 
 export const logIn = (token: string) => {
   localStorage.setItem(TOKEN, token);
@@ -22,4 +23,14 @@ export const getUserInfo = (): IUser => {
   if (!token) return emptyUser;
   const decoded: IUser = jwt_decode(token);
   return decoded;
+};
+
+export const getLocalRecipes = (): IRecipe[] => {
+  const r = localStorage.getItem(LOCAL_RECIPES) || null;
+  return r ? JSON.parse(r) : [];
+};
+
+export const storeLocalRecipes = (recipes: IRecipe[]) => {
+  const stringified = JSON.stringify(recipes);
+  localStorage.setItem(LOCAL_RECIPES, stringified);
 };
