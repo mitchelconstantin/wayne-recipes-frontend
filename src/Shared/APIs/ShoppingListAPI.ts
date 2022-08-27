@@ -12,12 +12,12 @@ export class ShoppingListAPI {
   };
 
   static addToList = async (recipeId?: string) => {
-    const url = `add-one-to-shopping-list/?email=${userEmail()}`;
+    const url = `add-one-to-shopping-list/`;
     const config: AxiosRequestConfig = {
-      data: { recipeId },
+      data: { recipeId, userEmail: userEmail() },
     };
     try {
-      const res = await herokuInstance.post(url, config);
+      const res = await netlifyInstance.post(url, config);
       return res.data;
     } catch {
       return { message: "unknown error", error: true };
