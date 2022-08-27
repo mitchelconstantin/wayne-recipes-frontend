@@ -18,6 +18,14 @@ const getOneRecipe: Handler = async (event, context) => {
     .eq("id", dbId)
     .limit(1)
     .single();
+  if (!data) {
+    return {
+      statusCode: 404,
+      body: JSON.stringify({
+        error: "Could not find recipe",
+      }),
+    };
+  }
 
   const recipe = {
     ...data,

@@ -1,6 +1,7 @@
 import { IRecipe, IReview } from "../Types";
 import { netlifyInstance } from "../axiosInstance";
 import { AxiosRequestConfig } from "axios";
+import { SnackbarService } from "../SnackbarService";
 
 interface FiltersPayload {
   regions: string[];
@@ -21,14 +22,16 @@ export class RecipeAPI {
     return data;
   };
 
-  static getRecipe = async (id: string): Promise<IRecipe> => {
+  static getRecipe = async (id: string): Promise<IRecipe | null> => {
     try {
       const { data } = await netlifyInstance.get(`get-one-recipe/?id=${id}`);
+      console.log("got here, returning data", data);
       return data.recipe;
     } catch (e) {
       console.log("got netlify err", e);
-      window.location.href = "/all";
-      throw new Error();
+      SnackbarService.error("Error fetching recipe");
+      setTimeout(() => (window.location.href = "/all"), 1500);
+      return null;
     }
   };
 
@@ -41,11 +44,16 @@ export class RecipeAPI {
     const config: AxiosRequestConfig = {
       data: { recipe },
     };
-    const { data } = await netlifyInstance.patch(
-      `patch-one-recipe/?id=${recipe.id}`,
-      config
-    );
-    return data.recipe;
+    try {
+      const { data } = await netlifyInstance.patch(
+        `patch-one-recipe/?id=${recipe.id}`,
+        config
+      );
+      SnackbarService.success(`successfully updated ${data.recipe.title}`);
+      return data.recipe;
+    } catch {
+      SnackbarService.error("error updating recipe");
+    }
   };
 
   static reviewRecipe = async (review: IReview): Promise<string> => {

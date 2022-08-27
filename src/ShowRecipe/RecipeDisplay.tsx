@@ -93,11 +93,11 @@ export const RecipeDisplay = () => {
     img.src = url;
   };
 
-  const loadRecipe = () => {
-    RecipeAPI.getRecipe(recipeId).then((recipe) => {
-      setRecipe(recipe);
-      setLoading(false);
-    });
+  const loadRecipe = async () => {
+    const recipe = await RecipeAPI.getRecipe(recipeId);
+    if (!recipe) return;
+    setRecipe(recipe);
+    setLoading(false);
   };
 
   useEffect(() => {
