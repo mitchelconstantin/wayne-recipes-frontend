@@ -10,7 +10,7 @@ const getUserShoppingList: Handler = async (event, context) => {
     .from("shoppinglist")
     .select(
       `*,
-    recipe:Recipes (
+    recipe:recipes (
       title,
       picture
       )

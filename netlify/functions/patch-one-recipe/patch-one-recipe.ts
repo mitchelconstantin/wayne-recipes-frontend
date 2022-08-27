@@ -22,7 +22,7 @@ const patchOneRecipe: Handler = async (event, context) => {
     type: r.type,
   };
 
-  const { data, error } = await supabase.from("Recipes").upsert(recipeToUpdate);
+  const { data, error } = await supabase.from("recipes").upsert(recipeToUpdate);
 
   const updatedRecipe = data && data[0];
 
