@@ -27,7 +27,13 @@ export const getUserInfo = (): IUser => {
 
 export const getLocalRecipes = (): IRecipe[] => {
   const r = localStorage.getItem(LOCAL_RECIPES) || null;
-  return r ? JSON.parse(r) : [];
+  if (!r) return [];
+  try {
+    const result = JSON.parse(r);
+    return result;
+  } catch (err) {
+    return [];
+  }
 };
 
 export const storeLocalRecipes = (recipes: IRecipe[]) => {
