@@ -10,7 +10,8 @@ export class UserAPI {
       data: { user },
     };
     try {
-      const res = await herokuInstance.post("login", config);
+      const res = await netlifyInstance.post("log-user-in", config);
+      console.log("response", res);
       logIn(res.data.token);
       SnackbarService.success("you are now logged in");
       return true;
