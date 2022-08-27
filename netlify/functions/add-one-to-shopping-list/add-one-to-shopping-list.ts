@@ -15,8 +15,6 @@ const addOneToShoppingList: Handler = async (event, context) => {
     .match({ user_email, recipe_id })
     .limit(1)
     .single();
-  console.log("data", data);
-  console.log("error", error);
 
   // if there is a count, then increase it by one
   if (data) {
@@ -26,7 +24,6 @@ const addOneToShoppingList: Handler = async (event, context) => {
       .match({
         id: data.id,
       });
-    console.log("call2", existingRecipe);
     return {
       statusCode: 200,
       body: JSON.stringify({

@@ -25,11 +25,11 @@ export class ShoppingListAPI {
   };
 
   static removeFromList = async (recipeId: string) => {
-    const url = `shoppingList/${userEmail()}`;
+    const url = `remove-one-from-shopping-list/`;
     const config: AxiosRequestConfig = {
-      data: { recipeId },
+      data: { recipeId, userEmail: userEmail() },
     };
-    const res = await herokuInstance.delete(url, config);
+    const res = await netlifyInstance.delete(url, config);
     return res.data;
   };
 
