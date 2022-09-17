@@ -36,7 +36,7 @@ netlifyInstance.interceptors.response.use(
       );
     } else {
       SnackbarService.error(
-        error?.response?.data?.message || "unknown error occured"
+        error?.response?.data?.message || "unknown error occurred"
       );
     }
     return Promise.reject(error);
