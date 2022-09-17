@@ -1,4 +1,4 @@
-import { SyntheticEvent, useState } from "react";
+import { useState } from "react";
 import ReactDOM from "react-dom";
 import {
   Snackbar,
@@ -31,7 +31,7 @@ export const CustomSnackbar = ({ message, severity }: Props) => {
   const theme = getTheme(darkThemeEnabled);
   const isMobile = useMobileQuery();
 
-  const handleClose = (_event?: SyntheticEvent, reason?: string) => {
+  const handleClose = (_event: any, reason?: string) => {
     if (reason === "clickaway") return;
     setOpen(false);
   };
