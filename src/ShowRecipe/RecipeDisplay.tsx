@@ -63,9 +63,8 @@ export const RecipeDisplay = () => {
           alt={recipe.title}
           onError={(e: any) => { e.target.src = noImage; }}
           style={{
-            maxWidth: "100%",
+            width: "100%",
             maxHeight: "80vh",
-            width: "auto",
             height: "auto",
             display: "block",
             borderRadius: "20px",
