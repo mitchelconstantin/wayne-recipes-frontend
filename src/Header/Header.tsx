@@ -21,7 +21,7 @@ export const Header = () => {
   const trigger = useScrollTrigger();
 
   return (
-    <Box>
+    <Box sx={{ "@media print": { display: "none" } }}>
       <CssBaseline />
       <Slide appear={false} direction="down" in={!trigger}>
         <AppBar sx={{ background: "linear-gradient(90deg, #f44723, #f67030)" }}>

@@ -29,6 +29,7 @@
     "lodash": "^4.17.21",
     "middy": "^0.36.0",
     "preval.macro": "^5.0.0",
+    "qrcode.react": "^4.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-dropzone": "^15.0.0",

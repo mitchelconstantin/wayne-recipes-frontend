@@ -11,11 +11,14 @@ interface PrintButtonProps {
 }
 export const PrintButton = ({ label }: PrintButtonProps) => {
   return (
-    <Tooltip title={`Print ${label}`}>
-      <IconButton onClick={window.print} size="large">
-        <Print />
-      </IconButton>
-    </Tooltip>
+    <IconButton
+      onClick={window.print}
+      size="large"
+      aria-label={`Print ${label}`}
+      sx={{ "@media print": { display: "none" } }}
+    >
+      <Print />
+    </IconButton>
   );
 };
 
@@ -34,7 +37,11 @@ export const AddToShoppingListButton = ({ recipe }: ShoppingButtonProps) => {
   };
   return (
     <Tooltip title="Add to Shopping List">
-      <IconButton onClick={addToShoppingList} aria-label="add to list" size="large">
+      <IconButton
+        onClick={addToShoppingList}
+        aria-label="add to list"
+        size="large"
+      >
         <AddShoppingCart />
       </IconButton>
     </Tooltip>
@@ -61,17 +68,23 @@ interface ImadeItButtonProps {
 export const IMadeItButton = ({ recipe, reloadRecipe }: ImadeItButtonProps) => {
   const [openModal, setOpenModal] = useState(false);
 
-  return <>
-    <Tooltip title="Leave a review">
-      <IconButton onClick={() => setOpenModal(true)} aria-label="rate recipe" size="large">
-        <Grade />
-      </IconButton>
-    </Tooltip>
-    <RateRecipeDialog
-      open={openModal}
-      recipe={recipe}
-      reloadRecipe={reloadRecipe}
-      handleClose={() => setOpenModal(false)}
-    />
-  </>;
+  return (
+    <>
+      <Tooltip title="Leave a review">
+        <IconButton
+          onClick={() => setOpenModal(true)}
+          aria-label="rate recipe"
+          size="large"
+        >
+          <Grade />
+        </IconButton>
+      </Tooltip>
+      <RateRecipeDialog
+        open={openModal}
+        recipe={recipe}
+        reloadRecipe={reloadRecipe}
+        handleClose={() => setOpenModal(false)}
+      />
+    </>
+  );
 };

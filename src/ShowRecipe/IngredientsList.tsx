@@ -14,7 +14,7 @@ export const IngredientsList = ({ ingredients }: props) => {
 
   return (
     <Box mt={3} mb={2}>
-      <Typography variant={isMobile ? "h5" : "h4"} sx={{ mb: 1.5 }}>
+      <Typography variant={isMobile ? "h5" : "h4"} sx={{ mb: 1.5, "@media print": { color: "black" } }}>
         Ingredients
       </Typography>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
@@ -26,15 +26,18 @@ export const IngredientsList = ({ ingredients }: props) => {
                 height: 5,
                 borderRadius: "50%",
                 backgroundColor: "primary.main",
+                border: "1.5px solid",
+                borderColor: "primary.main",
                 flexShrink: 0,
                 mt: "2px",
+                "@media print": { backgroundColor: "black", borderColor: "black" },
               }}
             />
             <Typography
               sx={{
                 fontSize: "1rem",
                 lineHeight: 1.6,
-                "@media print": { fontSize: "1.2rem" },
+                "@media print": { color: "black" },
               }}
             >
               {line}

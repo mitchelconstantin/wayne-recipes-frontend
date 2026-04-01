@@ -20,10 +20,10 @@ export const RecipeSpecifications = ({ recipe }: props) => {
     <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, mt: 1.5, mb: 1 }}>
       {specs.map(({ label, value }) => (
         <Box key={label}>
-          <Typography variant="caption" color="text.disabled" sx={{ display: "block", lineHeight: 1.2 }}>
+          <Typography variant="caption" color="text.disabled" sx={{ display: "block", lineHeight: 1.2, "@media print": { color: "black" } }}>
             {label}
           </Typography>
-          <Typography variant="body2" fontWeight={500}>
+          <Typography variant="body2" fontWeight={500} sx={{ "@media print": { color: "black" } }}>
             {value}
           </Typography>
         </Box>

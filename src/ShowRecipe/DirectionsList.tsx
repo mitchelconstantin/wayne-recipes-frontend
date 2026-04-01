@@ -14,7 +14,7 @@ export const DirectionsList = ({ directions }: props) => {
 
   return (
     <Box mt={3} mb={2}>
-      <Typography variant={isMobile ? "h5" : "h4"} sx={{ mb: 1.5 }}>
+      <Typography variant={isMobile ? "h5" : "h4"} sx={{ mb: 1.5, "@media print": { color: "black" } }}>
         Directions
       </Typography>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
@@ -42,7 +42,7 @@ export const DirectionsList = ({ directions }: props) => {
               sx={{
                 fontSize: "1rem",
                 lineHeight: 1.7,
-                "@media print": { fontSize: "1.2rem" },
+                "@media print": { color: "black" },
               }}
             >
               {step}

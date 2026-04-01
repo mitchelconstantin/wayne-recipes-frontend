@@ -13,6 +13,7 @@ import { IngredientsList } from "./IngredientsList";
 import { Rating } from "@mui/material";
 import { useMobileQuery } from "../Shared/Hooks/isMobile";
 import { ReviewsChartDialog } from "./ReviewsChartDialog";
+import { QRCodeSVG } from "qrcode.react";
 
 export const RecipeDisplay = () => {
   const { state } = useLocation();
@@ -83,20 +84,29 @@ export const RecipeDisplay = () => {
           pb: { xs: 2, md: 3 },
         }}
       >
-        <Box display="flex" flexDirection="column">
-          <Typography variant={isMobile ? "h5" : "h3"}>
-            {recipe.title}
-          </Typography>
-          <Box display="flex" flexDirection="row" alignItems="center">
-            <Rating name="read-only" precision={0.5} value={recipe.rating} readOnly />
-            <IconButton
-              disabled={!recipe.numberOfReviews}
-              size="small"
-              color="primary"
-              onClick={() => setOpenReviewsDialog(true)}
-            >
-              {`(${recipe.numberOfReviews || 0})`}
-            </IconButton>
+        <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", gap: 4 }}>
+          <Box display="flex" flexDirection="column">
+            <Typography variant={isMobile ? "h5" : "h3"} sx={{ "@media print": { color: "black" } }}>
+              {recipe.title}
+            </Typography>
+            <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", "@media print": { display: "none" } }}>
+              <Rating name="read-only" precision={0.5} value={recipe.rating} readOnly />
+              <IconButton
+                disabled={!recipe.numberOfReviews}
+                size="small"
+                color="primary"
+                onClick={() => setOpenReviewsDialog(true)}
+              >
+                {`(${recipe.numberOfReviews || 0})`}
+              </IconButton>
+            </Box>
+            <RecipeSpecifications recipe={recipe} />
+          </Box>
+          <Box sx={{ display: "none", "@media print": { display: "flex" }, flexDirection: "column", alignItems: "center", gap: 0.5, flexShrink: 0 }}>
+            <QRCodeSVG value={window.location.href} size={80} />
+            <Typography variant="caption" sx={{ color: "black", textAlign: "center", maxWidth: 80, wordBreak: "break-all", fontSize: "0.55rem" }}>
+              {window.location.href}
+            </Typography>
           </Box>
         </Box>
 
@@ -105,6 +115,7 @@ export const RecipeDisplay = () => {
             display: "flex",
             flexDirection: { xs: "column", md: "row" },
             alignItems: { xs: "left", md: "center" },
+            "@media print": { display: "none" },
           }}
         >
           <RecipeDisplayButtons reloadRecipe={loadRecipe} recipe={recipe} />
@@ -115,7 +126,6 @@ export const RecipeDisplay = () => {
           </Box>
         </Box>
         <Divider />
-        <RecipeSpecifications recipe={recipe} />
         <IngredientsList ingredients={recipe.ingredients} />
         <DirectionsList directions={recipe.directions} />
       </Grid>
