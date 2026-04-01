@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { RecipeCard } from "./RecipeCard";
-import { Grid, Typography, Pagination } from "@mui/material";
+import { Grid, Typography, Pagination, Divider } from "@mui/material";
 import { IRecipe } from "../Shared/Types";
 import { Loading } from "../Shared/Components/Loading";
 import { Warning } from "@mui/icons-material";
@@ -62,21 +62,26 @@ export const RecipeList = ({ loading, recipes }: Props) => {
         {!isEmpty(recipes) &&
           recipes.map((recipe, i) =>
             isInRange(i) ? (
-              <Grid size={{ xs: 6, sm: 4, md: 3, lg: 3, xl: 2 }} key={recipe.id}>
+              <Grid size={{ xs: 6, sm: 4, md: 3, lg: 2, xl: 2 }} key={recipe.id}>
                 <RecipeCard recipe={recipe} />
               </Grid>
             ) : undefined
           )}
       </Grid>
-      <Grid>
-        <Pagination
-          count={Math.ceil(recipes.length / 30)}
-          page={page}
-          color="primary"
-          onChange={handleChange}
-          style={{ padding: "16px" }}
-        />
-      </Grid>
+      {Math.ceil(recipes.length / 30) > 1 && (
+        <Grid sx={{ width: "100%" }}>
+          <Divider sx={{ mt: 2, mb: 1 }} />
+          <Pagination
+            count={Math.ceil(recipes.length / 30)}
+            page={page}
+            color="primary"
+            shape="rounded"
+            size={isMobile ? "small" : "large"}
+            onChange={handleChange}
+            sx={{ display: "flex", justifyContent: "center", py: 2 }}
+          />
+        </Grid>
+      )}
     </Grid>
   );
 };

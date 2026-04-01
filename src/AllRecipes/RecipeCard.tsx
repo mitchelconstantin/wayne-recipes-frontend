@@ -58,11 +58,14 @@ export const RecipeCard = ({ recipe }: Props) => {
             bottom: 0,
             left: 0,
             right: 0,
-            height: { xs: "62px", md: "72px" },
-            background: "rgba(0,0,0,0.45)",
-            backdropFilter: "blur(8px)",
-            WebkitBackdropFilter: "blur(8px)",
-            p: { xs: 0.75, md: 1.25 },
+            height: { xs: "66px", md: "78px" },
+            background: "rgba(0,0,0,0.3)",
+            backdropFilter: "blur(4px)",
+            WebkitBackdropFilter: "blur(4px)",
+            borderRadius: "10px 10px 0 0",
+            px: { xs: 0.75, md: 1.25 },
+            pt: { xs: 0.75, md: 1.25 },
+            pb: { xs: 1.25, md: 1.75 },
             display: "flex",
             flexDirection: "column",
             justifyContent: "flex-end",
@@ -76,21 +79,21 @@ export const RecipeCard = ({ recipe }: Props) => {
               fontSize: { xs: "0.82rem", md: "0.9rem" },
               lineHeight: 1.3,
               display: "-webkit-box",
-              WebkitLineClamp: 3,
+              WebkitLineClamp: 2,
               WebkitBoxOrient: "vertical",
               overflow: "hidden",
             }}
           >
             {recipe.title}
           </Typography>
-          {recipe.source && (
-            <Typography
+          <Typography
               variant="caption"
               sx={{
                 color: "rgba(255,255,255,0.75)",
                 fontSize: { xs: "0.7rem", md: "0.72rem" },
                 display: "block",
                 mt: 0.25,
+                minHeight: "1em",
                 textOverflow: "ellipsis",
                 whiteSpace: "nowrap",
                 overflow: "hidden",
@@ -98,7 +101,6 @@ export const RecipeCard = ({ recipe }: Props) => {
             >
               {recipe.source}
             </Typography>
-          )}
         </Box>
       </CardActionArea>
     </Card>

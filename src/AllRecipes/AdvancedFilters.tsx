@@ -84,11 +84,11 @@ export const AdvancedFilters = ({
         <Grid container spacing={1.5}>
           <Grid size={{ xs: 6 }}>
             <FormControl fullWidth size="small">
-              <InputLabel sx={{ fontSize: "0.8rem" }}>Main Ingredient</InputLabel>
+              <InputLabel sx={{ fontSize: "0.8rem" }}>Ingredient</InputLabel>
               <Select
                 value={selectedFilters.mainIngredient}
                 name="mainIngredient"
-                label="Main Ingredient"
+                label="Ingredient"
                 //@ts-ignore
                 onChange={handleChange}
                 MenuProps={{ PaperProps: { sx: menuPaperSx } }}
