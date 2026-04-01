@@ -11,14 +11,14 @@ import {
   Tooltip,
 } from "@mui/material";
 import { DarkMode, LightMode } from "@mui/icons-material";
-import { grey } from "@mui/material/colors";
 import { DarkThemeContext } from "../App";
 import { HeaderButtons } from "./HeaderButtons";
 import logo from "../Shared/Images/logo.svg";
 import { Link } from "react-router-dom";
 
 export const Header = () => {
-  const { darkThemeEnabled, toggleDarkThemeEnabled } = useContext(DarkThemeContext);
+  const { darkThemeEnabled, toggleDarkThemeEnabled } =
+    useContext(DarkThemeContext);
   const trigger = useScrollTrigger();
 
   return (
@@ -71,12 +71,22 @@ export const Header = () => {
             </Typography>
             {/* Spacer on mobile so buttons stay right-aligned */}
             <Box sx={{ flexGrow: 1, display: { xs: "block", md: "none" } }} />
-            <Tooltip title={darkThemeEnabled ? "Switch to light mode" : "Switch to dark mode"}>
+            <Tooltip
+              title={
+                darkThemeEnabled
+                  ? "Switch to light mode"
+                  : "Switch to dark mode"
+              }
+            >
               <IconButton
                 onClick={toggleDarkThemeEnabled}
                 sx={{ color: "white", mr: 0.5 }}
               >
-                {darkThemeEnabled ? <LightMode fontSize="small" /> : <DarkMode fontSize="small" />}
+                {darkThemeEnabled ? (
+                  <LightMode fontSize="small" />
+                ) : (
+                  <DarkMode fontSize="small" />
+                )}
               </IconButton>
             </Tooltip>
             <HeaderButtons />
