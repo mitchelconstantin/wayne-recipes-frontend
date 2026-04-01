@@ -18,7 +18,8 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "noFallthroughCasesInSwitch": true,
-    "allowJs": true
+    "allowJs": true,
+    "types": ["node", "jest"]
   },
   "include": [
     "src"
