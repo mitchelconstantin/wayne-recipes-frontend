@@ -1,6 +1,7 @@
 import { createRoot } from "react-dom/client";
 import { App } from "./App";
 import { register } from "./serviceWorker";
+import { SnackbarService } from "./Shared/SnackbarService";
 
 createRoot(document.getElementById("root")!).render(<App />);
 
@@ -9,11 +10,11 @@ createRoot(document.getElementById("root")!).render(<App />);
 // Learn more about service workers: https://bit.ly/CRA-PWA
 register({
   onUpdate: (registration) => {
-    alert("New version available!  Ready to update?");
-    window.location.reload();
     if (registration && registration.waiting) {
       registration.waiting.postMessage({ type: "SKIP_WAITING" });
     }
+    SnackbarService.info("New version available — refreshing…");
+    setTimeout(() => window.location.reload(), 1500);
   },
 });
 // serviceWorker.unregister();

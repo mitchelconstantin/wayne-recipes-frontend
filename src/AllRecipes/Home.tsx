@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect, useCallback, ChangeEvent } from "react";
+import { useState, useEffect, useRef, useCallback, ChangeEvent } from "react";
 import {
   Box,
   Paper,
@@ -16,7 +16,6 @@ import { RecipeList } from "./RecipeList";
 import { RecipeTransform } from "./RecipeTransform";
 import { ShowFiltersChip } from "./ShowFiltersChip";
 import { useNavigate, useLocation } from "react-router-dom";
-import { isEqual, debounce, isEmpty } from "lodash";
 import { grey } from "@mui/material/colors";
 import { getLocalRecipes, storeLocalRecipes } from "../Shared/AppBehaviors";
 
@@ -57,7 +56,7 @@ export const Home = () => {
       recipes,
       selectedFilters
     );
-    if (!isEqual(filteredRecipes, newFilteredRecipes)) {
+    if (JSON.stringify(filteredRecipes) !== JSON.stringify(newFilteredRecipes)) {
       setFilteredRecipes(newFilteredRecipes);
     }
     if (!loading) {
@@ -65,15 +64,16 @@ export const Home = () => {
     }
   }, [selectedFilters, recipes]);
 
-  const setDebouncedSearchTerm = useCallback(
-    debounce((debouncedSearchTerm: string) => {
+  const debounceTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const setDebouncedSearchTerm = useCallback((debouncedSearchTerm: string) => {
+    clearTimeout(debounceTimer.current);
+    debounceTimer.current = setTimeout(() => {
       setSelectedFilters((prev) => ({
         ...prev,
         debouncedSearchTerm,
       }));
-    }, 500),
-    []
-  );
+    }, 500);
+  }, []);
 
   const handleChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -86,7 +86,7 @@ export const Home = () => {
     setSelectedFilters(emptyFilters);
   };
 
-  const isPristine = !searchTerm && isEqual(selectedFilters, emptyFilters);
+  const isPristine = !searchTerm && JSON.stringify(selectedFilters) === JSON.stringify(emptyFilters);
 
   return (
     <>
@@ -152,7 +152,7 @@ export const Home = () => {
           setSelectedFilters={setSelectedFilters}
         />
       </Paper>
-      <RecipeList loading={isEmpty(recipes)} recipes={filteredRecipes} />
+      <RecipeList loading={!recipes.length} recipes={filteredRecipes} />
     </>
   );
 };

@@ -12,6 +12,7 @@ import { DirectionsList } from "./DirectionsList";
 import { IngredientsList } from "./IngredientsList";
 import { Rating } from "@mui/material";
 import { useMobileQuery } from "../Shared/Hooks/isMobile";
+import { displayImageUrl } from "../Shared/cloudinaryUtils";
 import { ReviewsChartDialog } from "./ReviewsChartDialog";
 import { QRCodeSVG } from "qrcode.react";
 
@@ -59,7 +60,7 @@ export const RecipeDisplay = () => {
         }}
       >
         <img
-          src={recipe.picture || noImage}
+          src={recipe.picture ? displayImageUrl(recipe.picture) : noImage}
           alt={recipe.title}
           onError={(e: any) => { e.target.src = noImage; }}
           style={{

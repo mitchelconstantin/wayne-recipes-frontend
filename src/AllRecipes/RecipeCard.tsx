@@ -6,6 +6,7 @@ import { Card, CardActionArea, Box, Typography } from "@mui/material";
 import { IRecipe } from "../Shared/Types";
 import { Link } from "react-router-dom";
 import { DarkThemeContext } from "../App";
+import { cardImageUrl } from "../Shared/cloudinaryUtils";
 
 interface Props {
   recipe: IRecipe;
@@ -18,8 +19,7 @@ export const RecipeCard = memo(({ recipe }: Props) => {
 
   const imageToUse = () => {
     if (!recipe.picture) return defaultImage;
-    const [baseUrl, imageId] = recipe.picture.split("upload");
-    return `${baseUrl}upload/ar_1:1,w_300,h_300,c_fill,g_auto,q_auto,f_auto${imageId}`;
+    return cardImageUrl(recipe.picture);
   };
 
   return (

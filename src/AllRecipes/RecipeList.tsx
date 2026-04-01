@@ -4,7 +4,6 @@ import { Grid, Typography, Pagination, Divider } from "@mui/material";
 import { IRecipe } from "../Shared/Types";
 import { Loading } from "../Shared/Components/Loading";
 import { Warning } from "@mui/icons-material";
-import { isEmpty } from "lodash";
 import { useMobileQuery } from "../Shared/Hooks/isMobile";
 
 interface Props {
@@ -25,11 +24,7 @@ export const RecipeList = ({ loading, recipes }: Props) => {
     setPage(1);
   }, [recipes]);
 
-  const isInRange = (index: number) => {
-    const max = page * 30 - 1;
-    const min = max - 29;
-    return index >= min && index <= max;
-  };
+  const pageRecipes = recipes.slice((page - 1) * 30, page * 30);
 
   if (loading) return <Loading />;
 
@@ -47,7 +42,7 @@ export const RecipeList = ({ loading, recipes }: Props) => {
           paddingRight: "12px",
         }}
       >
-        {isEmpty(recipes) && (
+        {!recipes.length && (
           <Grid
             container
             style={{ padding: "18px" }}
@@ -59,14 +54,11 @@ export const RecipeList = ({ loading, recipes }: Props) => {
             <Warning />
           </Grid>
         )}
-        {!isEmpty(recipes) &&
-          recipes.map((recipe, i) =>
-            isInRange(i) ? (
-              <Grid size={{ xs: 6, sm: 4, md: 3, lg: 2, xl: 2 }} key={recipe.id}>
-                <RecipeCard recipe={recipe} />
-              </Grid>
-            ) : undefined
-          )}
+        {pageRecipes.map((recipe) => (
+          <Grid size={{ xs: 6, sm: 4, md: 3, lg: 2, xl: 2 }} key={recipe.id}>
+            <RecipeCard recipe={recipe} />
+          </Grid>
+        ))}
       </Grid>
       {Math.ceil(recipes.length / 30) > 1 && (
         <Grid sx={{ width: "100%" }}>
