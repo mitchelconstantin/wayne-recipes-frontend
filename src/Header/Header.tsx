@@ -11,6 +11,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { DarkMode, LightMode } from "@mui/icons-material";
+import { grey } from "@mui/material/colors";
 import { DarkThemeContext } from "../App";
 import { HeaderButtons } from "./HeaderButtons";
 import logo from "../Shared/Images/logo.svg";
@@ -24,14 +25,31 @@ export const Header = () => {
     <Box sx={{ "@media print": { display: "none" } }}>
       <CssBaseline />
       <Slide appear={false} direction="down" in={!trigger}>
-        <AppBar sx={{ background: "linear-gradient(90deg, #f44723, #f67030)" }}>
+        <AppBar
+          elevation={0}
+          sx={{
+            background: "linear-gradient(90deg, #f44723, #f67030)",
+            borderBottom: "1px solid rgba(0,0,0,0.1)",
+          }}
+        >
           <Toolbar>
+            {/* Orange accent bar */}
+            <Box
+              sx={{
+                width: "3px",
+                height: "28px",
+                borderRadius: "2px",
+                backgroundColor: "#f44723",
+                mr: 1.5,
+                flexShrink: 0,
+              }}
+            />
             <IconButton
               edge="start"
-              color="inherit"
               component={Link}
               to={"/all"}
               size="large"
+              sx={{ color: "inherit", mr: 0.5 }}
             >
               <img
                 src={logo}
@@ -42,17 +60,22 @@ export const Header = () => {
             <Typography
               variant="h6"
               sx={{
-                pl: 1,
                 flexGrow: 1,
+                fontWeight: 600,
+                letterSpacing: "-0.01em",
                 color: "white",
-                fontWeight: 500,
-                letterSpacing: "0.02em",
+                display: { xs: "none", md: "block" },
               }}
             >
               Wayne's Family Recipes
             </Typography>
+            {/* Spacer on mobile so buttons stay right-aligned */}
+            <Box sx={{ flexGrow: 1, display: { xs: "block", md: "none" } }} />
             <Tooltip title={darkThemeEnabled ? "Switch to light mode" : "Switch to dark mode"}>
-              <IconButton onClick={toggleDarkThemeEnabled} sx={{ color: "white", mr: 0.5 }}>
+              <IconButton
+                onClick={toggleDarkThemeEnabled}
+                sx={{ color: "white", mr: 0.5 }}
+              >
                 {darkThemeEnabled ? <LightMode fontSize="small" /> : <DarkMode fontSize="small" />}
               </IconButton>
             </Tooltip>

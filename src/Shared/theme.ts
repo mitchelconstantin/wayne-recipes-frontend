@@ -8,4 +8,13 @@ export const getTheme = (dark: boolean) =>
         main: "#e4673d",
       },
     },
+    typography: {
+      fontFamily: '"Roboto", sans-serif',
+      h3: {
+        fontFamily: '"DM Serif Display", serif',
+      },
+      h5: {
+        fontFamily: '"DM Serif Display", serif',
+      },
+    },
   });
