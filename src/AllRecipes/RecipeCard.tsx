@@ -6,7 +6,6 @@ import { Card, CardActionArea, Box, Typography } from "@mui/material";
 import { IRecipe } from "../Shared/Types";
 import { Link } from "react-router-dom";
 import { DarkThemeContext } from "../App";
-import { Image as MaterialImage } from "./MaterialImage";
 
 interface Props {
   recipe: IRecipe;
@@ -16,10 +15,6 @@ export const RecipeCard = ({ recipe }: Props) => {
   const { darkThemeEnabled } = useContext(DarkThemeContext);
 
   const defaultImage = darkThemeEnabled ? noImageDark : noImage;
-
-  const onError = (ev: any) => {
-    ev.target.src = defaultImage;
-  };
 
   const imageToUse = () => {
     if (!recipe.picture) return defaultImage;
@@ -47,19 +42,16 @@ export const RecipeCard = ({ recipe }: Props) => {
         state={{ picture: recipe.picture, title: recipe.title }}
         sx={{ display: "block", position: "relative" }}
       >
-        <Box className="card-image" sx={{ overflow: "hidden" }}>
-          <MaterialImage
-            color={darkThemeEnabled ? "#RRGGBBAA" : "white"}
-            onError={onError}
+        <Box className="card-image" sx={{ overflow: "hidden", aspectRatio: "1 / 1" }}>
+          <img
             src={imageToUse()}
-            alt={"a tasty dish!"}
-            animationDuration={1}
-            disableTransition={true}
-            disableSpinner={true}
+            alt={recipe.title}
+            onError={(e: any) => { e.target.src = defaultImage; }}
+            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
           />
         </Box>
 
-        {/* Gradient overlay */}
+        {/* Frosted glass overlay */}
         <Box
           sx={{
             position: "absolute",

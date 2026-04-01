@@ -9,7 +9,9 @@ import {
   TextField,
   DialogActions,
   DialogContent,
+  Divider,
   Rating,
+  Typography,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { isEmpty } from "lodash";
@@ -18,18 +20,17 @@ import { SnackbarService } from "../Shared/SnackbarService";
 import { IRecipe, IReview } from "../Shared/Types";
 import { userEmail } from "../Shared/AppBehaviors";
 
-const labels = {
-  null: "",
-  0.5: "Useless",
-  1: "Useless+",
-  1.5: "Poor",
-  2: "Poor+",
-  2.5: "Ok",
-  3: "Ok+",
-  3.5: "Good",
-  4: "Good+",
-  4.5: "Excellent",
-  5: "Excellent+",
+const labels: Record<string, string> = {
+  "0.5": "Useless",
+  "1": "Useless+",
+  "1.5": "Poor",
+  "2": "Poor+",
+  "2.5": "Ok",
+  "3": "Ok+",
+  "3.5": "Good",
+  "4": "Good+",
+  "4.5": "Excellent",
+  "5": "Excellent+",
 };
 
 interface HoverRatingProps {
@@ -39,24 +40,23 @@ interface HoverRatingProps {
 
 const HoverRating = ({ value, setValue }: HoverRatingProps) => {
   const [hover, setHover] = useState(-1);
+  const activeValue = hover !== -1 ? hover : value;
+  const label = activeValue ? labels[String(activeValue)] : "";
 
   return (
-    <Box sx={{ width: 200, display: "flex", alignItems: "center" }}>
+    <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 2 }}>
       <Rating
         name="hover-feedback"
         value={value}
         precision={0.5}
-        onChange={(event, newValue) => {
-          newValue && setValue(newValue);
-        }}
-        onChangeActive={(event, newHover) => {
-          setHover(newHover);
-        }}
+        onChange={(_, newValue) => { newValue && setValue(newValue); }}
+        onChangeActive={(_, newHover) => { setHover(newHover); }}
       />
-      {
-        //@ts-ignore
-        <Box ml={2}>{labels[hover !== -1 ? hover : value]}</Box>
-      }
+      {label && (
+        <Typography variant="body2" color="text.secondary">
+          {label}
+        </Typography>
+      )}
     </Box>
   );
 };
@@ -76,7 +76,7 @@ export const RateRecipeDialog = ({
 }: RateRecipeDialogProps) => {
   const [score, setScore] = useState(null);
   const [comment, setComment] = useState("");
-  const [title, setTitle] = useState(`Leave a review for ${recipe.title}`);
+  const [isUpdate, setIsUpdate] = useState(false);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setComment(event.target.value);
@@ -84,12 +84,9 @@ export const RateRecipeDialog = ({
 
   const getInitialValues = async () => {
     if (!recipe.id) return;
-    const prevReview = await RecipeAPI.getUserRecipeReview(
-      userEmail(),
-      recipe.id
-    );
+    const prevReview = await RecipeAPI.getUserRecipeReview(userEmail(), recipe.id);
     if (isEmpty(prevReview)) return;
-    setTitle(`Update your review for ${recipe.title}`);
+    setIsUpdate(true);
     //@ts-ignore
     setScore(prevReview.score);
     //@ts-ignore
@@ -97,60 +94,54 @@ export const RateRecipeDialog = ({
   };
 
   useEffect(() => {
-    if (open) {
-      getInitialValues();
-    }
+    if (open) getInitialValues();
   }, [open]);
 
   const handleSendRating = async () => {
     if (!score || !recipe.id) return;
     const review: IReview = {
-      score: score,
+      score,
       recipeId: recipe.id,
       reviewerEmail: userEmail(),
-      comment: comment,
+      comment,
     };
     await RecipeAPI.reviewRecipe(review);
-    SnackbarService.success("Recipe Reviewed successfully");
+    SnackbarService.success("Recipe reviewed successfully");
     reloadRecipe();
     setTimeout(() => handleClose(), 500);
   };
-  const disabled = score === null;
 
   return (
-    <Dialog
-      onClose={handleClose}
-      aria-labelledby="customized-dialog-title"
-      open={open}
-    >
-      <DialogTitle id="id">
-        <Box display="flex" alignItems="center">
-          <Box flexGrow={1}>{title}</Box>
-          <Box>
-            <IconButton onClick={handleClose} size="large">
-              <Close />
-            </IconButton>
-          </Box>
-        </Box>
+    <Dialog onClose={handleClose} open={open} maxWidth="xs" fullWidth>
+      <DialogTitle sx={{ pr: 6 }}>
+        {isUpdate ? `Update your review` : `Leave a review`}
+        <IconButton
+          onClick={handleClose}
+          size="small"
+          sx={{ position: "absolute", right: 12, top: 12, color: "text.secondary" }}
+        >
+          <Close fontSize="small" />
+        </IconButton>
       </DialogTitle>
-      <DialogContent>
+      <Divider />
+      <DialogContent sx={{ pt: 2 }}>
         <HoverRating value={score} setValue={setScore} />
         <TextField
           margin="dense"
-          id="comments"
           label="Comments"
           fullWidth
           value={comment}
           onChange={handleChange}
           multiline
           rows={4}
+          size="small"
         />
       </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} color="primary">
+      <DialogActions sx={{ px: 3, pb: 2 }}>
+        <Button onClick={handleClose} color="inherit">
           Cancel
         </Button>
-        <Button disabled={disabled} onClick={handleSendRating} color="primary">
+        <Button disabled={score === null} onClick={handleSendRating} variant="contained">
           Save Review
         </Button>
       </DialogActions>

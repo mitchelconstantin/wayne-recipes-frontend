@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import noImage from "../Shared/Images/noImage.png";
-import { Box, Divider, Grid, IconButton, Typography } from "@mui/material";
+import { Box, Chip, Divider, Grid, IconButton, Typography } from "@mui/material";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
 import { useParams, useLocation } from "react-router-dom";
 import { Loading } from "../Shared/Components/Loading";
@@ -13,9 +13,6 @@ import { IngredientsList } from "./IngredientsList";
 import { Rating } from "@mui/material";
 import { useMobileQuery } from "../Shared/Hooks/isMobile";
 import { ReviewsChartDialog } from "./ReviewsChartDialog";
-import { DarkThemeContext } from "../App";
-import { Image as MaterialImage } from "../AllRecipes/MaterialImage";
-
 
 export const RecipeDisplay = () => {
   const { state } = useLocation();
@@ -28,14 +25,6 @@ export const RecipeDisplay = () => {
   const [openReviewsDialog, setOpenReviewsDialog] = useState(false);
   const { recipeId } = useParams();
   const isMobile = useMobileQuery();
-  const { darkThemeEnabled } = useContext(DarkThemeContext);
-  const [aspectRatio, setAspectRatio] = useState(1);
-
-  const getAspectRatio = (url: string) => {
-    const img = new Image();
-    img.onload = () => setAspectRatio(img.width / img.height);
-    img.src = url;
-  };
 
   const loadRecipe = async () => {
     const recipe = await RecipeAPI.getRecipe(recipeId);
@@ -46,49 +35,52 @@ export const RecipeDisplay = () => {
 
   useEffect(() => {
     loadRecipe();
-    getAspectRatio(recipe.picture || noImage);
   }, []);
 
-  const onError = (ev: any) => {
-    const eventTarget = ev.target;
-    eventTarget.src = noImage;
-  };
   const tags = [recipe.type, recipe.mainIngredient, recipe.region];
   if (loading) return <Loading />;
+
   return (
     <Grid
       container
       direction="row"
       justifyContent="center"
-      sx={{ "@media print": { display: "block" } }}
+      sx={{ "@media print": { display: "block" }, px: { xs: 2, md: 4 } }}
     >
       <Grid
         size={{ xs: 10, md: 5 }}
         sx={{
           "@media print": { display: "none" },
-          width: { xs: "80vw", md: "40vw" },
           padding: { xs: "16px 0", md: "24px 32px" },
-          height: { md: "80vh" },
-          marginRight: { md: "auto" },
-          overflow: { md: "hidden" },
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "center",
         }}
       >
-        <MaterialImage
-          style={{ objectFit: "contain", maxHeight: "80vh", maxWidth: "40vw" }}
-          color={darkThemeEnabled ? "999" : "white"}
-          aspectRatio={aspectRatio}
-          onError={onError}
+        <img
           src={recipe.picture || noImage}
-          alt={"a tasty dish"}
+          alt={recipe.title}
+          onError={(e: any) => { e.target.src = noImage; }}
+          style={{
+            maxWidth: "100%",
+            maxHeight: "80vh",
+            width: "auto",
+            height: "auto",
+            display: "block",
+            borderRadius: "20px",
+            boxShadow: "0 8px 30px rgba(0,0,0,0.2)",
+          }}
         />
       </Grid>
+
       <Grid
         size={{ xs: 10, md: 6 }}
         sx={{
           height: { md: "90vh" },
-          padding: { md: 3 },
           marginLeft: { md: "auto" },
           overflow: { md: "scroll" },
+          pt: { xs: 1, md: 3 },
+          pb: { xs: 2, md: 3 },
         }}
       >
         <Box display="flex" flexDirection="column">
@@ -96,12 +88,7 @@ export const RecipeDisplay = () => {
             {recipe.title}
           </Typography>
           <Box display="flex" flexDirection="row" alignItems="center">
-            <Rating
-              name="read-only"
-              precision={0.5}
-              value={recipe.rating}
-              readOnly
-            />
+            <Rating name="read-only" precision={0.5} value={recipe.rating} readOnly />
             <IconButton
               disabled={!recipe.numberOfReviews}
               size="small"
@@ -121,8 +108,10 @@ export const RecipeDisplay = () => {
           }}
         >
           <RecipeDisplayButtons reloadRecipe={loadRecipe} recipe={recipe} />
-          <Box sx={{ display: "flex", marginLeft: { md: "auto" } }}>
-            {tags.map((tag) => !!tag && `#${tag} `)}
+          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.75, marginLeft: { md: "auto" } }}>
+            {tags.filter(Boolean).map((tag) => (
+              <Chip key={tag} label={tag} size="small" variant="outlined" />
+            ))}
           </Box>
         </Box>
         <Divider />
@@ -130,6 +119,7 @@ export const RecipeDisplay = () => {
         <IngredientsList ingredients={recipe.ingredients} />
         <DirectionsList directions={recipe.directions} />
       </Grid>
+
       <ReviewsChartDialog
         open={openReviewsDialog}
         handleClose={() => setOpenReviewsDialog(false)}
