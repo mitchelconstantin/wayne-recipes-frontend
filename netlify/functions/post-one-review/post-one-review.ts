@@ -55,7 +55,8 @@ const postOneReview: Handler = async (event, context) => {
     .match({
       recipe_id: reviewToUpdate.recipe_id,
       user_email: reviewToUpdate.user_email,
-    });
+    })
+    .select();
   console.log("data", data);
   console.log("error", error);
 

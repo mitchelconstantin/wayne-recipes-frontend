@@ -11,7 +11,7 @@ interface Props {
 }
 export const ImageUploader = ({ picture, setPicture }: Props) => {
   const { recipeId } = useParams();
-  const onDrop = useCallback(async (acceptedFiles) => {
+  const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const imageBlob = (await readFileAsync(acceptedFiles)) as string;
     const img = await RecipeAPI.uploadImage(imageBlob, recipeId);
     setPicture(img);

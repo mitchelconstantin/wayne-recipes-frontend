@@ -10,7 +10,8 @@ const updateShoppingListItem: Handler = async (event, context) => {
   const { data, error } = await supabase
     .from("shoppinglist")
     .update({ ingredients })
-    .match({ id, user_email });
+    .match({ id, user_email })
+    .select();
   console.log("data", data);
   console.log("error", error);
 
