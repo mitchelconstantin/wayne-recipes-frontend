@@ -1,6 +1,6 @@
 import { Handler } from "@netlify/functions";
 import { supabase } from "../../utils/db";
-import { authMiddleware, middy } from "../../utils/middleware";
+import { withAuth } from "../../utils/middleware";
 
 const getAllUsers: Handler = async (event, context) => {
   const { data, error } = await supabase
@@ -17,6 +17,4 @@ const getAllUsers: Handler = async (event, context) => {
   };
 };
 
-exports.handler = middy(getAllUsers).use(
-  authMiddleware({ isOwnerRoute: true })
-);
+exports.handler = withAuth(getAllUsers, { isOwnerRoute: true });

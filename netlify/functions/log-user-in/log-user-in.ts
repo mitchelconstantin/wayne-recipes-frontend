@@ -1,6 +1,5 @@
 import { Handler } from "@netlify/functions";
 import { supabase } from "../../utils/db";
-import { middy } from "../../utils/middleware";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -59,4 +58,4 @@ const logUserIn: Handler = async (event, context) => {
   };
 };
 
-exports.handler = middy(logUserIn);
+exports.handler = logUserIn;

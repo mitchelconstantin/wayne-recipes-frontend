@@ -1,6 +1,6 @@
 import { UploadApiResponse, v2 } from "cloudinary";
 import { Handler } from "@netlify/functions";
-import { middy, authMiddleware } from "../../utils/middleware";
+import { withAuth } from "../../utils/middleware";
 
 v2.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -42,6 +42,4 @@ const uploadOnePhoto: Handler = async (event, context) => {
   };
 };
 
-exports.handler = middy(uploadOnePhoto).use(
-  authMiddleware({ isAdminRoute: true })
-);
+exports.handler = withAuth(uploadOnePhoto, { isAdminRoute: true });

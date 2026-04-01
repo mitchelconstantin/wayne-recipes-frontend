@@ -1,7 +1,7 @@
 import { Handler } from "@netlify/functions";
 import { supabase } from "../../utils/db";
 import { encode } from "../../utils/hashIds";
-import { middy, authMiddleware } from "../../utils/middleware";
+import { withAuth } from "../../utils/middleware";
 
 const getUserShoppingList: Handler = async (event, context) => {
   const user_email = event.queryStringParameters?.email;
@@ -42,4 +42,4 @@ const getUserShoppingList: Handler = async (event, context) => {
   };
 };
 
-exports.handler = middy(getUserShoppingList).use(authMiddleware({}));
+exports.handler = withAuth(getUserShoppingList);

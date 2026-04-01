@@ -1,7 +1,7 @@
 import { Handler } from "@netlify/functions";
 import { supabase } from "../../utils/db";
 import { decode } from "../../utils/hashIds";
-import { middy, authMiddleware } from "../../utils/middleware";
+import { withAuth } from "../../utils/middleware";
 
 const getUserRecipeReview: Handler = async (event, context) => {
   const recipe_id = decode(event.queryStringParameters?.recipeId);
@@ -22,4 +22,4 @@ const getUserRecipeReview: Handler = async (event, context) => {
   };
 };
 
-exports.handler = middy(getUserRecipeReview).use(authMiddleware({}));
+exports.handler = withAuth(getUserRecipeReview);

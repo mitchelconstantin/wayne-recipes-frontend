@@ -1,7 +1,7 @@
 import { Handler } from "@netlify/functions";
 import { supabase } from "../../utils/db";
 import { decode, encode } from "../../utils/hashIds";
-import { middy, authMiddleware } from "../../utils/middleware";
+import { withAuth } from "../../utils/middleware";
 
 const patchOneRecipe: Handler = async (event, context) => {
   const dbId = decode(event.queryStringParameters?.id);
@@ -35,6 +35,4 @@ const patchOneRecipe: Handler = async (event, context) => {
   };
 };
 
-exports.handler = middy(patchOneRecipe).use(
-  authMiddleware({ isAdminRoute: true })
-);
+exports.handler = withAuth(patchOneRecipe, { isAdminRoute: true });

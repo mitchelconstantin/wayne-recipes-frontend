@@ -1,7 +1,7 @@
 import { Handler } from "@netlify/functions";
 import { supabase } from "../../utils/db";
 import { decode } from "../../utils/hashIds";
-import { middy, authMiddleware } from "../../utils/middleware";
+import { withAuth } from "../../utils/middleware";
 
 const removeOneFromShoppingList: Handler = async (event, context) => {
   const body = JSON.parse(event.body || "");
@@ -51,4 +51,4 @@ const removeOneFromShoppingList: Handler = async (event, context) => {
   };
 };
 
-exports.handler = middy(removeOneFromShoppingList).use(authMiddleware({}));
+exports.handler = withAuth(removeOneFromShoppingList);

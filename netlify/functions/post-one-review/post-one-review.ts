@@ -1,7 +1,7 @@
 import { Handler } from "@netlify/functions";
 import { supabase } from "../../utils/db";
 import { decode } from "../../utils/hashIds";
-import { middy, authMiddleware } from "../../utils/middleware";
+import { withAuth } from "../../utils/middleware";
 
 const getShortname = async (email: string) => {
   const { data } = await supabase
@@ -69,4 +69,4 @@ const postOneReview: Handler = async (event, context) => {
   };
 };
 
-exports.handler = middy(postOneReview).use(authMiddleware({}));
+exports.handler = withAuth(postOneReview);

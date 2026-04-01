@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-export { default as middy } from "middy";
+import { Handler } from "@netlify/functions";
 
 const secret = process.env.USER_AUTH_SECRET;
 
@@ -11,26 +11,23 @@ const getToken = (headers) => {
   return token;
 };
 
-export const authMiddleware = ({
-  isOwnerRoute = false,
-  isAdminRoute = false,
-}) => ({
-  before: async (handler, next) => {
+interface AuthOptions {
+  isOwnerRoute?: boolean;
+  isAdminRoute?: boolean;
+}
+
+export const withAuth = (fn: Handler, options: AuthOptions = {}): Handler =>
+  async (event, context) => {
     try {
-      const user = await jwt.verify(getToken(handler.event.headers), secret);
-      if (isOwnerRoute && !user.isOwner) {
-        throw new Error();
-      }
-      if (isAdminRoute && !user.isAdmin) {
-        throw new Error();
-      }
-      // next();
+      const user: any = jwt.verify(getToken(event.headers), secret);
+      if (options.isOwnerRoute && !user.isOwner) throw new Error();
+      if (options.isAdminRoute && !user.isAdmin) throw new Error();
     } catch (e) {
       console.log("error authenticating", e);
-      return handler.callback(null, {
+      return {
         statusCode: 403,
         body: JSON.stringify({ error: "Token is not valid" }),
-      });
+      };
     }
-  },
-});
+    return fn(event, context);
+  };

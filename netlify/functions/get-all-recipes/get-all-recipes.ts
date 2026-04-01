@@ -1,6 +1,5 @@
 import { Handler } from "@netlify/functions";
 import { supabase } from "../../utils/db";
-import { middy } from "../../utils/middleware";
 import { encode } from "../../utils/hashIds";
 
 const getAllRecipes: Handler = async (event, context) => {
@@ -42,4 +41,4 @@ const getAllRecipes: Handler = async (event, context) => {
   };
 };
 
-exports.handler = middy(getAllRecipes);
+exports.handler = getAllRecipes;

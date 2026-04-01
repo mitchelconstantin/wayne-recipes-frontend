@@ -1,7 +1,7 @@
 import { Handler } from "@netlify/functions";
 import { supabase } from "../../utils/db";
 import { decode } from "../../utils/hashIds";
-import { authMiddleware, middy } from "../../utils/middleware";
+import { withAuth } from "../../utils/middleware";
 
 const deleteOneRecipe: Handler = async (event, context) => {
   const dbId = decode(event.queryStringParameters?.id);
@@ -21,6 +21,4 @@ const deleteOneRecipe: Handler = async (event, context) => {
   };
 };
 
-exports.handler = middy(deleteOneRecipe).use(
-  authMiddleware({ isAdminRoute: true })
-);
+exports.handler = withAuth(deleteOneRecipe, { isAdminRoute: true });

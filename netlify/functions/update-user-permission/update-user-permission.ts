@@ -1,6 +1,6 @@
 import { Handler } from "@netlify/functions";
 import { supabase } from "../../utils/db";
-import { authMiddleware, middy } from "../../utils/middleware";
+import { withAuth } from "../../utils/middleware";
 
 const updateUserPermission: Handler = async (event, context) => {
   const body = JSON.parse(event.body || "");
@@ -25,6 +25,4 @@ const updateUserPermission: Handler = async (event, context) => {
   };
 };
 
-exports.handler = middy(updateUserPermission).use(
-  authMiddleware({ isOwnerRoute: true })
-);
+exports.handler = withAuth(updateUserPermission, { isOwnerRoute: true });
