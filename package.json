@@ -17,9 +17,9 @@
     "@mui/material": "^7.3.9",
     "@netlify/functions": "^5.1.5",
     "@supabase/supabase-js": "^2.101.1",
-    "@types/node": "^14.18.26",
+    "@types/node": "^25.5.0",
     "axios": "^1.14.0",
-    "bcrypt": "^5.1.1",
+    "bcrypt": "^6.0.0",
     "cloudinary": "^2.9.0",
     "clsx": "^2.1.1",
     "fuzzaldrin-plus": "^0.6.0",
@@ -31,15 +31,15 @@
     "preval.macro": "^5.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-dropzone": "^11.4.0",
+    "react-dropzone": "^15.0.0",
     "react-router-dom": "^7.13.2",
     "react-scripts": "5",
     "regexpu-core": "^6.4.0",
-    "typescript": "^5.8.0"
+    "typescript": "^6.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
-    "@types/jest": "^27.0.1",
+    "@types/jest": "^30.0.0",
     "@types/preval.macro": "^3.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0"
