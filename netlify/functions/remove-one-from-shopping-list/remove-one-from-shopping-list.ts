@@ -22,7 +22,8 @@ const removeOneFromShoppingList: Handler = async (event, context) => {
       .update({ quantity: data.quantity - 1 })
       .match({
         id: data.id,
-      });
+      })
+      .select();
     return {
       statusCode: 200,
       body: JSON.stringify({
@@ -38,7 +39,8 @@ const removeOneFromShoppingList: Handler = async (event, context) => {
     .delete()
     .match({
       id: data.id,
-    });
+    })
+    .select();
 
   return {
     statusCode: 200,

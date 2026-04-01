@@ -1,4 +1,4 @@
-import { Box } from "@mui/material/";
+import { Box } from "@mui/material";
 import { isAdmin, isLoggedIn } from "../Shared/AppBehaviors";
 import {
   PrintButton,
@@ -15,7 +15,7 @@ interface props {
 
 export const RecipeDisplayButtons = ({ recipe, reloadRecipe }: props) => {
   return (
-    <Box display="flex" displayPrint="none" ml="-8px">
+    <Box display="flex" ml="-8px" sx={{ "@media print": { display: "none" } }}>
       {isLoggedIn() && <AddToShoppingListButton recipe={recipe} />}
       {isLoggedIn() && (
         <IMadeItButton reloadRecipe={reloadRecipe} recipe={recipe} />

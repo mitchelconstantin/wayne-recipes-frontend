@@ -1,4 +1,4 @@
-import { useContainerStyles } from "../Shared/formStyles";
+import { formTextFieldSx } from "../Shared/formStyles";
 import { TextField, Autocomplete } from "@mui/material";
 interface props {
   handleChange: any;
@@ -8,7 +8,6 @@ interface props {
 }
 
 export const Dropdown = ({ handleChange, items, value, title }: props) => {
-  const classes = useContainerStyles();
   return (
     <Autocomplete
       options={items}
@@ -26,7 +25,7 @@ export const Dropdown = ({ handleChange, items, value, title }: props) => {
         <TextField
           {...params}
           label={title}
-          className={classes.formTextField}
+          sx={formTextFieldSx}
         />
       )}
     />

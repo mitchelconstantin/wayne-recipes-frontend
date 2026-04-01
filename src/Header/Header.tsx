@@ -8,42 +8,23 @@ import {
   useScrollTrigger,
   Typography,
   IconButton,
-} from "@mui/material/";
-import { makeStyles } from "@mui/styles";
+  Tooltip,
+} from "@mui/material";
+import { DarkMode, LightMode } from "@mui/icons-material";
 import { DarkThemeContext } from "../App";
 import { HeaderButtons } from "./HeaderButtons";
 import logo from "../Shared/Images/logo.svg";
-import darkLogo from "../Shared/Images/darkLogo.svg";
 import { Link } from "react-router-dom";
 
-const useStyles = makeStyles((theme) => ({
-  toolbar: {
-    background: "linear-gradient(90deg, #f44723, #f56730, #f44723)",
-  },
-  image: {
-    height: "36px",
-    width: "36px",
-  },
-  title: {
-    paddingLeft: theme.spacing(1),
-    marginRight: "-5px",
-    flexGrow: 1,
-    color: theme.palette.mode === "dark" ? "silver" : "white",
-  },
-}));
-
 export const Header = () => {
-  const classes = useStyles();
-  const { darkThemeEnabled } = useContext(DarkThemeContext);
+  const { darkThemeEnabled, toggleDarkThemeEnabled } = useContext(DarkThemeContext);
   const trigger = useScrollTrigger();
 
-  const title = `WAYNE'S FAMILY RECIPES`;
-
   return (
-    <Box>
+    <Box sx={{ "@media print": { display: "none" } }}>
       <CssBaseline />
       <Slide appear={false} direction="down" in={!trigger}>
-        <AppBar className={classes.toolbar}>
+        <AppBar sx={{ background: "linear-gradient(90deg, #f44723, #f67030)" }}>
           <Toolbar>
             <IconButton
               edge="start"
@@ -53,14 +34,28 @@ export const Header = () => {
               size="large"
             >
               <img
-                src={darkThemeEnabled ? darkLogo : logo}
-                className={classes.image}
+                src={logo}
+                style={{ height: "32px", width: "32px" }}
                 alt={"Logo"}
               />
             </IconButton>
-            <Typography variant="h6" className={classes.title}>
-              {title}
+            <Typography
+              variant="h6"
+              sx={{
+                pl: 1,
+                flexGrow: 1,
+                color: "white",
+                fontWeight: 500,
+                letterSpacing: "0.02em",
+              }}
+            >
+              Wayne's Family Recipes
             </Typography>
+            <Tooltip title={darkThemeEnabled ? "Switch to light mode" : "Switch to dark mode"}>
+              <IconButton onClick={toggleDarkThemeEnabled} sx={{ color: "white", mr: 0.5 }}>
+                {darkThemeEnabled ? <LightMode fontSize="small" /> : <DarkMode fontSize="small" />}
+              </IconButton>
+            </Tooltip>
             <HeaderButtons />
           </Toolbar>
         </AppBar>

@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { RecipeCard } from "./RecipeCard";
-import { Grid, Typography, Pagination } from "@mui/material";
+import { Grid, Typography, Pagination, Divider } from "@mui/material";
 import { IRecipe } from "../Shared/Types";
 import { Loading } from "../Shared/Components/Loading";
 import { Warning } from "@mui/icons-material";
-import { isEmpty } from "lodash";
 import { useMobileQuery } from "../Shared/Hooks/isMobile";
 
 interface Props {
@@ -25,28 +24,25 @@ export const RecipeList = ({ loading, recipes }: Props) => {
     setPage(1);
   }, [recipes]);
 
-  const isInRange = (index: number) => {
-    const max = page * 30 - 1;
-    const min = max - 29;
-    return index >= min && index <= max;
-  };
+  const pageRecipes = recipes.slice((page - 1) * 30, page * 30);
 
   if (loading) return <Loading />;
 
   return (
     <Grid container direction="column" alignItems="center">
       <Grid
-        item
         container
         justifyContent={isMobile ? "space-evenly" : undefined}
         spacing={isMobile ? 2 : 4}
         style={{
           maxWidth: "100%",
-          marginTop: "0px",
+          marginTop: "12px",
           minHeight: "calc(100vh - 175px)",
+          paddingLeft: "12px",
+          paddingRight: "12px",
         }}
       >
-        {isEmpty(recipes) && (
+        {!recipes.length && (
           <Grid
             container
             style={{ padding: "18px" }}
@@ -58,24 +54,26 @@ export const RecipeList = ({ loading, recipes }: Props) => {
             <Warning />
           </Grid>
         )}
-        {!isEmpty(recipes) &&
-          recipes.map((recipe, i) =>
-            isInRange(i) ? (
-              <Grid xs={5} sm={4} md={3} lg={2} xl={2} item key={recipe.id}>
-                <RecipeCard recipe={recipe} />
-              </Grid>
-            ) : undefined
-          )}
+        {pageRecipes.map((recipe) => (
+          <Grid size={{ xs: 6, sm: 4, md: 3, lg: 2, xl: 2 }} key={recipe.id}>
+            <RecipeCard recipe={recipe} />
+          </Grid>
+        ))}
       </Grid>
-      <Grid item>
-        <Pagination
-          count={Math.ceil(recipes.length / 30)}
-          page={page}
-          color="primary"
-          onChange={handleChange}
-          style={{ padding: "16px" }}
-        />
-      </Grid>
+      {Math.ceil(recipes.length / 30) > 1 && (
+        <Grid sx={{ width: "100%" }}>
+          <Divider sx={{ mt: 2, mb: 1 }} />
+          <Pagination
+            count={Math.ceil(recipes.length / 30)}
+            page={page}
+            color="primary"
+            shape="rounded"
+            size={isMobile ? "small" : "large"}
+            onChange={handleChange}
+            sx={{ display: "flex", justifyContent: "center", py: 2 }}
+          />
+        </Grid>
+      )}
     </Grid>
   );
 };

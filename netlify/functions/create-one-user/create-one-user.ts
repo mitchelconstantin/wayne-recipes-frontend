@@ -28,7 +28,7 @@ const createOneUser: Handler = async (event, context) => {
   const hash = bcrypt.hashSync(password, 10);
   const userToAdd = { firstName, lastName, email, hash };
 
-  const addedNewUser = await supabase.from("users").insert(userToAdd);
+  const addedNewUser = await supabase.from("users").insert(userToAdd).select();
 
   return {
     statusCode: 200,

@@ -1,13 +1,6 @@
-import { createContext } from "react";
+import { createContext, lazy, Suspense } from "react";
 import { Header } from "./Header/Header";
-import { UpdateRecipe } from "./UpdateRecipe/UpdateRecipe";
-import { ShoppingList } from "./ShoppingList/ShoppingList";
-import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
-import { Home } from "./AllRecipes/Home";
-import { Login } from "./AccountComponents/Login";
-import { RecipeDisplay } from "./ShowRecipe/RecipeDisplay";
-import { AdminDashboard } from "./AdminDashboard/AdminDashboard";
-import { SignUp } from "./AccountComponents/SignUp";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import {
   PrivateRoute,
   AdminRoute,
@@ -16,18 +9,21 @@ import {
 } from "./Shared/Components/customRoutes/CustomRoutes";
 import { useDarkThemeEnabled } from "./Shared/Hooks/darkTheme";
 import {
-  Theme,
   ThemeProvider,
   StyledEngineProvider,
   CssBaseline,
 } from "@mui/material";
 import { getTheme } from "./Shared/theme";
 import { SnackbarContainer } from "./Shared/SnackbarService";
+import { Loading } from "./Shared/Components/Loading";
 
-declare module "@mui/styles/defaultTheme" {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  interface DefaultTheme extends Theme {}
-}
+const Home = lazy(() => import("./AllRecipes/Home").then(m => ({ default: m.Home })));
+const Login = lazy(() => import("./AccountComponents/Login").then(m => ({ default: m.Login })));
+const SignUp = lazy(() => import("./AccountComponents/SignUp").then(m => ({ default: m.SignUp })));
+const RecipeDisplay = lazy(() => import("./ShowRecipe/RecipeDisplay").then(m => ({ default: m.RecipeDisplay })));
+const ShoppingList = lazy(() => import("./ShoppingList/ShoppingList").then(m => ({ default: m.ShoppingList })));
+const UpdateRecipe = lazy(() => import("./UpdateRecipe/UpdateRecipe").then(m => ({ default: m.UpdateRecipe })));
+const AdminDashboard = lazy(() => import("./AdminDashboard/AdminDashboard").then(m => ({ default: m.AdminDashboard })));
 
 type ContextProps = {
   darkThemeEnabled: boolean;
@@ -49,43 +45,19 @@ export const App = () => {
             <CssBaseline />
             <SnackbarContainer />
             <Header />
-            <Switch>
-              <PublicRoute
-                path="/login"
-                render={(props: any) => <Login {...props} />}
-              />
-              <PublicRoute
-                path="/signup"
-                render={(props: any) => <SignUp {...props} />}
-              />
-              <Route
-                exact
-                path="/all"
-                render={(props: any) => <Home {...props} />}
-              />
-              <Route
-                exact
-                path="/r/:recipeId"
-                render={(props: any) => <RecipeDisplay {...props} />}
-              />
-              <PrivateRoute
-                path="/list"
-                render={(props: any) => <ShoppingList {...props} />}
-              />
-              <AdminRoute
-                path="/new"
-                render={(props: any) => <UpdateRecipe {...props} />}
-              />
-              <AdminRoute
-                path="/r/:recipeId/edit"
-                render={(props: any) => <UpdateRecipe {...props} />}
-              />
-              <OwnerRoute
-                path="/dashboard"
-                render={(props: any) => <AdminDashboard {...props} />}
-              />
-              <Redirect from="/" to="/all" />
-            </Switch>
+            <Suspense fallback={<Loading />}>
+              <Routes>
+                <Route path="/login" element={<PublicRoute element={<Login />} />} />
+                <Route path="/signup" element={<PublicRoute element={<SignUp />} />} />
+                <Route path="/all" element={<Home />} />
+                <Route path="/r/:recipeId" element={<RecipeDisplay />} />
+                <Route path="/list" element={<PrivateRoute element={<ShoppingList />} />} />
+                <Route path="/new" element={<AdminRoute element={<UpdateRecipe />} />} />
+                <Route path="/r/:recipeId/edit" element={<AdminRoute element={<UpdateRecipe />} />} />
+                <Route path="/dashboard" element={<OwnerRoute element={<AdminDashboard />} />} />
+                <Route path="/" element={<Navigate to="/all" replace />} />
+              </Routes>
+            </Suspense>
           </ThemeProvider>
         </StyledEngineProvider>
       </DarkThemeContext.Provider>

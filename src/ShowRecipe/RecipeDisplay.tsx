@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import noImage from "../Shared/Images/noImage.png";
-import { Box, Divider, Grid, IconButton, Typography } from "@mui/material/";
-import { makeStyles } from "@mui/styles";
+import { Box, Chip, Divider, Grid, IconButton, Typography } from "@mui/material";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
 import { useParams, useLocation } from "react-router-dom";
 import { Loading } from "../Shared/Components/Loading";
@@ -13,64 +12,9 @@ import { DirectionsList } from "./DirectionsList";
 import { IngredientsList } from "./IngredientsList";
 import { Rating } from "@mui/material";
 import { useMobileQuery } from "../Shared/Hooks/isMobile";
+import { displayImageUrl } from "../Shared/cloudinaryUtils";
 import { ReviewsChartDialog } from "./ReviewsChartDialog";
-import { DarkThemeContext } from "../App";
-import { Image as MaterialImage } from "../AllRecipes/MaterialImage";
-
-const useStyles = makeStyles((theme) => ({
-  recipeDetails: {
-    [theme.breakpoints.up("md")]: {
-      height: "90vh",
-      padding: theme.spacing(3),
-      marginLeft: "auto",
-      overflow: "scroll",
-    },
-  },
-  container: {
-    "@media print": {
-      display: "block",
-    },
-  },
-  recipeInteraction: {
-    display: "flex",
-    [theme.breakpoints.down("md")]: {
-      flexDirection: "column",
-      alignItems: "left",
-    },
-    [theme.breakpoints.up("md")]: {
-      flexDirection: "row",
-      alignItems: "center",
-    },
-  },
-  recipeTags: {
-    display: "flex",
-    [theme.breakpoints.up("md")]: {
-      marginLeft: "auto",
-    },
-  },
-  imageContainer: {
-    "@media print": {
-      display: "none",
-    },
-    [theme.breakpoints.down("md")]: {
-      width: "80vw",
-      padding: theme.spacing(2, 0),
-    },
-    [theme.breakpoints.up("md")]: {
-      width: "40vw",
-      height: "80vh",
-      padding: theme.spacing(3, 4),
-      marginRight: "auto",
-      overflow: "hidden",
-    },
-  },
-  image: {
-    [theme.breakpoints.up("md")]: {
-      maxHeight: "80vh",
-      maxWidth: "40vw",
-    },
-  },
-}));
+import { QRCodeSVG } from "qrcode.react";
 
 export const RecipeDisplay = () => {
   const { state } = useLocation();
@@ -82,16 +26,7 @@ export const RecipeDisplay = () => {
   const [loading, setLoading] = useState(true);
   const [openReviewsDialog, setOpenReviewsDialog] = useState(false);
   const { recipeId } = useParams();
-  const classes = useStyles();
   const isMobile = useMobileQuery();
-  const { darkThemeEnabled } = useContext(DarkThemeContext);
-  const [aspectRatio, setAspectRatio] = useState(1);
-
-  const getAspectRatio = (url: string) => {
-    const img = new Image();
-    img.onload = () => setAspectRatio(img.width / img.height);
-    img.src = url;
-  };
 
   const loadRecipe = async () => {
     const recipe = await RecipeAPI.getRecipe(recipeId);
@@ -102,67 +37,99 @@ export const RecipeDisplay = () => {
 
   useEffect(() => {
     loadRecipe();
-    getAspectRatio(recipe.picture || noImage);
   }, []);
 
-  const onError = (ev: any) => {
-    const eventTarget = ev.target;
-    eventTarget.src = noImage;
-  };
   const tags = [recipe.type, recipe.mainIngredient, recipe.region];
   if (loading) return <Loading />;
+
   return (
     <Grid
       container
       direction="row"
       justifyContent="center"
-      className={classes.container}
+      sx={{ "@media print": { display: "block" }, px: { xs: 2, md: 4 } }}
     >
-      <Grid className={classes.imageContainer} item xs={10} md={5}>
-        <MaterialImage
-          className={classes.image}
-          style={{ objectFit: "contain" }}
-          color={darkThemeEnabled ? "999" : "white"}
-          aspectRatio={aspectRatio}
-          onError={onError}
-          src={recipe.picture || noImage}
-          alt={"a tasty dish"}
+      <Grid
+        size={{ xs: 10, md: 5 }}
+        sx={{
+          "@media print": { display: "none" },
+          padding: { xs: "16px 0", md: "24px 32px" },
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "center",
+        }}
+      >
+        <img
+          src={recipe.picture ? displayImageUrl(recipe.picture) : noImage}
+          alt={recipe.title}
+          onError={(e: any) => { e.target.src = noImage; }}
+          style={{
+            width: "100%",
+            maxHeight: "80vh",
+            height: "auto",
+            display: "block",
+            borderRadius: "20px",
+            boxShadow: "0 8px 30px rgba(0,0,0,0.2)",
+          }}
         />
       </Grid>
-      <Grid item xs={10} md={6} className={classes.recipeDetails}>
-        <Box display="flex" flexDirection="column">
-          <Typography variant={isMobile ? "h5" : "h3"}>
-            {recipe.title}
-          </Typography>
-          <Box display="flex" flexDirection="row" alignItems="center">
-            <Rating
-              name="read-only"
-              precision={0.5}
-              value={recipe.rating}
-              readOnly
-            />
-            <IconButton
-              disabled={!recipe.numberOfReviews}
-              size="small"
-              color="primary"
-              onClick={() => setOpenReviewsDialog(true)}
-            >
-              {`(${recipe.numberOfReviews || 0})`}
-            </IconButton>
+
+      <Grid
+        size={{ xs: 10, md: 6 }}
+        sx={{
+          height: { md: "90vh" },
+          marginLeft: { md: "auto" },
+          overflow: { md: "scroll" },
+          pt: { xs: 1, md: 3 },
+          pb: { xs: 2, md: 3 },
+        }}
+      >
+        <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", gap: 4 }}>
+          <Box display="flex" flexDirection="column">
+            <Typography variant={isMobile ? "h5" : "h3"} sx={{ "@media print": { color: "black" } }}>
+              {recipe.title}
+            </Typography>
+            <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", "@media print": { display: "none" } }}>
+              <Rating name="read-only" precision={0.5} value={recipe.rating} readOnly />
+              <IconButton
+                disabled={!recipe.numberOfReviews}
+                size="small"
+                color="primary"
+                onClick={() => setOpenReviewsDialog(true)}
+              >
+                {`(${recipe.numberOfReviews || 0})`}
+              </IconButton>
+            </Box>
+            <RecipeSpecifications recipe={recipe} />
+          </Box>
+          <Box sx={{ display: "none", "@media print": { display: "flex" }, flexDirection: "column", alignItems: "center", gap: 0.5, flexShrink: 0 }}>
+            <QRCodeSVG value={window.location.href} size={80} />
+            <Typography variant="caption" sx={{ color: "black", textAlign: "center", maxWidth: 80, wordBreak: "break-all", fontSize: "0.55rem" }}>
+              {window.location.href}
+            </Typography>
           </Box>
         </Box>
 
-        <Box className={classes.recipeInteraction}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            alignItems: { xs: "left", md: "center" },
+            "@media print": { display: "none" },
+          }}
+        >
           <RecipeDisplayButtons reloadRecipe={loadRecipe} recipe={recipe} />
-          <Box className={classes.recipeTags}>
-            {tags.map((tag) => !!tag && `#${tag} `)}
+          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.75, marginLeft: { md: "auto" } }}>
+            {tags.filter(Boolean).map((tag) => (
+              <Chip key={tag} label={tag} size="small" variant="outlined" />
+            ))}
           </Box>
         </Box>
         <Divider />
-        <RecipeSpecifications recipe={recipe} />
         <IngredientsList ingredients={recipe.ingredients} />
         <DirectionsList directions={recipe.directions} />
       </Grid>
+
       <ReviewsChartDialog
         open={openReviewsDialog}
         handleClose={() => setOpenReviewsDialog(false)}

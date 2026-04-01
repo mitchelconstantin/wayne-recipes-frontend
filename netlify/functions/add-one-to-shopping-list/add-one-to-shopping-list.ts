@@ -23,7 +23,8 @@ const addOneToShoppingList: Handler = async (event, context) => {
       .update({ quantity: data.quantity + 1 })
       .match({
         id: data.id,
-      });
+      })
+      .select();
     return {
       statusCode: 200,
       body: JSON.stringify({
@@ -51,7 +52,8 @@ const addOneToShoppingList: Handler = async (event, context) => {
 
   const addedShoppingListItem = await supabase
     .from("shoppinglist")
-    .insert(newShoppingListItem);
+    .insert(newShoppingListItem)
+    .select();
 
   return {
     statusCode: 200,

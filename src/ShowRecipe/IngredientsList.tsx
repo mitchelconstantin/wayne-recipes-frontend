@@ -1,41 +1,50 @@
-import { Box, Typography } from "@mui/material/";
-import { makeStyles } from "@mui/styles";
+import { Box, Typography } from "@mui/material";
 import { useMobileQuery } from "../Shared/Hooks/isMobile";
-
-const useStyles = makeStyles((theme) => ({
-  ingredientsLine: {
-    marginTop: "10px",
-    fontWeight: 500,
-    fontSize: "1rem",
-    "@media print": {
-      fontSize: "1.2rem",
-    },
-  },
-}));
 
 interface props {
   ingredients?: string;
 }
 
 export const IngredientsList = ({ ingredients }: props) => {
-  const classes = useStyles();
   const isMobile = useMobileQuery();
 
   if (!ingredients) return <div>no ingredients found</div>;
 
-  const processedIngredients = ingredients
-    .split("\n")
-    .map((line, i: number) => {
-      return (
-        <Typography key={i} className={classes.ingredientsLine}>
-          {line}
-        </Typography>
-      );
-    });
+  const lines = ingredients.split("\n").filter((line) => line.trim());
+
   return (
-    <Box mt="20px" mb="20px">
-      <Typography variant={isMobile ? "h5" : "h4"}>Ingredients</Typography>
-      {processedIngredients}
+    <Box mt={3} mb={2}>
+      <Typography variant={isMobile ? "h5" : "h4"} sx={{ mb: 1.5, "@media print": { color: "black" } }}>
+        Ingredients
+      </Typography>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
+        {lines.map((line, i) => (
+          <Box key={i} sx={{ display: "flex", alignItems: "baseline", gap: 1.5 }}>
+            <Box
+              sx={{
+                width: 5,
+                height: 5,
+                borderRadius: "50%",
+                backgroundColor: "primary.main",
+                border: "1.5px solid",
+                borderColor: "primary.main",
+                flexShrink: 0,
+                mt: "2px",
+                "@media print": { backgroundColor: "black", borderColor: "black" },
+              }}
+            />
+            <Typography
+              sx={{
+                fontSize: "1rem",
+                lineHeight: 1.6,
+                "@media print": { color: "black" },
+              }}
+            >
+              {line}
+            </Typography>
+          </Box>
+        ))}
+      </Box>
     </Box>
   );
 };

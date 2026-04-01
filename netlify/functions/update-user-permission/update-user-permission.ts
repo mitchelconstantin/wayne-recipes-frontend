@@ -13,7 +13,8 @@ const updateUserPermission: Handler = async (event, context) => {
 
   const { data, error } = await supabase
     .from("users")
-    .update(userFieldsToUpdate);
+    .update(userFieldsToUpdate)
+    .select();
 
   return {
     statusCode: 200,

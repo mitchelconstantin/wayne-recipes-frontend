@@ -6,14 +6,9 @@ import {
   DialogTitle,
   IconButton,
   DialogContent,
-  Paper,
+  Divider,
   Rating,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
+  Typography,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
@@ -22,56 +17,38 @@ import { Loading } from "../Shared/Components/Loading";
 import { useMobileQuery } from "../Shared/Hooks/isMobile";
 
 const ReviewsTable = ({ reviews }: { reviews: IReview[] }) => {
+  if (!reviews.length) return (
+    <Typography variant="body2" color="text.secondary">No reviews yet.</Typography>
+  );
+
   return (
-    <TableContainer component={Paper}>
-      <Table aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell style={{ width: "10%" }} align="right">
-              Score
-            </TableCell>
-            <TableCell style={{ width: "10%" }} align="right">
-              Name
-            </TableCell>
-            <TableCell style={{ width: "10%" }} align="right">
-              Date
-            </TableCell>
-            <TableCell style={{ width: "70%" }} align="right">
-              Comment
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {reviews.map((review) => (
-            <TableRow key={review.reviewerName}>
-              <TableCell style={{ width: "10%" }} component="th" scope="row">
-                <Rating
-                  size="small"
-                  name="read-only"
-                  value={review.score}
-                  readOnly
-                />
-              </TableCell>
-              <TableCell style={{ width: "10%" }} align="right">
+    <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+      {reviews.map((review, i) => (
+        <Box key={i} sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
+          <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <Rating size="small" value={review.score} readOnly precision={0.5} />
+              <Typography variant="body2" fontWeight={500}>
                 {review.reviewerName}
-              </TableCell>
-              <TableCell style={{ width: "10%" }} align="right">
-                {/* 
-                //@ts-ignore */}
-                {new Date(review.date).toLocaleDateString("en-US")}
-              </TableCell>
-              <TableCell style={{ width: "70%" }} align="right">
-                {review.comment}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+              </Typography>
+            </Box>
+            <Typography variant="caption" color="text.disabled">
+              {new Date(review.date as any).toLocaleDateString("en-US")}
+            </Typography>
+          </Box>
+          {review.comment && (
+            <Typography variant="body2" color="text.secondary" sx={{ pl: 0.5 }}>
+              {review.comment}
+            </Typography>
+          )}
+          {i < reviews.length - 1 && <Divider sx={{ mt: 1 }} />}
+        </Box>
+      ))}
+    </Box>
   );
 };
 
-interface RateRecipeDialogProps {
+interface ReviewsChartDialogProps {
   handleClose: any;
   open: boolean;
   recipe: IRecipe;
@@ -81,7 +58,7 @@ export const ReviewsChartDialog = ({
   handleClose,
   recipe,
   open,
-}: RateRecipeDialogProps) => {
+}: ReviewsChartDialogProps) => {
   const [reviews, setReviews] = useState<IReview[]>([]);
   const [loading, setLoading] = useState(true);
   const isMobile = useMobileQuery();
@@ -98,25 +75,20 @@ export const ReviewsChartDialog = ({
   }, [open]);
 
   return (
-    <Dialog
-      fullScreen={isMobile}
-      onClose={handleClose}
-      aria-labelledby="customized-dialog-title"
-      open={open}
-    >
-      <DialogTitle id="recipes-dialog">
-        <Box display="flex" alignItems="center">
-          <Box flexGrow={1}>{`Reviews for ${recipe.title}`}</Box>
-          <Box>
-            <IconButton onClick={handleClose} size="large">
-              <Close />
-            </IconButton>
-          </Box>
-        </Box>
+    <Dialog fullScreen={isMobile} onClose={handleClose} open={open} maxWidth="sm" fullWidth>
+      <DialogTitle sx={{ pr: 6 }}>
+        Reviews
+        <IconButton
+          onClick={handleClose}
+          size="small"
+          sx={{ position: "absolute", right: 12, top: 12, color: "text.secondary" }}
+        >
+          <Close fontSize="small" />
+        </IconButton>
       </DialogTitle>
-      <DialogContent>
-        {loading && <Loading />}
-        <ReviewsTable reviews={reviews} />
+      <Divider />
+      <DialogContent sx={{ pt: 2 }}>
+        {loading ? <Loading /> : <ReviewsTable reviews={reviews} />}
       </DialogContent>
     </Dialog>
   );

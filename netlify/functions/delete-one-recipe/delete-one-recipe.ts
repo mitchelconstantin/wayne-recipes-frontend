@@ -9,7 +9,8 @@ const deleteOneRecipe: Handler = async (event, context) => {
   const { data, error } = await supabase
     .from("recipes")
     .delete()
-    .eq("id", dbId);
+    .eq("id", dbId)
+    .select();
 
   return {
     statusCode: 200,

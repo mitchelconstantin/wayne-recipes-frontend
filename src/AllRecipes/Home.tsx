@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect, useCallback, ChangeEvent } from "react";
+import { useState, useEffect, useRef, useCallback, ChangeEvent } from "react";
 import {
   Box,
   Paper,
@@ -8,76 +8,42 @@ import {
   InputBase,
   Tooltip,
 } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import { Close } from "@mui/icons-material";
+import { Close, Search } from "@mui/icons-material";
 import { IRecipe, emptyFilters } from "../Shared/Types";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
 import { AdvancedFilters } from "./AdvancedFilters";
 import { RecipeList } from "./RecipeList";
 import { RecipeTransform } from "./RecipeTransform";
 import { ShowFiltersChip } from "./ShowFiltersChip";
-import { useHistory } from "react-router-dom";
-import { isEqual, debounce, isEmpty } from "lodash";
+import { useNavigate, useLocation } from "react-router-dom";
 import { grey } from "@mui/material/colors";
 import { getLocalRecipes, storeLocalRecipes } from "../Shared/AppBehaviors";
 
-const useStyles = makeStyles((theme: any) => ({
-  searchContainer: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: theme.palette.mode === "dark" ? grey[900] : "white",
-  },
-  searchBox: {
-    margin: theme.spacing(1, 1, 1, 1),
-    [theme.breakpoints.down("sm")]: {
-      margin: theme.spacing(2, 1, 1, 1),
-    },
-    display: "flex",
-    alignItems: "center",
-    minWidth: "40%",
-    maxWidth: "60vw",
-    borderRadius: "25px",
-    backgroundColor: theme.palette.mode === "dark" ? grey[800] : "#DFE1E5",
-  },
-  input: {
-    marginLeft: theme.spacing(2),
-    flex: 1,
-  },
-  iconButton: {
-    padding: 10,
-  },
-  divider: {
-    height: 28,
-    margin: 4,
-  },
-}));
 
 export const Home = () => {
   const [recipes, setRecipes] = useState<IRecipe[]>(getLocalRecipes());
   const [filteredRecipes, setFilteredRecipes] = useState<IRecipe[]>([]);
   const [loading, setLoading] = useState(false);
-  const history = useHistory();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [selectedFilters, setSelectedFilters] = useState(emptyFilters);
   const [searchTerm, setSearchTerm] = useState("");
   const [filtersExpanded, setFiltersExpanded] = useState(false);
-  const classes = useStyles();
   useEffect(() => {
     RecipeAPI.getAllRecipes().then((recipes) => {
       storeLocalRecipes(recipes);
       setRecipes(recipes);
       setFilteredRecipes(recipes);
       setLoading(false);
-      if (history.location.state) {
-        setSelectedFilters(history.location.state);
-        setSearchTerm(history.location.state.debouncedSearchTerm);
+      if (location.state) {
+        setSelectedFilters(location.state as any);
+        setSearchTerm((location.state as any).debouncedSearchTerm);
         if (
-          history.location.state.mainIngredient ||
-          history.location.state.region ||
-          history.location.state.type ||
-          history.location.state.source ||
-          history.location.state.rating
+          (location.state as any).mainIngredient ||
+          (location.state as any).region ||
+          (location.state as any).type ||
+          (location.state as any).source ||
+          (location.state as any).rating
         ) {
           setFiltersExpanded(true);
         }
@@ -90,23 +56,24 @@ export const Home = () => {
       recipes,
       selectedFilters
     );
-    if (!isEqual(filteredRecipes, newFilteredRecipes)) {
+    if (JSON.stringify(filteredRecipes) !== JSON.stringify(newFilteredRecipes)) {
       setFilteredRecipes(newFilteredRecipes);
     }
     if (!loading) {
-      history.push("/all", selectedFilters);
+      navigate("/all", { state: selectedFilters });
     }
   }, [selectedFilters, recipes]);
 
-  const setDebouncedSearchTerm = useCallback(
-    debounce((debouncedSearchTerm: string) => {
+  const debounceTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const setDebouncedSearchTerm = useCallback((debouncedSearchTerm: string) => {
+    clearTimeout(debounceTimer.current);
+    debounceTimer.current = setTimeout(() => {
       setSelectedFilters((prev) => ({
         ...prev,
         debouncedSearchTerm,
       }));
-    }, 500),
-    []
-  );
+    }, 500);
+  }, []);
 
   const handleChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -119,33 +86,61 @@ export const Home = () => {
     setSelectedFilters(emptyFilters);
   };
 
-  const isPristine = !searchTerm && isEqual(selectedFilters, emptyFilters);
+  const isPristine = !searchTerm && JSON.stringify(selectedFilters) === JSON.stringify(emptyFilters);
 
   return (
     <>
-      <Paper className={classes.searchContainer}>
-        <Box className={classes.searchBox}>
+      <Paper
+        elevation={0}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: (theme) =>
+            theme.palette.mode === "dark" ? grey[900] : "white",
+          borderBottom: (theme) =>
+            `1px solid ${theme.palette.mode === "dark" ? grey[800] : grey[200]}`,
+          pb: filtersExpanded ? 1 : 0,
+        }}
+      >
+        <Box
+          sx={{
+            mt: { xs: 1.5, md: 2 },
+            mb: 1.5,
+            display: "flex",
+            alignItems: "center",
+            width: { xs: "90%", sm: "60%", md: "50%", lg: "40%" },
+            borderRadius: "12px",
+            border: (theme) =>
+              `1.5px solid ${theme.palette.mode === "dark" ? grey[700] : grey[300]}`,
+            backgroundColor: (theme) =>
+              theme.palette.mode === "dark" ? grey[800] : grey[50],
+            px: 1,
+            transition: "border-color 0.2s ease, box-shadow 0.2s ease",
+            "&:focus-within": {
+              borderColor: "primary.main",
+              boxShadow: (theme) =>
+                `0 0 0 3px ${theme.palette.mode === "dark" ? "rgba(144,202,249,0.15)" : "rgba(25,118,210,0.1)"}`,
+            },
+          }}
+        >
+          <Search sx={{ color: "text.disabled", mr: 0.5, fontSize: "1.2rem" }} />
           <InputBase
-            className={classes.input}
-            placeholder="Search Recipes"
+            sx={{ flex: 1, fontSize: "0.95rem" }}
+            placeholder="Search recipes…"
             inputProps={{ "aria-label": "search" }}
             value={searchTerm}
             onChange={handleChangeInput}
           />
           {!isPristine && (
-            <Tooltip title="Clear Search Term and Filters">
-              <IconButton
-                type="submit"
-                className={classes.iconButton}
-                onClick={clearInput}
-                aria-label="search"
-                size="large"
-              >
-                <Close />
+            <Tooltip title="Clear search and filters">
+              <IconButton size="small" onClick={clearInput} aria-label="clear">
+                <Close fontSize="small" />
               </IconButton>
             </Tooltip>
           )}
-          <Divider className={classes.divider} orientation="vertical" />
+          <Divider sx={{ height: 20, mx: 0.5 }} orientation="vertical" />
           <ShowFiltersChip
             expanded={filtersExpanded}
             setExpanded={setFiltersExpanded}
@@ -157,7 +152,7 @@ export const Home = () => {
           setSelectedFilters={setSelectedFilters}
         />
       </Paper>
-      <RecipeList loading={isEmpty(recipes)} recipes={filteredRecipes} />
+      <RecipeList loading={!recipes.length} recipes={filteredRecipes} />
     </>
   );
 };

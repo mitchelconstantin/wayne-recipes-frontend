@@ -1,26 +1,19 @@
-import { Redirect, Route } from "react-router-dom";
+import React from "react";
+import { Navigate } from "react-router-dom";
 import { isLoggedIn, isAdmin, isOwner } from "../../AppBehaviors";
 
-export const PrivateRoute = ({ ...props }) => {
-  const loggedIn = isLoggedIn();
-
-  return loggedIn ? <Route {...props} /> : <Redirect to="/all" />;
+export const PrivateRoute = ({ element }: { element: React.JSX.Element }) => {
+  return isLoggedIn() ? element : <Navigate to="/all" replace />;
 };
 
-export const PublicRoute = ({ ...props }) => {
-  const loggedOut = !isLoggedIn();
-
-  return loggedOut ? <Route {...props} /> : <Redirect to="/all" />;
+export const PublicRoute = ({ element }: { element: React.JSX.Element }) => {
+  return !isLoggedIn() ? element : <Navigate to="/all" replace />;
 };
 
-export const AdminRoute = ({ ...props }) => {
-  const admin = isAdmin();
-
-  return admin ? <Route {...props} /> : <Redirect to="/all" />;
+export const AdminRoute = ({ element }: { element: React.JSX.Element }) => {
+  return isAdmin() ? element : <Navigate to="/all" replace />;
 };
 
-export const OwnerRoute = ({ ...props }) => {
-  const owner = isOwner();
-
-  return owner ? <Route {...props} /> : <Redirect to="/all" />;
+export const OwnerRoute = ({ element }: { element: React.JSX.Element }) => {
+  return isOwner() ? element : <Navigate to="/all" replace />;
 };

@@ -1,5 +1,5 @@
 import { emptyUser, IRecipe, IUser } from "./Types";
-import jwt_decode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 const TOKEN = "token";
 const LOCAL_RECIPES = "localRecipes";
@@ -21,7 +21,7 @@ export const getToken = (): string => localStorage.getItem(TOKEN) || "";
 export const getUserInfo = (): IUser => {
   const token = getToken();
   if (!token) return emptyUser;
-  const decoded: IUser = jwt_decode(token);
+  const decoded: IUser = jwtDecode(token);
   return decoded;
 };
 

@@ -1,21 +1,4 @@
-import { Box, Checkbox, Typography, FormControlLabel } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-
-const useStyles = makeStyles((theme) => ({
-  ListItemContainer: {
-    marginTop: "20px",
-    marginBottom: "20px",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "left",
-  },
-  label: {
-    marginTop: "10px",
-  },
-  checkBox: {
-    color: "#e4673d",
-  },
-}));
+import { Box, Checkbox, Divider, FormControlLabel, Typography } from "@mui/material";
 
 const isChecked = (line: string) => line.startsWith("<checked>");
 
@@ -28,8 +11,6 @@ interface ShoppingListLineProps {
 }
 
 const ShoppingListLine = ({ line, setLine }: ShoppingListLineProps) => {
-  const classes = useStyles();
-
   const handleCheck = () => {
     if (isChecked(line)) {
       setLine(line.slice(9));
@@ -39,17 +20,20 @@ const ShoppingListLine = ({ line, setLine }: ShoppingListLineProps) => {
   };
   return (
     <FormControlLabel
-      className={classes.label}
+      sx={{ mt: 0.5, color: isChecked(line) ? "text.disabled" : "text.primary" }}
       control={
         <Checkbox
-          style={{
-            color: "#e4673d",
-          }}
+          color="primary"
           checked={isChecked(line)}
           onChange={handleCheck}
+          size="small"
         />
       }
-      label={formatLine(line)}
+      label={
+        <Typography variant="body2" sx={{ textDecoration: isChecked(line) ? "line-through" : "none" }}>
+          {isChecked(line) ? line.slice(9) : line}
+        </Typography>
+      }
     />
   );
 };
@@ -65,26 +49,40 @@ export const IngredientsListContainer = ({
   setIngredientsList,
   title,
 }: IngredientsListProps) => {
-  const classes = useStyles();
-
   const createSetLine = (i: number) => (newLine: string) => {
     const newIngredientsList = [...ingredientsList];
     newIngredientsList.splice(i, 1, newLine);
     setIngredientsList(newIngredientsList);
   };
 
+  const total = ingredientsList.filter(l => l.trim()).length;
+  const checked = ingredientsList.filter(l => isChecked(l)).length;
+
   return (
-    <Box className={classes.ListItemContainer}>
-      <Typography variant="h6">{title}</Typography>
-      {ingredientsList.map((ingredientLine: string, i: number) => {
-        return (
-          <ShoppingListLine
-            key={i}
-            line={ingredientLine}
-            setLine={createSetLine(i)}
-          />
-        );
-      })}
+    <Box sx={{ mb: 3 }}>
+      <Box sx={{ display: "flex", alignItems: "baseline", gap: 1, mb: 1 }}>
+        <Typography variant="subtitle1" fontWeight={600}>
+          {title}
+        </Typography>
+        {total > 0 && (
+          <Typography variant="caption" color="text.disabled">
+            {checked}/{total}
+          </Typography>
+        )}
+      </Box>
+      <Box sx={{ display: "flex", flexDirection: "column" }}>
+        {ingredientsList.map((ingredientLine: string, i: number) => {
+          if (!ingredientLine.trim()) return null;
+          return (
+            <ShoppingListLine
+              key={i}
+              line={ingredientLine}
+              setLine={createSetLine(i)}
+            />
+          );
+        })}
+      </Box>
+      <Divider sx={{ mt: 2, "@media print": { display: "none" } }} />
     </Box>
   );
 };
