@@ -1,15 +1,7 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import noImage from "../Shared//Images/noImage.png";
 import noImageDark from "../Shared//Images/noImageDark.png";
-import {
-  Card,
-  CardMedia,
-  CardActionArea,
-  CardHeader,
-  Tooltip,
-  ClickAwayListener,
-  Box,
-} from "@mui/material";
+import { Card, CardActionArea, Box, Typography } from "@mui/material";
 
 import { IRecipe } from "../Shared/Types";
 import { Link } from "react-router-dom";
@@ -22,21 +14,11 @@ interface Props {
 
 export const RecipeCard = ({ recipe }: Props) => {
   const { darkThemeEnabled } = useContext(DarkThemeContext);
-  const [open, setOpen] = useState(false);
-
-  const handleTooltipClose = () => {
-    setOpen(false);
-  };
-
-  const handleTooltipOpen = () => {
-    setOpen(true);
-  };
 
   const defaultImage = darkThemeEnabled ? noImageDark : noImage;
 
   const onError = (ev: any) => {
-    const eventTarget = ev.target;
-    eventTarget.src = defaultImage;
+    ev.target.src = defaultImage;
   };
 
   const imageToUse = () => {
@@ -46,17 +28,26 @@ export const RecipeCard = ({ recipe }: Props) => {
   };
 
   return (
-    <Card>
+    <Card
+      sx={{
+        borderRadius: 2,
+        overflow: "hidden",
+        position: "relative",
+        "& .card-image": {
+          transition: "transform 0.3s ease",
+        },
+        "&:hover .card-image": {
+          transform: "scale(1.05)",
+        },
+      }}
+    >
       <CardActionArea
-        sx={{
-          "&:hover .MuiCardActionArea-focusHighlight": { opacity: 0.3 },
-          "& .MuiCardActionArea-focusHighlight": { opacity: 0 },
-        }}
         component={Link}
         to={`/r/${recipe.id}`}
         state={{ picture: recipe.picture, title: recipe.title }}
+        sx={{ display: "block", position: "relative" }}
       >
-        <CardMedia>
+        <Box className="card-image" sx={{ overflow: "hidden" }}>
           <MaterialImage
             color={darkThemeEnabled ? "#RRGGBBAA" : "white"}
             onError={onError}
@@ -66,34 +57,57 @@ export const RecipeCard = ({ recipe }: Props) => {
             disableTransition={true}
             disableSpinner={true}
           />
-        </CardMedia>
-      </CardActionArea>
-      <CardActionArea onClick={handleTooltipOpen}>
-        <ClickAwayListener onClickAway={handleTooltipClose}>
-          <Tooltip
-            onClose={handleTooltipClose}
-            open={open}
-            title={recipe.title}
+        </Box>
+
+        {/* Gradient overlay */}
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: { xs: "62px", md: "72px" },
+            background: "rgba(0,0,0,0.45)",
+            backdropFilter: "blur(8px)",
+            WebkitBackdropFilter: "blur(8px)",
+            p: { xs: 0.75, md: 1.25 },
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-end",
+          }}
+        >
+          <Typography
+            variant="body2"
+            sx={{
+              color: "white",
+              fontWeight: 600,
+              fontSize: { xs: "0.82rem", md: "0.9rem" },
+              lineHeight: 1.3,
+              display: "-webkit-box",
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+            }}
           >
-            <Box>
-              <CardHeader
-                onClick={handleTooltipOpen}
-                title={recipe.title}
-                titleTypographyProps={{
-                  sx: {
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    maxWidth: { xs: "110px", md: "200px" },
-                    fontWeight: { xs: 600, md: 500 },
-                    fontSize: { xs: ".8rem", md: "1.3rem" },
-                  },
-                }}
-                subheader={recipe.source || "Unknown"}
-              />
-            </Box>
-          </Tooltip>
-        </ClickAwayListener>
+            {recipe.title}
+          </Typography>
+          {recipe.source && (
+            <Typography
+              variant="caption"
+              sx={{
+                color: "rgba(255,255,255,0.75)",
+                fontSize: { xs: "0.7rem", md: "0.72rem" },
+                display: "block",
+                mt: 0.25,
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+              }}
+            >
+              {recipe.source}
+            </Typography>
+          )}
+        </Box>
       </CardActionArea>
     </Card>
   );

@@ -41,8 +41,10 @@ export const RecipeList = ({ loading, recipes }: Props) => {
         spacing={isMobile ? 2 : 4}
         style={{
           maxWidth: "100%",
-          marginTop: "0px",
+          marginTop: "12px",
           minHeight: "calc(100vh - 175px)",
+          paddingLeft: "12px",
+          paddingRight: "12px",
         }}
       >
         {isEmpty(recipes) && (
@@ -60,7 +62,7 @@ export const RecipeList = ({ loading, recipes }: Props) => {
         {!isEmpty(recipes) &&
           recipes.map((recipe, i) =>
             isInRange(i) ? (
-              <Grid size={{ xs: 5, sm: 4, md: 3, lg: 2, xl: 2 }} key={recipe.id}>
+              <Grid size={{ xs: 6, sm: 4, md: 3, lg: 3, xl: 2 }} key={recipe.id}>
                 <RecipeCard recipe={recipe} />
               </Grid>
             ) : undefined
