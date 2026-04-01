@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, memo } from "react";
 import noImage from "../Shared//Images/noImage.png";
 import noImageDark from "../Shared//Images/noImageDark.png";
 import { Card, CardActionArea, Box, Typography } from "@mui/material";
@@ -11,7 +11,7 @@ interface Props {
   recipe: IRecipe;
 }
 
-export const RecipeCard = ({ recipe }: Props) => {
+export const RecipeCard = memo(({ recipe }: Props) => {
   const { darkThemeEnabled } = useContext(DarkThemeContext);
 
   const defaultImage = darkThemeEnabled ? noImageDark : noImage;
@@ -46,6 +46,7 @@ export const RecipeCard = ({ recipe }: Props) => {
           <img
             src={imageToUse()}
             alt={recipe.title}
+            loading="lazy"
             onError={(e: any) => { e.target.src = defaultImage; }}
             style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
           />
@@ -105,4 +106,4 @@ export const RecipeCard = ({ recipe }: Props) => {
       </CardActionArea>
     </Card>
   );
-};
+});

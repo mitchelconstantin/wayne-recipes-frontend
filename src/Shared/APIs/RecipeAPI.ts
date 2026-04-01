@@ -25,7 +25,7 @@ export class RecipeAPI {
   static getRecipe = async (id: string): Promise<IRecipe | null> => {
     try {
       const { data } = await netlifyInstance.get(`get-one-recipe/?id=${id}`);
-      console.log("got here, returning data", data);
+      // console.log("got here, returning data", data);
       return data.recipe;
     } catch (e) {
       console.log("got netlify err", e);
@@ -47,7 +47,7 @@ export class RecipeAPI {
     try {
       const { data } = await netlifyInstance.patch(
         `patch-one-recipe/?id=${recipe.id}`,
-        config
+        config,
       );
       SnackbarService.success(`successfully updated ${data.recipe.title}`);
       return data.recipe;
@@ -66,7 +66,7 @@ export class RecipeAPI {
 
   static getUserRecipeReview = async (
     userEmail: string,
-    recipeId: string
+    recipeId: string,
   ): Promise<IReview | undefined> => {
     const url = `get-user-recipe-review/?recipeId=${recipeId}&email=${userEmail}`;
     const { data } = await netlifyInstance.get(url);
@@ -81,7 +81,7 @@ export class RecipeAPI {
 
   static uploadImage = async (
     image: string,
-    recipeId: string
+    recipeId: string,
   ): Promise<string> => {
     const config: AxiosRequestConfig = {
       data: { image, recipeId },
