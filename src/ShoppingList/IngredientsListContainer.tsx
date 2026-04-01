@@ -1,9 +1,12 @@
-import { Box, Checkbox, Divider, FormControlLabel, Typography } from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  Divider,
+  FormControlLabel,
+  Typography,
+} from "@mui/material";
 
 const isChecked = (line: string) => line.startsWith("<checked>");
-
-const formatLine = (line: string) =>
-  isChecked(line) ? <del>{line.slice(9)}</del> : line;
 
 interface ShoppingListLineProps {
   line: string;
@@ -20,7 +23,10 @@ const ShoppingListLine = ({ line, setLine }: ShoppingListLineProps) => {
   };
   return (
     <FormControlLabel
-      sx={{ mt: 0.5, color: isChecked(line) ? "text.disabled" : "text.primary" }}
+      sx={{
+        mt: 0.5,
+        color: isChecked(line) ? "text.disabled" : "text.primary",
+      }}
       control={
         <Checkbox
           color="primary"
@@ -30,7 +36,10 @@ const ShoppingListLine = ({ line, setLine }: ShoppingListLineProps) => {
         />
       }
       label={
-        <Typography variant="body2" sx={{ textDecoration: isChecked(line) ? "line-through" : "none" }}>
+        <Typography
+          variant="body2"
+          sx={{ textDecoration: isChecked(line) ? "line-through" : "none" }}
+        >
           {isChecked(line) ? line.slice(9) : line}
         </Typography>
       }
@@ -55,8 +64,8 @@ export const IngredientsListContainer = ({
     setIngredientsList(newIngredientsList);
   };
 
-  const total = ingredientsList.filter(l => l.trim()).length;
-  const checked = ingredientsList.filter(l => isChecked(l)).length;
+  const total = ingredientsList.filter((l) => l.trim()).length;
+  const checked = ingredientsList.filter((l) => isChecked(l)).length;
 
   return (
     <Box sx={{ mb: 3 }}>

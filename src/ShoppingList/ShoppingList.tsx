@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, Divider, Typography, Paper } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 import { ShoppingCart } from "@mui/icons-material";
 import { IShoppingListItem } from "../Shared/Types";
 import { SnackbarService } from "../Shared/SnackbarService";
@@ -26,7 +26,10 @@ export const ShoppingList = () => {
     });
   }, [load]);
 
-  const updateShoppingList = async (newRecipe: IShoppingListItem[], i: number) => {
+  const updateShoppingList = async (
+    newRecipe: IShoppingListItem[],
+    i: number,
+  ) => {
     //@ts-ignore
     const newList = [...shoppingList];
     newList[i].ingredients = newRecipe.join("\n");
@@ -45,7 +48,14 @@ export const ShoppingList = () => {
 
   return (
     <Box sx={{ px: { xs: 2, md: 6 }, py: 4, maxWidth: "860px", mx: "auto" }}>
-      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 1 }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          mb: 1,
+        }}
+      >
         <Typography variant="h5" fontWeight={500}>
           Shopping List
         </Typography>
@@ -74,7 +84,16 @@ export const ShoppingList = () => {
           ))}
         </>
       ) : (
-        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 2, py: 8, color: "text.disabled" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 2,
+            py: 8,
+            color: "text.disabled",
+          }}
+        >
           <ShoppingCart sx={{ fontSize: 64 }} />
           <Typography variant="h6" color="text.secondary">
             Your shopping list is empty

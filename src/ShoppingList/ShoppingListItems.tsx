@@ -1,4 +1,4 @@
-import { Box, Chip, IconButton, Paper, Tooltip, Typography } from "@mui/material";
+import { Box, Chip, Tooltip, Typography } from "@mui/material";
 import { IShoppingListItem } from "../Shared/Types";
 import RemoveShoppingCart from "@mui/icons-material/RemoveShoppingCart";
 
@@ -12,10 +12,22 @@ interface ShoppingListProps {
   removeFromShoppingList: Function;
 }
 
-export const ShoppingListItems = ({ shoppingList, removeFromShoppingList }: ShoppingListProps) => {
+export const ShoppingListItems = ({
+  shoppingList,
+  removeFromShoppingList,
+}: ShoppingListProps) => {
   return (
     <Box sx={{ mb: 1 }}>
-      <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1.5, textTransform: "uppercase", letterSpacing: 0.5, fontSize: "0.7rem" }}>
+      <Typography
+        variant="subtitle2"
+        color="text.secondary"
+        sx={{
+          mb: 1.5,
+          textTransform: "uppercase",
+          letterSpacing: 0.5,
+          fontSize: "0.7rem",
+        }}
+      >
         Recipes
       </Typography>
       <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
