@@ -8,24 +8,23 @@ import {
   useScrollTrigger,
   Typography,
   IconButton,
+  Tooltip,
 } from "@mui/material";
+import { DarkMode, LightMode } from "@mui/icons-material";
 import { DarkThemeContext } from "../App";
 import { HeaderButtons } from "./HeaderButtons";
 import logo from "../Shared/Images/logo.svg";
-import darkLogo from "../Shared/Images/darkLogo.svg";
 import { Link } from "react-router-dom";
 
 export const Header = () => {
-  const { darkThemeEnabled } = useContext(DarkThemeContext);
+  const { darkThemeEnabled, toggleDarkThemeEnabled } = useContext(DarkThemeContext);
   const trigger = useScrollTrigger();
-
-  const title = `WAYNE'S FAMILY RECIPES`;
 
   return (
     <Box>
       <CssBaseline />
       <Slide appear={false} direction="down" in={!trigger}>
-        <AppBar sx={{ background: "linear-gradient(90deg, #f44723, #f56730, #f44723)" }}>
+        <AppBar sx={{ background: "linear-gradient(90deg, #f44723, #f67030)" }}>
           <Toolbar>
             <IconButton
               edge="start"
@@ -35,22 +34,28 @@ export const Header = () => {
               size="large"
             >
               <img
-                src={darkThemeEnabled ? darkLogo : logo}
-                style={{ height: "36px", width: "36px" }}
+                src={logo}
+                style={{ height: "32px", width: "32px" }}
                 alt={"Logo"}
               />
             </IconButton>
             <Typography
               variant="h6"
               sx={{
-                paddingLeft: 1,
-                marginRight: "-5px",
+                pl: 1,
                 flexGrow: 1,
-                color: (theme) => theme.palette.mode === "dark" ? "silver" : "white",
+                color: "white",
+                fontWeight: 500,
+                letterSpacing: "0.02em",
               }}
             >
-              {title}
+              Wayne's Family Recipes
             </Typography>
+            <Tooltip title={darkThemeEnabled ? "Switch to light mode" : "Switch to dark mode"}>
+              <IconButton onClick={toggleDarkThemeEnabled} sx={{ color: "white", mr: 0.5 }}>
+                {darkThemeEnabled ? <LightMode fontSize="small" /> : <DarkMode fontSize="small" />}
+              </IconButton>
+            </Tooltip>
             <HeaderButtons />
           </Toolbar>
         </AppBar>

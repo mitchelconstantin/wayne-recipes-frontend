@@ -1,13 +1,14 @@
 import {
-  Box,
   Dialog,
   DialogTitle,
   IconButton,
   DialogContent,
   Typography,
   Link,
+  Box,
+  Divider,
 } from "@mui/material";
-import { Close } from "@mui/icons-material";
+import { Close, Code } from "@mui/icons-material";
 
 interface Props {
   handleClose: any;
@@ -16,43 +17,44 @@ interface Props {
 
 export const AboutDialog = ({ handleClose, open }: Props) => {
   return (
-    <Dialog
-      onClose={handleClose}
-      aria-labelledby="customized-dialog-title"
-      open={open}
-    >
-      <DialogTitle id="id">
-        <Box display="flex" alignItems="center">
-          <Box flexGrow={1}>{"About"}</Box>
-          <Box>
-            <IconButton onClick={handleClose} size="large">
-              <Close />
-            </IconButton>
-          </Box>
-        </Box>
+    <Dialog onClose={handleClose} open={open} maxWidth="xs" fullWidth>
+      <DialogTitle sx={{ pr: 6 }}>
+        About
+        <IconButton
+          onClick={handleClose}
+          size="small"
+          sx={{ position: "absolute", right: 12, top: 12, color: "text.secondary" }}
+        >
+          <Close fontSize="small" />
+        </IconButton>
       </DialogTitle>
-      <DialogContent>
-        <Typography gutterBottom>
+      <Divider />
+      <DialogContent sx={{ pt: 2 }}>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2.5, lineHeight: 1.7 }}>
           Wayne's Recipes is a recipe app for hosting Constantin Family recipes
           on the web. All of the recipes you see have been collected by my
           father, Wayne over the last 30 years.
         </Typography>
-        <Typography>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
           <Link
-            href={"https://github.com/mitchelconstantin/wayne-recipes-frontend"}
+            href="https://github.com/mitchelconstantin/wayne-recipes-frontend"
+            target="_blank"
+            rel="noopener"
+            underline="hover"
+            sx={{ display: "flex", alignItems: "center", gap: 0.75, fontSize: "0.875rem" }}
           >
-            frontend code
+            <Code fontSize="small" /> Frontend source
           </Link>
-        </Typography>
-        <Typography>
           <Link
-            href={
-              "https://github.com/mitchelconstLinkntin/wayne-recipes-backend"
-            }
+            href="https://github.com/mitchelconstantin/wayne-recipes-backend"
+            target="_blank"
+            rel="noopener"
+            underline="hover"
+            sx={{ display: "flex", alignItems: "center", gap: 0.75, fontSize: "0.875rem" }}
           >
-            backend code
+            <Code fontSize="small" /> Backend source
           </Link>
-        </Typography>
+        </Box>
       </DialogContent>
     </Dialog>
   );

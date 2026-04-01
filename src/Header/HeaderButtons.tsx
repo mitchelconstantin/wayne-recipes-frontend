@@ -1,16 +1,13 @@
-import { useState, useContext } from "react";
-import { Menu, MenuItem, Switch, IconButton } from "@mui/material";
+import { useState } from "react";
+import { Menu, MenuItem, IconButton, Divider, Typography } from "@mui/material";
 import { MoreVert } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { isLoggedIn, logOut, isAdmin, isOwner } from "../Shared/AppBehaviors";
-import { DarkThemeContext } from "../App";
 import preval from "preval.macro";
 import { AboutDialog } from "../About/AboutDialog";
 
 export const HeaderButtons = () => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const { darkThemeEnabled, toggleDarkThemeEnabled } =
-    useContext(DarkThemeContext);
   const [aboutDialogOpen, setAboutDialogOpen] = useState(false);
 
   const handleClick = (event: any) => {
@@ -30,7 +27,7 @@ export const HeaderButtons = () => {
         aria-controls="long-menu"
         aria-haspopup="true"
         onClick={handleClick}
-        sx={{ color: (theme) => theme.palette.mode === "dark" ? "silver" : "white" }}
+        sx={{ color: "white" }}
         size="large"
       >
         <MoreVert />
@@ -40,14 +37,15 @@ export const HeaderButtons = () => {
         keepMounted
         open={Boolean(anchorEl)}
         onClose={handleClose}
+        slotProps={{ paper: { sx: { minWidth: 180, borderRadius: 2 } } }}
       >
         {isLoggedIn() ? (
-          <div>
-            <MenuItem onClick={logOut}>Logout</MenuItem>
-            <MenuItem onClick={handleClose} component={Link} to="/list">
+          [
+            <MenuItem key="logout" onClick={logOut}>Logout</MenuItem>,
+            <MenuItem key="list" onClick={handleClose} component={Link} to="/list">
               Shopping List
-            </MenuItem>
-          </div>
+            </MenuItem>,
+          ]
         ) : (
           <MenuItem onClick={handleClose} component={Link} to="/login">
             Login
@@ -55,7 +53,7 @@ export const HeaderButtons = () => {
         )}
         {isAdmin() && (
           <MenuItem component={Link} to="/new">
-            Add new recipe
+            Add Recipe
           </MenuItem>
         )}
         {isOwner() && (
@@ -63,10 +61,6 @@ export const HeaderButtons = () => {
             Admin Dashboard
           </MenuItem>
         )}
-        <MenuItem onClick={toggleDarkThemeEnabled}>
-          <div style={{ marginRight: "auto" }}>Use Dark Theme</div>
-          <Switch checked={darkThemeEnabled} color="primary" />
-        </MenuItem>
         <MenuItem
           onClick={() => {
             setAboutDialogOpen(true);
@@ -75,7 +69,12 @@ export const HeaderButtons = () => {
         >
           About
         </MenuItem>
-        <MenuItem>updated: {dateTimeStamp}</MenuItem>
+        <Divider />
+        <MenuItem disabled sx={{ py: 0.25 }}>
+          <Typography variant="caption" color="text.disabled">
+            Updated {dateTimeStamp}
+          </Typography>
+        </MenuItem>
       </Menu>
       <AboutDialog
         open={aboutDialogOpen}
