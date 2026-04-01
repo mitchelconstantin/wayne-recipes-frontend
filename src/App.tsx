@@ -2,7 +2,7 @@ import { createContext } from "react";
 import { Header } from "./Header/Header";
 import { UpdateRecipe } from "./UpdateRecipe/UpdateRecipe";
 import { ShoppingList } from "./ShoppingList/ShoppingList";
-import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Home } from "./AllRecipes/Home";
 import { Login } from "./AccountComponents/Login";
 import { RecipeDisplay } from "./ShowRecipe/RecipeDisplay";
@@ -49,43 +49,17 @@ export const App = () => {
             <CssBaseline />
             <SnackbarContainer />
             <Header />
-            <Switch>
-              <PublicRoute
-                path="/login"
-                render={(props: any) => <Login {...props} />}
-              />
-              <PublicRoute
-                path="/signup"
-                render={(props: any) => <SignUp {...props} />}
-              />
-              <Route
-                exact
-                path="/all"
-                render={(props: any) => <Home {...props} />}
-              />
-              <Route
-                exact
-                path="/r/:recipeId"
-                render={(props: any) => <RecipeDisplay {...props} />}
-              />
-              <PrivateRoute
-                path="/list"
-                render={(props: any) => <ShoppingList {...props} />}
-              />
-              <AdminRoute
-                path="/new"
-                render={(props: any) => <UpdateRecipe {...props} />}
-              />
-              <AdminRoute
-                path="/r/:recipeId/edit"
-                render={(props: any) => <UpdateRecipe {...props} />}
-              />
-              <OwnerRoute
-                path="/dashboard"
-                render={(props: any) => <AdminDashboard {...props} />}
-              />
-              <Redirect from="/" to="/all" />
-            </Switch>
+            <Routes>
+              <Route path="/login" element={<PublicRoute element={<Login />} />} />
+              <Route path="/signup" element={<PublicRoute element={<SignUp />} />} />
+              <Route path="/all" element={<Home />} />
+              <Route path="/r/:recipeId" element={<RecipeDisplay />} />
+              <Route path="/list" element={<PrivateRoute element={<ShoppingList />} />} />
+              <Route path="/new" element={<AdminRoute element={<UpdateRecipe />} />} />
+              <Route path="/r/:recipeId/edit" element={<AdminRoute element={<UpdateRecipe />} />} />
+              <Route path="/dashboard" element={<OwnerRoute element={<AdminDashboard />} />} />
+              <Route path="/" element={<Navigate to="/all" replace />} />
+            </Routes>
           </ThemeProvider>
         </StyledEngineProvider>
       </DarkThemeContext.Provider>

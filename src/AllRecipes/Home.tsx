@@ -16,7 +16,7 @@ import { AdvancedFilters } from "./AdvancedFilters";
 import { RecipeList } from "./RecipeList";
 import { RecipeTransform } from "./RecipeTransform";
 import { ShowFiltersChip } from "./ShowFiltersChip";
-import { useHistory } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { isEqual, debounce, isEmpty } from "lodash";
 import { grey } from "@mui/material/colors";
 import { getLocalRecipes, storeLocalRecipes } from "../Shared/AppBehaviors";
@@ -58,7 +58,8 @@ export const Home = () => {
   const [recipes, setRecipes] = useState<IRecipe[]>(getLocalRecipes());
   const [filteredRecipes, setFilteredRecipes] = useState<IRecipe[]>([]);
   const [loading, setLoading] = useState(false);
-  const history = useHistory();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [selectedFilters, setSelectedFilters] = useState(emptyFilters);
   const [searchTerm, setSearchTerm] = useState("");
   const [filtersExpanded, setFiltersExpanded] = useState(false);
@@ -69,15 +70,15 @@ export const Home = () => {
       setRecipes(recipes);
       setFilteredRecipes(recipes);
       setLoading(false);
-      if (history.location.state) {
-        setSelectedFilters(history.location.state);
-        setSearchTerm(history.location.state.debouncedSearchTerm);
+      if (location.state) {
+        setSelectedFilters(location.state as any);
+        setSearchTerm((location.state as any).debouncedSearchTerm);
         if (
-          history.location.state.mainIngredient ||
-          history.location.state.region ||
-          history.location.state.type ||
-          history.location.state.source ||
-          history.location.state.rating
+          (location.state as any).mainIngredient ||
+          (location.state as any).region ||
+          (location.state as any).type ||
+          (location.state as any).source ||
+          (location.state as any).rating
         ) {
           setFiltersExpanded(true);
         }
@@ -94,7 +95,7 @@ export const Home = () => {
       setFilteredRecipes(newFilteredRecipes);
     }
     if (!loading) {
-      history.push("/all", selectedFilters);
+      navigate("/all", { state: selectedFilters });
     }
   }, [selectedFilters, recipes]);
 
