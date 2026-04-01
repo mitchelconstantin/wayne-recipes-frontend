@@ -8,7 +8,7 @@ import {
   InputBase,
   Tooltip,
 } from "@mui/material";
-import { Close } from "@mui/icons-material";
+import { Close, Search } from "@mui/icons-material";
 import { IRecipe, emptyFilters } from "../Shared/Types";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
 import { AdvancedFilters } from "./AdvancedFilters";
@@ -91,47 +91,56 @@ export const Home = () => {
   return (
     <>
       <Paper
+        elevation={0}
         sx={{
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: (theme) => theme.palette.mode === "dark" ? grey[900] : "white",
+          backgroundColor: (theme) =>
+            theme.palette.mode === "dark" ? grey[900] : "white",
+          borderBottom: (theme) =>
+            `1px solid ${theme.palette.mode === "dark" ? grey[800] : grey[200]}`,
+          pb: filtersExpanded ? 1 : 0,
         }}
       >
         <Box
           sx={{
-            margin: 1,
-            marginTop: { xs: 2 },
+            mt: { xs: 1.5, md: 2 },
+            mb: 1.5,
             display: "flex",
             alignItems: "center",
-            minWidth: "40%",
-            maxWidth: "60vw",
-            borderRadius: "25px",
-            backgroundColor: (theme) => theme.palette.mode === "dark" ? grey[800] : "#DFE1E5",
+            width: { xs: "90%", sm: "60%", md: "50%", lg: "40%" },
+            borderRadius: "12px",
+            border: (theme) =>
+              `1.5px solid ${theme.palette.mode === "dark" ? grey[700] : grey[300]}`,
+            backgroundColor: (theme) =>
+              theme.palette.mode === "dark" ? grey[800] : grey[50],
+            px: 1,
+            transition: "border-color 0.2s ease, box-shadow 0.2s ease",
+            "&:focus-within": {
+              borderColor: "primary.main",
+              boxShadow: (theme) =>
+                `0 0 0 3px ${theme.palette.mode === "dark" ? "rgba(144,202,249,0.15)" : "rgba(25,118,210,0.1)"}`,
+            },
           }}
         >
+          <Search sx={{ color: "text.disabled", mr: 0.5, fontSize: "1.2rem" }} />
           <InputBase
-            sx={{ marginLeft: 2, flex: 1 }}
-            placeholder="Search Recipes"
+            sx={{ flex: 1, fontSize: "0.95rem" }}
+            placeholder="Search recipes…"
             inputProps={{ "aria-label": "search" }}
             value={searchTerm}
             onChange={handleChangeInput}
           />
           {!isPristine && (
-            <Tooltip title="Clear Search Term and Filters">
-              <IconButton
-                type="submit"
-                sx={{ padding: "10px" }}
-                onClick={clearInput}
-                aria-label="search"
-                size="large"
-              >
-                <Close />
+            <Tooltip title="Clear search and filters">
+              <IconButton size="small" onClick={clearInput} aria-label="clear">
+                <Close fontSize="small" />
               </IconButton>
             </Tooltip>
           )}
-          <Divider sx={{ height: 28, margin: "4px" }} orientation="vertical" />
+          <Divider sx={{ height: 20, mx: 0.5 }} orientation="vertical" />
           <ShowFiltersChip
             expanded={filtersExpanded}
             setExpanded={setFiltersExpanded}

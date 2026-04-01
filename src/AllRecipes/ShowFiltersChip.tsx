@@ -1,5 +1,5 @@
 import { Tooltip, IconButton } from "@mui/material";
-import { ExpandMore } from "@mui/icons-material";
+import { TuneRounded } from "@mui/icons-material";
 
 interface AdvancedFiltersProps {
   expanded: boolean;
@@ -12,22 +12,22 @@ export const ShowFiltersChip = ({
   const handleExpandClick = () => setExpanded(!expanded);
 
   return (
-    <Tooltip title="Show Advanced Filters">
+    <Tooltip title="Show filters">
       <IconButton
         sx={{
-          padding: "10px",
-          transform: expanded ? "rotate(180deg)" : "rotate(1deg)",
+          padding: "6px",
+          color: expanded ? "primary.main" : "text.secondary",
           transition: (theme) =>
-            theme.transitions.create("transform", {
+            theme.transitions.create(["color"], {
               duration: theme.transitions.duration.shortest,
             }),
         }}
         onClick={handleExpandClick}
         aria-expanded={expanded}
-        aria-label="show more"
-        size="large"
+        aria-label="show filters"
+        size="small"
       >
-        <ExpandMore />
+        <TuneRounded fontSize="small" />
       </IconButton>
     </Tooltip>
   );
