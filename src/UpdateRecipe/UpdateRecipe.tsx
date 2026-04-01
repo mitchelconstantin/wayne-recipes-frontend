@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
-import { Button, TextField, Typography, Box } from "@mui/material";
+import { Button, TextField, Typography, Box, Grid, Divider } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { ImageUploader } from "./ImageUploader";
 import { isOwner } from "../Shared/AppBehaviors";
@@ -15,9 +15,8 @@ import { DeleteRecipeDialog } from "./DeleteRecipeDialog";
 const getRecipeData = async (recipeId: string) => {
   const recipe = recipeId ? await RecipeAPI.getRecipe(recipeId) : emptyRecipe;
   const filters = await RecipeAPI.getFilters();
-
   if (!recipe) {
-    SnackbarService.error("could not find that recipe");
+    SnackbarService.error("Could not find that recipe");
     window.location.href = "/";
     return {};
   }
@@ -47,109 +46,128 @@ export const UpdateRecipe = () => {
   const handleChange = (type: string, newValue: any) => {
     setRecipe((prev) => ({ ...prev, [type]: newValue }));
   };
+
   const disabled = !(recipe.title && recipe.ingredients && recipe.directions);
   if (loading) return <Loading />;
+
   return (
     <Box sx={formContainerSx}>
-      <Typography variant="h6" gutterBottom>
-        {recipeId ? "edit this recipe" : "Add a new recipe "}
+      <Typography variant="h5" fontWeight={500} gutterBottom alignSelf="flex-start">
+        {recipeId ? "Edit Recipe" : "New Recipe"}
       </Typography>
+      <Divider sx={{ width: "100%", mb: 3 }} />
+
       <ImageUploader
         setPicture={(newImage: string) => handleChange("picture", newImage)}
         picture={recipe.picture}
       />
+
       <TextField
         value={recipe.title || ""}
         onChange={(e) => handleChange("title", e.target.value)}
         required
-        id="title"
         label="Title"
-        sx={formTextFieldSx}
+        sx={{ ...formTextFieldSx, mb: 3 }}
       />
-      <Dropdown
-        handleChange={(e: any, value: any) => {
-          handleChange("type", value);
-        }}
-        items={filters.types}
-        value={recipe.type || ""}
-        title={"Recipe Type"}
-      />
-      <Dropdown
-        handleChange={(e: any, value: any) => {
-          handleChange("source", value);
-        }}
-        items={filters.sources}
-        value={recipe.source || ""}
-        title={"Source"}
-      />
-      <TextField
-        value={recipe.serves || ""}
-        onChange={(e) => handleChange("serves", e.target.value)}
-        required
-        id="serves"
-        label="Serves"
-        sx={formTextFieldSx}
-      />
-      <Dropdown
-        handleChange={(e: any, value: any) =>
-          handleChange("mainIngredient", value)
-        }
-        items={filters.mainIngredients}
-        value={recipe.mainIngredient || ""}
-        title={"Main Ingredient"}
-      />
-      <Dropdown
-        handleChange={(e: any, value: any) => handleChange("region", value)}
-        items={filters.regions}
-        value={recipe.region || ""}
-        title={"Region"}
-      />
-      <TextField
-        value={recipe.netCarbs || ""}
-        onChange={(e) => handleChange("netCarbs", e.target.value)}
-        required
-        id="netCarbs"
-        label="Net Carbs"
-        sx={formTextFieldSx}
-      />
-      <TextField
-        value={recipe.ingredients || ""}
-        onChange={(e) => handleChange("ingredients", e.target.value)}
-        required
-        id="ingredients"
-        sx={formTextFieldSx}
-        label="Ingredients"
-        multiline
-        rows="4"
-      />
-      <TextField
-        value={recipe.directions || ""}
-        onChange={(e) => handleChange("directions", e.target.value)}
-        required
-        id="directions"
-        label="Directions"
-        sx={formTextFieldSx}
-        multiline
-        rows="4"
-      />
-      <Button
-        disabled={disabled}
-        style={{ margin: "8px" }}
-        color="primary"
-        variant="contained"
-        onClick={() => saveRecipe(recipe)}
-      >
-        {recipeId ? "update recipe" : "save new recipe"}
-      </Button>
-      {isOwner() && recipeId && (
+
+      <Grid container spacing={2} sx={{ width: "100%", mb: 1 }}>
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <Dropdown
+            handleChange={(_: any, value: any) => handleChange("type", value)}
+            items={filters.types}
+            value={recipe.type || ""}
+            title="Recipe Type"
+          />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <Dropdown
+            handleChange={(_: any, value: any) => handleChange("source", value)}
+            items={filters.sources}
+            value={recipe.source || ""}
+            title="Source"
+          />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <Dropdown
+            handleChange={(_: any, value: any) => handleChange("mainIngredient", value)}
+            items={filters.mainIngredients}
+            value={recipe.mainIngredient || ""}
+            title="Main Ingredient"
+          />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <Dropdown
+            handleChange={(_: any, value: any) => handleChange("region", value)}
+            items={filters.regions}
+            value={recipe.region || ""}
+            title="Region"
+          />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <TextField
+            value={recipe.serves || ""}
+            onChange={(e) => handleChange("serves", e.target.value)}
+            label="Serves"
+            fullWidth
+            sx={formTextFieldSx}
+          />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <TextField
+            value={recipe.netCarbs || ""}
+            onChange={(e) => handleChange("netCarbs", e.target.value)}
+            label="Net Carbs"
+            fullWidth
+            sx={formTextFieldSx}
+          />
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={2} sx={{ width: "100%", mb: 3 }}>
+        <Grid size={{ xs: 12, md: 6 }}>
+          <TextField
+            value={recipe.ingredients || ""}
+            onChange={(e) => handleChange("ingredients", e.target.value)}
+            required
+            label="Ingredients"
+            fullWidth
+            multiline
+            rows={10}
+          />
+        </Grid>
+        <Grid size={{ xs: 12, md: 6 }}>
+          <TextField
+            value={recipe.directions || ""}
+            onChange={(e) => handleChange("directions", e.target.value)}
+            required
+            label="Directions"
+            fullWidth
+            multiline
+            rows={10}
+          />
+        </Grid>
+      </Grid>
+
+      <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%", alignItems: "center" }}>
         <Button
-          style={{ margin: "8px", marginTop: "100px", color: "red" }}
-          onClick={() => setOpenModal(true)}
+          disabled={disabled}
           variant="contained"
+          color="primary"
+          onClick={() => saveRecipe(recipe)}
         >
-          delete recipe
+          {recipeId ? "Update Recipe" : "Save Recipe"}
         </Button>
-      )}
+        {isOwner() && recipeId && (
+          <Button
+            variant="outlined"
+            color="error"
+            onClick={() => setOpenModal(true)}
+          >
+            Delete Recipe
+          </Button>
+        )}
+      </Box>
+
       <DeleteRecipeDialog
         open={openModal}
         id={recipe.id || "1"}

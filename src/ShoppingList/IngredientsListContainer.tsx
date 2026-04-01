@@ -1,4 +1,4 @@
-import { Box, Checkbox, Typography, FormControlLabel } from "@mui/material";
+import { Box, Checkbox, Divider, FormControlLabel, Typography } from "@mui/material";
 
 const isChecked = (line: string) => line.startsWith("<checked>");
 
@@ -20,15 +20,20 @@ const ShoppingListLine = ({ line, setLine }: ShoppingListLineProps) => {
   };
   return (
     <FormControlLabel
-      sx={{ marginTop: "10px" }}
+      sx={{ mt: 0.5, color: isChecked(line) ? "text.disabled" : "text.primary" }}
       control={
         <Checkbox
-          sx={{ color: "#e4673d" }}
+          color="primary"
           checked={isChecked(line)}
           onChange={handleCheck}
+          size="small"
         />
       }
-      label={formatLine(line)}
+      label={
+        <Typography variant="body2" sx={{ textDecoration: isChecked(line) ? "line-through" : "none" }}>
+          {isChecked(line) ? line.slice(9) : line}
+        </Typography>
+      }
     />
   );
 };
@@ -50,26 +55,34 @@ export const IngredientsListContainer = ({
     setIngredientsList(newIngredientsList);
   };
 
+  const total = ingredientsList.filter(l => l.trim()).length;
+  const checked = ingredientsList.filter(l => isChecked(l)).length;
+
   return (
-    <Box
-      sx={{
-        marginTop: "20px",
-        marginBottom: "20px",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "left",
-      }}
-    >
-      <Typography variant="h6">{title}</Typography>
-      {ingredientsList.map((ingredientLine: string, i: number) => {
-        return (
-          <ShoppingListLine
-            key={i}
-            line={ingredientLine}
-            setLine={createSetLine(i)}
-          />
-        );
-      })}
+    <Box sx={{ mb: 3 }}>
+      <Box sx={{ display: "flex", alignItems: "baseline", gap: 1, mb: 1 }}>
+        <Typography variant="subtitle1" fontWeight={600}>
+          {title}
+        </Typography>
+        {total > 0 && (
+          <Typography variant="caption" color="text.disabled">
+            {checked}/{total}
+          </Typography>
+        )}
+      </Box>
+      <Box sx={{ display: "flex", flexDirection: "column" }}>
+        {ingredientsList.map((ingredientLine: string, i: number) => {
+          if (!ingredientLine.trim()) return null;
+          return (
+            <ShoppingListLine
+              key={i}
+              line={ingredientLine}
+              setLine={createSetLine(i)}
+            />
+          );
+        })}
+      </Box>
+      <Divider sx={{ mt: 2, "@media print": { display: "none" } }} />
     </Box>
   );
 };

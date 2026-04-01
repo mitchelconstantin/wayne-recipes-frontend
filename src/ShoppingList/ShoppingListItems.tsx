@@ -1,4 +1,4 @@
-import { Box, IconButton, Tooltip, Typography } from "@mui/material";
+import { Box, Chip, IconButton, Paper, Tooltip, Typography } from "@mui/material";
 import { IShoppingListItem } from "../Shared/Types";
 import RemoveShoppingCart from "@mui/icons-material/RemoveShoppingCart";
 
@@ -12,31 +12,27 @@ interface ShoppingListProps {
   removeFromShoppingList: Function;
 }
 
-export const ShoppingListItems = ({
-  shoppingList,
-  removeFromShoppingList,
-}: ShoppingListProps) => {
+export const ShoppingListItems = ({ shoppingList, removeFromShoppingList }: ShoppingListProps) => {
   return (
-    <>
-      <Box display="flex" alignItems="center">
-        <Typography variant="h6">Recipes on the shopping list</Typography>
+    <Box sx={{ mb: 1 }}>
+      <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1.5, textTransform: "uppercase", letterSpacing: 0.5, fontSize: "0.7rem" }}>
+        Recipes
+      </Typography>
+      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+        {shoppingList.map((item, i: number) => (
+          <Chip
+            key={i}
+            label={getTitle(item.title, item.quantity)}
+            onDelete={() => removeFromShoppingList(item.recipe_id, item.title)}
+            deleteIcon={
+              <Tooltip title="Remove from Shopping List">
+                <RemoveShoppingCart fontSize="small" />
+              </Tooltip>
+            }
+            variant="outlined"
+          />
+        ))}
       </Box>
-      {shoppingList.map((item, i: number) => (
-        <Box key={i} display="flex" alignItems="center">
-          <Typography sx={{ fontSize: (theme) => theme.typography.pxToRem(15), color: "text.secondary" }}>
-            {getTitle(item.title, item.quantity)}
-          </Typography>
-          <Tooltip title="Remove from Shopping List">
-            <IconButton
-              onClick={() => removeFromShoppingList(item.recipe_id, item.title)}
-              aria-label="upload picture"
-              size="large"
-            >
-              <RemoveShoppingCart />
-            </IconButton>
-          </Tooltip>
-        </Box>
-      ))}
-    </>
+    </Box>
   );
 };
