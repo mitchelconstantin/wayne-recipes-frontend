@@ -1,17 +1,5 @@
-import { Box, Typography } from "@mui/material/";
-import { makeStyles } from "@mui/styles";
+import { Box, Typography } from "@mui/material";
 import { useMobileQuery } from "../Shared/Hooks/isMobile";
-
-const useStyles = makeStyles((theme) => ({
-  directionsLine: {
-    marginTop: "10px",
-    fontWeight: 500,
-    fontSize: "1rem",
-    "@media print": {
-      fontSize: "1.2rem",
-    },
-  },
-}));
 
 const getLine = (index: number, line: string) => {
   if (!line) return line;
@@ -24,13 +12,20 @@ interface props {
 }
 
 export const DirectionsList = ({ directions }: props) => {
-  const classes = useStyles();
   const isMobile = useMobileQuery();
 
   if (!directions) return <div>no directions found</div>;
   const processedDirections = directions.split("\n").map((line, i: number) => {
     return (
-      <Typography key={i} className={classes.directionsLine}>
+      <Typography
+        key={i}
+        sx={{
+          marginTop: "10px",
+          fontWeight: 500,
+          fontSize: "1rem",
+          "@media print": { fontSize: "1.2rem" },
+        }}
+      >
         {getLine(i, line)}
       </Typography>
     );

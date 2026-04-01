@@ -1,20 +1,5 @@
 import { Tooltip, IconButton } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 import { ExpandMore } from "@mui/icons-material";
-import clsx from "clsx";
-
-const useStyles = makeStyles((theme) => ({
-  expand: {
-    padding: "10px",
-    transform: "rotate(1deg)",
-    transition: theme.transitions.create("transform", {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: "rotate(180deg)",
-  },
-}));
 
 interface AdvancedFiltersProps {
   expanded: boolean;
@@ -24,15 +9,19 @@ export const ShowFiltersChip = ({
   expanded,
   setExpanded,
 }: AdvancedFiltersProps) => {
-  const classes = useStyles();
   const handleExpandClick = () => setExpanded(!expanded);
 
   return (
     <Tooltip title="Show Advanced Filters">
       <IconButton
-        className={clsx(classes.expand, {
-          [classes.expandOpen]: expanded,
-        })}
+        sx={{
+          padding: "10px",
+          transform: expanded ? "rotate(180deg)" : "rotate(1deg)",
+          transition: (theme) =>
+            theme.transitions.create("transform", {
+              duration: theme.transitions.duration.shortest,
+            }),
+        }}
         onClick={handleExpandClick}
         aria-expanded={expanded}
         aria-label="show more"

@@ -8,7 +8,6 @@ import {
   InputBase,
   Tooltip,
 } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 import { Close } from "@mui/icons-material";
 import { IRecipe, emptyFilters } from "../Shared/Types";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
@@ -21,38 +20,6 @@ import { isEqual, debounce, isEmpty } from "lodash";
 import { grey } from "@mui/material/colors";
 import { getLocalRecipes, storeLocalRecipes } from "../Shared/AppBehaviors";
 
-const useStyles = makeStyles((theme: any) => ({
-  searchContainer: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: theme.palette.mode === "dark" ? grey[900] : "white",
-  },
-  searchBox: {
-    margin: theme.spacing(1, 1, 1, 1),
-    [theme.breakpoints.down("sm")]: {
-      margin: theme.spacing(2, 1, 1, 1),
-    },
-    display: "flex",
-    alignItems: "center",
-    minWidth: "40%",
-    maxWidth: "60vw",
-    borderRadius: "25px",
-    backgroundColor: theme.palette.mode === "dark" ? grey[800] : "#DFE1E5",
-  },
-  input: {
-    marginLeft: theme.spacing(2),
-    flex: 1,
-  },
-  iconButton: {
-    padding: 10,
-  },
-  divider: {
-    height: 28,
-    margin: 4,
-  },
-}));
 
 export const Home = () => {
   const [recipes, setRecipes] = useState<IRecipe[]>(getLocalRecipes());
@@ -63,7 +30,6 @@ export const Home = () => {
   const [selectedFilters, setSelectedFilters] = useState(emptyFilters);
   const [searchTerm, setSearchTerm] = useState("");
   const [filtersExpanded, setFiltersExpanded] = useState(false);
-  const classes = useStyles();
   useEffect(() => {
     RecipeAPI.getAllRecipes().then((recipes) => {
       storeLocalRecipes(recipes);
@@ -124,10 +90,29 @@ export const Home = () => {
 
   return (
     <>
-      <Paper className={classes.searchContainer}>
-        <Box className={classes.searchBox}>
+      <Paper
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: (theme) => theme.palette.mode === "dark" ? grey[900] : "white",
+        }}
+      >
+        <Box
+          sx={{
+            margin: 1,
+            marginTop: { xs: 2 },
+            display: "flex",
+            alignItems: "center",
+            minWidth: "40%",
+            maxWidth: "60vw",
+            borderRadius: "25px",
+            backgroundColor: (theme) => theme.palette.mode === "dark" ? grey[800] : "#DFE1E5",
+          }}
+        >
           <InputBase
-            className={classes.input}
+            sx={{ marginLeft: 2, flex: 1 }}
             placeholder="Search Recipes"
             inputProps={{ "aria-label": "search" }}
             value={searchTerm}
@@ -137,7 +122,7 @@ export const Home = () => {
             <Tooltip title="Clear Search Term and Filters">
               <IconButton
                 type="submit"
-                className={classes.iconButton}
+                sx={{ padding: "10px" }}
                 onClick={clearInput}
                 aria-label="search"
                 size="large"
@@ -146,7 +131,7 @@ export const Home = () => {
               </IconButton>
             </Tooltip>
           )}
-          <Divider className={classes.divider} orientation="vertical" />
+          <Divider sx={{ height: 28, margin: "4px" }} orientation="vertical" />
           <ShowFiltersChip
             expanded={filtersExpanded}
             setExpanded={setFiltersExpanded}

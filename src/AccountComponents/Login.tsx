@@ -2,12 +2,11 @@ import { useState } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import { emptyUser } from "../Shared/Types";
 import { UserAPI } from "../Shared/APIs/UserAPI";
-import { useContainerStyles } from "../Shared/formStyles";
+import { formContainerSx } from "../Shared/formStyles";
 
 export const Login = () => {
   const [user, setUser] = useState(emptyUser);
   const [loggedIn, setLoggedIn] = useState(false);
-  const classes = useContainerStyles();
   const handleChange = (type: string, newValue: string) => {
     setUser((prev) => ({ ...prev, [type]: newValue }));
   };
@@ -19,14 +18,14 @@ export const Login = () => {
   };
   if (loggedIn)
     return (
-      <Box className={classes.formContainer}>
+      <Box sx={formContainerSx}>
         <Button href="/all" color="primary" variant="contained">
           Go to All Recipes
         </Button>
       </Box>
     );
   return (
-    <Box className={classes.formContainer}>
+    <Box sx={formContainerSx}>
       <TextField
         label="Email"
         required

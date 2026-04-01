@@ -11,7 +11,6 @@ import {
   DialogContent,
   Rating,
 } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 import { Close } from "@mui/icons-material";
 import { isEmpty } from "lodash";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
@@ -33,14 +32,6 @@ const labels = {
   5: "Excellent+",
 };
 
-const useStyles = makeStyles({
-  root: {
-    width: 200,
-    display: "flex",
-    alignItems: "center",
-  },
-});
-
 interface HoverRatingProps {
   value: null | number;
   setValue: Function;
@@ -48,10 +39,9 @@ interface HoverRatingProps {
 
 const HoverRating = ({ value, setValue }: HoverRatingProps) => {
   const [hover, setHover] = useState(-1);
-  const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <Box sx={{ width: 200, display: "flex", alignItems: "center" }}>
       <Rating
         name="hover-feedback"
         value={value}
@@ -67,7 +57,7 @@ const HoverRating = ({ value, setValue }: HoverRatingProps) => {
         //@ts-ignore
         <Box ml={2}>{labels[hover !== -1 ? hover : value]}</Box>
       }
-    </div>
+    </Box>
   );
 };
 

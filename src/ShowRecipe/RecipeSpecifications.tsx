@@ -1,4 +1,4 @@
-import { Box } from "@mui/material/";
+import { Box } from "@mui/material";
 import { IRecipe } from "../Shared/Types";
 
 interface props {

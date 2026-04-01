@@ -1,6 +1,5 @@
 import { useState, useContext } from "react";
-import { Menu, MenuItem, Switch, IconButton } from "@mui/material/";
-import { makeStyles } from "@mui/styles";
+import { Menu, MenuItem, Switch, IconButton } from "@mui/material";
 import { MoreVert } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { isLoggedIn, logOut, isAdmin, isOwner } from "../Shared/AppBehaviors";
@@ -8,17 +7,10 @@ import { DarkThemeContext } from "../App";
 import preval from "preval.macro";
 import { AboutDialog } from "../About/AboutDialog";
 
-const useStyles = makeStyles((theme) => ({
-  button: {
-    color: theme.palette.mode === "dark" ? "silver" : "white",
-  },
-}));
-
 export const HeaderButtons = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const { darkThemeEnabled, toggleDarkThemeEnabled } =
     useContext(DarkThemeContext);
-  const classes = useStyles();
   const [aboutDialogOpen, setAboutDialogOpen] = useState(false);
 
   const handleClick = (event: any) => {
@@ -38,7 +30,7 @@ export const HeaderButtons = () => {
         aria-controls="long-menu"
         aria-haspopup="true"
         onClick={handleClick}
-        className={classes.button}
+        sx={{ color: (theme) => theme.palette.mode === "dark" ? "silver" : "white" }}
         size="large"
       >
         <MoreVert />

@@ -12,7 +12,7 @@ import {
 import { IUser } from "../Shared/Types";
 import { SnackbarService } from "../Shared/SnackbarService";
 import { UserAPI } from "../Shared/APIs/UserAPI";
-import { useContainerStyles } from "../Shared/formStyles";
+import { formContainerSx } from "../Shared/formStyles";
 import { Loading } from "../Shared/Components/Loading";
 
 const updateUsers = async (users: IUser[]) => {
@@ -22,7 +22,6 @@ const updateUsers = async (users: IUser[]) => {
 export const AdminDashboard = () => {
   const [users, setUsers] = useState<IUser[]>([]);
   const [loading, setLoading] = useState(true);
-  const classes = useContainerStyles();
 
   useEffect(() => {
     UserAPI.getAllUsers().then((users) => {
@@ -40,7 +39,7 @@ export const AdminDashboard = () => {
 
   if (loading) return <Loading />;
   return (
-    <Box className={classes.formContainer}>
+    <Box sx={formContainerSx}>
       <FormControl component="fieldset">
         <FormLabel>Has Admin priviledges?</FormLabel>
         <FormGroup>

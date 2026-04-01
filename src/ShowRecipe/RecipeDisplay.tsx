@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useContext } from "react";
 import noImage from "../Shared/Images/noImage.png";
-import { Box, Divider, Grid, IconButton, Typography } from "@mui/material/";
-import { makeStyles } from "@mui/styles";
+import { Box, Divider, Grid, IconButton, Typography } from "@mui/material";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
 import { useParams, useLocation } from "react-router-dom";
 import { Loading } from "../Shared/Components/Loading";
@@ -17,60 +16,6 @@ import { ReviewsChartDialog } from "./ReviewsChartDialog";
 import { DarkThemeContext } from "../App";
 import { Image as MaterialImage } from "../AllRecipes/MaterialImage";
 
-const useStyles = makeStyles((theme) => ({
-  recipeDetails: {
-    [theme.breakpoints.up("md")]: {
-      height: "90vh",
-      padding: theme.spacing(3),
-      marginLeft: "auto",
-      overflow: "scroll",
-    },
-  },
-  container: {
-    "@media print": {
-      display: "block",
-    },
-  },
-  recipeInteraction: {
-    display: "flex",
-    [theme.breakpoints.down("md")]: {
-      flexDirection: "column",
-      alignItems: "left",
-    },
-    [theme.breakpoints.up("md")]: {
-      flexDirection: "row",
-      alignItems: "center",
-    },
-  },
-  recipeTags: {
-    display: "flex",
-    [theme.breakpoints.up("md")]: {
-      marginLeft: "auto",
-    },
-  },
-  imageContainer: {
-    "@media print": {
-      display: "none",
-    },
-    [theme.breakpoints.down("md")]: {
-      width: "80vw",
-      padding: theme.spacing(2, 0),
-    },
-    [theme.breakpoints.up("md")]: {
-      width: "40vw",
-      height: "80vh",
-      padding: theme.spacing(3, 4),
-      marginRight: "auto",
-      overflow: "hidden",
-    },
-  },
-  image: {
-    [theme.breakpoints.up("md")]: {
-      maxHeight: "80vh",
-      maxWidth: "40vw",
-    },
-  },
-}));
 
 export const RecipeDisplay = () => {
   const { state } = useLocation();
@@ -82,7 +27,6 @@ export const RecipeDisplay = () => {
   const [loading, setLoading] = useState(true);
   const [openReviewsDialog, setOpenReviewsDialog] = useState(false);
   const { recipeId } = useParams();
-  const classes = useStyles();
   const isMobile = useMobileQuery();
   const { darkThemeEnabled } = useContext(DarkThemeContext);
   const [aspectRatio, setAspectRatio] = useState(1);
@@ -116,12 +60,21 @@ export const RecipeDisplay = () => {
       container
       direction="row"
       justifyContent="center"
-      className={classes.container}
+      sx={{ "@media print": { display: "block" } }}
     >
-      <Grid className={classes.imageContainer} item xs={10} md={5}>
+      <Grid
+        size={{ xs: 10, md: 5 }}
+        sx={{
+          "@media print": { display: "none" },
+          width: { xs: "80vw", md: "40vw" },
+          padding: { xs: "16px 0", md: "24px 32px" },
+          height: { md: "80vh" },
+          marginRight: { md: "auto" },
+          overflow: { md: "hidden" },
+        }}
+      >
         <MaterialImage
-          className={classes.image}
-          style={{ objectFit: "contain" }}
+          style={{ objectFit: "contain", maxHeight: "80vh", maxWidth: "40vw" }}
           color={darkThemeEnabled ? "999" : "white"}
           aspectRatio={aspectRatio}
           onError={onError}
@@ -129,7 +82,15 @@ export const RecipeDisplay = () => {
           alt={"a tasty dish"}
         />
       </Grid>
-      <Grid item xs={10} md={6} className={classes.recipeDetails}>
+      <Grid
+        size={{ xs: 10, md: 6 }}
+        sx={{
+          height: { md: "90vh" },
+          padding: { md: 3 },
+          marginLeft: { md: "auto" },
+          overflow: { md: "scroll" },
+        }}
+      >
         <Box display="flex" flexDirection="column">
           <Typography variant={isMobile ? "h5" : "h3"}>
             {recipe.title}
@@ -152,9 +113,15 @@ export const RecipeDisplay = () => {
           </Box>
         </Box>
 
-        <Box className={classes.recipeInteraction}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            alignItems: { xs: "left", md: "center" },
+          }}
+        >
           <RecipeDisplayButtons reloadRecipe={loadRecipe} recipe={recipe} />
-          <Box className={classes.recipeTags}>
+          <Box sx={{ display: "flex", marginLeft: { md: "auto" } }}>
             {tags.map((tag) => !!tag && `#${tag} `)}
           </Box>
         </Box>

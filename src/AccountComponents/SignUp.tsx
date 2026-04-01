@@ -2,12 +2,11 @@ import { useState } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import { emptyUser } from "../Shared/Types";
 import { UserAPI } from "../Shared/APIs/UserAPI";
-import { useContainerStyles } from "../Shared/formStyles";
+import { formContainerSx } from "../Shared/formStyles";
 
 export const SignUp = () => {
   const [user, setUser] = useState(emptyUser);
   const [signedUp, setSignedUp] = useState(false);
-  const classes = useContainerStyles();
   const handleChange = (type: string, newValue: string) => {
     setUser((prev) => ({ ...prev, [type]: newValue }));
   };
@@ -19,7 +18,7 @@ export const SignUp = () => {
 
   if (signedUp)
     return (
-      <Box className={classes.formContainer}>
+      <Box sx={formContainerSx}>
         <Button href="/login" color="primary" variant="contained">
           Go to Sign In
         </Button>
@@ -27,7 +26,7 @@ export const SignUp = () => {
     );
 
   return (
-    <Box className={classes.formContainer}>
+    <Box sx={formContainerSx}>
       {!signedUp && (
         <>
           <TextField

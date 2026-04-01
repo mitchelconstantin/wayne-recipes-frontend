@@ -7,21 +7,13 @@ import {
   Collapse,
   FormControl,
   Grid,
-  // todo: figure out why this import isn't working
-  // makeStyles,
   Rating,
 } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
 import { emptyFilterOptions, emptyFilters, IFilters } from "../Shared/Types";
 import { useMobileQuery } from "../Shared/Hooks/isMobile";
 
-const useStyles = makeStyles(() => ({
-  menuPaper: {
-    maxHeight: 300,
-    maxWidth: 200,
-  },
-}));
+const menuPaperSx = { maxHeight: 300, maxWidth: 200 };
 
 interface AdvancedFiltersProps {
   selectedFilters: IFilters;
@@ -34,7 +26,6 @@ export const AdvancedFilters = ({
   expanded,
 }: AdvancedFiltersProps) => {
   const [allFilters, setAllFilters] = useState(emptyFilterOptions);
-  const classes = useStyles();
   const isMobile = useMobileQuery();
 
   useEffect(() => {
@@ -74,7 +65,7 @@ export const AdvancedFilters = ({
         container
         spacing={isMobile ? 1 : 3}
       >
-        <Grid xs={6} md={4} item>
+        <Grid size={{ xs: 6, md: 4 }}>
           <FormControl fullWidth>
             <InputLabel>Main Ingredient</InputLabel>
             <Select
@@ -82,7 +73,7 @@ export const AdvancedFilters = ({
               name="mainIngredient"
               //@ts-ignore
               onChange={handleChange}
-              MenuProps={{ classes: { paper: classes.menuPaper } }}
+              MenuProps={{ PaperProps: { sx: menuPaperSx } }}
             >
               <MenuItem value={""}>All</MenuItem>
               {mainIngredients.map((mi) => (
@@ -93,7 +84,7 @@ export const AdvancedFilters = ({
             </Select>
           </FormControl>
         </Grid>
-        <Grid xs={6} md={4} item>
+        <Grid size={{ xs: 6, md: 4 }}>
           <FormControl fullWidth>
             <InputLabel>Region</InputLabel>
             <Select
@@ -101,7 +92,7 @@ export const AdvancedFilters = ({
               name="region"
               //@ts-ignore
               onChange={handleChange}
-              MenuProps={{ classes: { paper: classes.menuPaper } }}
+              MenuProps={{ PaperProps: { sx: menuPaperSx } }}
             >
               <MenuItem value={""}>All</MenuItem>
               {regions.map((region) => (
@@ -112,7 +103,7 @@ export const AdvancedFilters = ({
             </Select>
           </FormControl>
         </Grid>
-        <Grid xs={6} md={4} item>
+        <Grid size={{ xs: 6, md: 4 }}>
           <FormControl fullWidth>
             <InputLabel>Recipe Type</InputLabel>
             <Select
@@ -120,7 +111,7 @@ export const AdvancedFilters = ({
               name="type"
               //@ts-ignore
               onChange={handleChange}
-              MenuProps={{ classes: { paper: classes.menuPaper } }}
+              MenuProps={{ PaperProps: { sx: menuPaperSx } }}
             >
               <MenuItem value={""}>All</MenuItem>
               {types.map((type) => (
@@ -131,7 +122,7 @@ export const AdvancedFilters = ({
             </Select>
           </FormControl>
         </Grid>
-        <Grid xs={6} md={4} item>
+        <Grid size={{ xs: 6, md: 4 }}>
           <FormControl fullWidth>
             <InputLabel>Source</InputLabel>
             <Select
@@ -139,7 +130,7 @@ export const AdvancedFilters = ({
               name="source"
               //@ts-ignore
               onChange={handleChange}
-              MenuProps={{ classes: { paper: classes.menuPaper } }}
+              MenuProps={{ PaperProps: { sx: menuPaperSx } }}
             >
               <MenuItem value={""}>All</MenuItem>
               {sources.map((source) => (
@@ -150,7 +141,7 @@ export const AdvancedFilters = ({
             </Select>
           </FormControl>
         </Grid>
-        <Grid xs={6} md={4} item>
+        <Grid size={{ xs: 6, md: 4 }}>
           <FormControl fullWidth>
             <InputLabel>Rating (minimum)</InputLabel>
             <Select
@@ -158,7 +149,7 @@ export const AdvancedFilters = ({
               name="rating"
               //@ts-ignore
               onChange={handleChange}
-              MenuProps={{ classes: { paper: classes.menuPaper } }}
+              MenuProps={{ PaperProps: { sx: menuPaperSx } }}
             >
               {ratings.map((rating) => (
                 <MenuItem key={rating} value={rating}>

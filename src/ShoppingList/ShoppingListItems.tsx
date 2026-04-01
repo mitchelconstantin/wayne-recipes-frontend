@@ -1,25 +1,6 @@
 import { Box, IconButton, Tooltip, Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 import { IShoppingListItem } from "../Shared/Types";
 import RemoveShoppingCart from "@mui/icons-material/RemoveShoppingCart";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-  },
-  heading: {
-    fontSize: theme.typography.pxToRem(15),
-    flexBasis: "33.33%",
-    flexShrink: 0,
-  },
-  secondaryHeading: {
-    fontSize: theme.typography.pxToRem(15),
-    color: theme.palette.text.secondary,
-  },
-  details: {
-    flexDirection: "column",
-  },
-}));
 
 const getTitle = (title: string, quantity: number) => {
   if (quantity < 2) return title;
@@ -35,8 +16,6 @@ export const ShoppingListItems = ({
   shoppingList,
   removeFromShoppingList,
 }: ShoppingListProps) => {
-  const classes = useStyles();
-
   return (
     <>
       <Box display="flex" alignItems="center">
@@ -44,7 +23,7 @@ export const ShoppingListItems = ({
       </Box>
       {shoppingList.map((item, i: number) => (
         <Box key={i} display="flex" alignItems="center">
-          <Typography className={classes.secondaryHeading}>
+          <Typography sx={{ fontSize: (theme) => theme.typography.pxToRem(15), color: "text.secondary" }}>
             {getTitle(item.title, item.quantity)}
           </Typography>
           <Tooltip title="Remove from Shopping List">

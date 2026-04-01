@@ -1,13 +1,12 @@
-import { makeStyles } from "@mui/styles";
+import { SxProps, Theme } from "@mui/material";
 
-export const useContainerStyles = makeStyles((theme) => ({
-  formContainer: {
-    padding: theme.spacing(3),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  formTextField: {
-    width: "50%",
-  },
-}));
+export const formContainerSx: SxProps<Theme> = {
+  padding: 3,
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+};
+
+export const formTextFieldSx: SxProps<Theme> = {
+  width: "50%",
+};

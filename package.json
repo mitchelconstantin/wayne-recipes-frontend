@@ -12,10 +12,9 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@mui/icons-material": "^5.18.0",
-    "@mui/lab": "^5.0.0-alpha.46",
-    "@mui/material": "^5.18.0",
-    "@mui/styles": "^5.18.0",
+    "@mui/icons-material": "^7.3.9",
+    "@mui/lab": "^7.0.1-beta.23",
+    "@mui/material": "^7.3.9",
     "@netlify/functions": "^5.1.5",
     "@supabase/supabase-js": "^2.101.1",
     "@types/node": "^14.18.26",

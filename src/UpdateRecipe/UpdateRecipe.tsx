@@ -7,7 +7,7 @@ import { isOwner } from "../Shared/AppBehaviors";
 import { IRecipe, emptyRecipe, emptyFilterOptions } from "../Shared/Types";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
 import { SnackbarService } from "../Shared/SnackbarService";
-import { useContainerStyles } from "../Shared/formStyles";
+import { formContainerSx, formTextFieldSx } from "../Shared/formStyles";
 import { Loading } from "../Shared/Components/Loading";
 import { Dropdown } from "./Dropdown";
 import { DeleteRecipeDialog } from "./DeleteRecipeDialog";
@@ -35,7 +35,6 @@ export const UpdateRecipe = () => {
   const [recipe, setRecipe] = useState<IRecipe>(emptyRecipe);
   const [filters, setFilters] = useState(emptyFilterOptions);
   const [loading, setLoading] = useState(true);
-  const classes = useContainerStyles();
 
   useEffect(() => {
     getRecipeData(recipeId).then(({ recipe, filters }) => {
@@ -51,7 +50,7 @@ export const UpdateRecipe = () => {
   const disabled = !(recipe.title && recipe.ingredients && recipe.directions);
   if (loading) return <Loading />;
   return (
-    <Box className={classes.formContainer}>
+    <Box sx={formContainerSx}>
       <Typography variant="h6" gutterBottom>
         {recipeId ? "edit this recipe" : "Add a new recipe "}
       </Typography>
@@ -65,7 +64,7 @@ export const UpdateRecipe = () => {
         required
         id="title"
         label="Title"
-        className={classes.formTextField}
+        sx={formTextFieldSx}
       />
       <Dropdown
         handleChange={(e: any, value: any) => {
@@ -89,7 +88,7 @@ export const UpdateRecipe = () => {
         required
         id="serves"
         label="Serves"
-        className={classes.formTextField}
+        sx={formTextFieldSx}
       />
       <Dropdown
         handleChange={(e: any, value: any) =>
@@ -111,14 +110,14 @@ export const UpdateRecipe = () => {
         required
         id="netCarbs"
         label="Net Carbs"
-        className={classes.formTextField}
+        sx={formTextFieldSx}
       />
       <TextField
         value={recipe.ingredients || ""}
         onChange={(e) => handleChange("ingredients", e.target.value)}
         required
         id="ingredients"
-        className={classes.formTextField}
+        sx={formTextFieldSx}
         label="Ingredients"
         multiline
         rows="4"
@@ -129,7 +128,7 @@ export const UpdateRecipe = () => {
         required
         id="directions"
         label="Directions"
-        className={classes.formTextField}
+        sx={formTextFieldSx}
         multiline
         rows="4"
       />

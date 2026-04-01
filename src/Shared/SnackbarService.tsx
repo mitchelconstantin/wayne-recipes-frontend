@@ -1,8 +1,7 @@
 import { useState } from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import {
   Snackbar,
-  Theme,
   StyledEngineProvider,
   SnackbarOrigin,
   Alert,
@@ -12,11 +11,6 @@ import {
 import { getTheme } from "./theme";
 import { useMobileQuery } from "./Hooks/isMobile";
 import { useDarkThemeEnabled } from "./Hooks/darkTheme";
-
-declare module "@mui/styles/defaultTheme" {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  interface DefaultTheme extends Theme {}
-}
 
 const uniqueSnackbarID = "SnackbarContainer-12345";
 
@@ -61,6 +55,8 @@ export const CustomSnackbar = ({ message, severity }: Props) => {
 export const SnackbarContainer = () => <div id={uniqueSnackbarID} />;
 
 export class SnackbarService {
+  private static root: ReturnType<typeof createRoot> | null = null;
+
   static success(message: string) {
     this.showSnackbar(message, "success");
   }
@@ -79,10 +75,13 @@ export class SnackbarService {
 
   private static showSnackbar(message: string, severity: AlertColor) {
     const container = document.getElementById(uniqueSnackbarID);
+    if (!container) return;
+    if (!this.root) {
+      this.root = createRoot(container);
+    }
     const Snackbar = () => (
       <CustomSnackbar message={message} severity={severity} />
     );
-
-    ReactDOM.render(<Snackbar />, container);
+    this.root.render(<Snackbar />);
   }
 }

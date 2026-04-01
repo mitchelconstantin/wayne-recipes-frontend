@@ -9,46 +9,18 @@ import {
   Tooltip,
   ClickAwayListener,
   Box,
-} from "@mui/material/";
+} from "@mui/material";
 
-import { makeStyles } from "@mui/styles";
 import { IRecipe } from "../Shared/Types";
 import { Link } from "react-router-dom";
 import { DarkThemeContext } from "../App";
 import { Image as MaterialImage } from "./MaterialImage";
-
-const useStyles = makeStyles((theme) => ({
-  actionArea: {
-    "&:hover $focusHighlight": {
-      opacity: 0.3,
-    },
-  },
-  focusHighlight: {
-    opacity: 0,
-  },
-  title: {
-    textOverflow: "ellipsis",
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-    [theme.breakpoints.down("md")]: {
-      maxWidth: "110px",
-      fontWeight: 600,
-      fontSize: ".8rem",
-    },
-    [theme.breakpoints.up("md")]: {
-      maxWidth: "200px",
-      fontSize: "1.3rem",
-      fontWeight: 500,
-    },
-  },
-}));
 
 interface Props {
   recipe: IRecipe;
 }
 
 export const RecipeCard = ({ recipe }: Props) => {
-  const classes = useStyles();
   const { darkThemeEnabled } = useContext(DarkThemeContext);
   const [open, setOpen] = useState(false);
 
@@ -76,15 +48,13 @@ export const RecipeCard = ({ recipe }: Props) => {
   return (
     <Card>
       <CardActionArea
-        classes={{
-          root: classes.actionArea,
-          focusHighlight: classes.focusHighlight,
+        sx={{
+          "&:hover .MuiCardActionArea-focusHighlight": { opacity: 0.3 },
+          "& .MuiCardActionArea-focusHighlight": { opacity: 0 },
         }}
         component={Link}
-        to={{
-          pathname: `/r/${recipe.id}`,
-          state: { picture: recipe.picture, title: recipe.title },
-        }}
+        to={`/r/${recipe.id}`}
+        state={{ picture: recipe.picture, title: recipe.title }}
       >
         <CardMedia>
           <MaterialImage
@@ -110,7 +80,14 @@ export const RecipeCard = ({ recipe }: Props) => {
                 onClick={handleTooltipOpen}
                 title={recipe.title}
                 titleTypographyProps={{
-                  className: classes.title,
+                  sx: {
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    maxWidth: { xs: "110px", md: "200px" },
+                    fontWeight: { xs: 600, md: 500 },
+                    fontSize: { xs: ".8rem", md: "1.3rem" },
+                  },
                 }}
                 subheader={recipe.source || "Unknown"}
               />

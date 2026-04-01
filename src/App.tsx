@@ -16,18 +16,12 @@ import {
 } from "./Shared/Components/customRoutes/CustomRoutes";
 import { useDarkThemeEnabled } from "./Shared/Hooks/darkTheme";
 import {
-  Theme,
   ThemeProvider,
   StyledEngineProvider,
   CssBaseline,
 } from "@mui/material";
 import { getTheme } from "./Shared/theme";
 import { SnackbarContainer } from "./Shared/SnackbarService";
-
-declare module "@mui/styles/defaultTheme" {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  interface DefaultTheme extends Theme {}
-}
 
 type ContextProps = {
   darkThemeEnabled: boolean;

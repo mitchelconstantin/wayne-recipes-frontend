@@ -1,4 +1,4 @@
-import { Box } from "@mui/material/";
+import { Box } from "@mui/material";
 import { isAdmin, isLoggedIn } from "../Shared/AppBehaviors";
 import {
   PrintButton,

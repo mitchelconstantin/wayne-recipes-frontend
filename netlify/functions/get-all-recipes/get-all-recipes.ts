@@ -18,14 +18,14 @@ const getAllRecipes: Handler = async (event, context) => {
     reviews (
       score
       )
-    `
+    `,
     )
     .order("title");
 
-  const average = (array) => {
+  const average = (array: { score: number }[]) => {
     if (!array || !array.length) return 0;
     if (array.length === 1) return array[0].score;
-    return array.reduce((a, b) => a.score + b.score) / array.length;
+    return array.reduce((sum, item) => sum + item.score, 0) / array.length;
   };
   const withAverages = data?.map((r) => ({
     ...r,
