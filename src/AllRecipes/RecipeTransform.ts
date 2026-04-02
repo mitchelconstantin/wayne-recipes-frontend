@@ -1,11 +1,25 @@
-import { filter } from "fuzzaldrin-plus";
+import Fuse from "fuse.js";
 import { IRecipe, IFilters } from "../Shared/Types";
+
+const fuse = new Fuse<IRecipe>([], {
+  keys: [
+    { name: "title", weight: 4 },
+    { name: "mainIngredient", weight: 3 },
+    { name: "ingredients", weight: 2 },
+    { name: "region", weight: 1 },
+    { name: "type", weight: 1 },
+    { name: "source", weight: 1 },
+  ],
+  threshold: 0.4,
+  ignoreLocation: true,
+  includeScore: true,
+});
 
 export class RecipeTransform {
   static filterByAttribute = (
     recipes: IRecipe[],
     atttribute: string,
-    val: any
+    val: any,
   ) => {
     //@ts-ignore
     const result = recipes.filter((recipe) => recipe[atttribute] === val);
@@ -15,7 +29,7 @@ export class RecipeTransform {
   static filterByAttributeMinimmum = (
     recipes: IRecipe[],
     atttribute: string,
-    val: any
+    val: any,
   ) => {
     //@ts-ignore
     const result = recipes.filter((recipe) => recipe[atttribute] >= val);
@@ -23,9 +37,13 @@ export class RecipeTransform {
   };
 
   static filterBySearchTerm = (recipes: IRecipe[], searchTerm: string) => {
-    return filter(recipes, searchTerm, {
-      key: "title",
-    });
+    fuse.setCollection(
+      recipes.map((r) => ({
+        ...r,
+        ingredients: (r.ingredients ?? "").split(/\r?\n/).filter(Boolean),
+      })) as any,
+    );
+    return fuse.search(searchTerm).map((r) => recipes[r.refIndex]);
   };
 
   static filterRecipes = (recipes: IRecipe[], selectedFilters: IFilters) => {
@@ -43,7 +61,7 @@ export class RecipeTransform {
       filteredResults = RecipeTransform.filterByAttribute(
         filteredResults,
         "mainIngredient",
-        mainIngredient
+        mainIngredient,
       );
     }
 
@@ -51,7 +69,7 @@ export class RecipeTransform {
       filteredResults = RecipeTransform.filterByAttribute(
         filteredResults,
         "region",
-        region
+        region,
       );
     }
 
@@ -59,7 +77,7 @@ export class RecipeTransform {
       filteredResults = RecipeTransform.filterByAttribute(
         filteredResults,
         "type",
-        type
+        type,
       );
     }
 
@@ -67,7 +85,7 @@ export class RecipeTransform {
       filteredResults = RecipeTransform.filterByAttribute(
         filteredResults,
         "source",
-        source
+        source,
       );
     }
 
@@ -75,14 +93,14 @@ export class RecipeTransform {
       filteredResults = RecipeTransform.filterByAttributeMinimmum(
         filteredResults,
         "rating",
-        rating
+        rating,
       );
     }
 
     if (debouncedSearchTerm) {
       filteredResults = RecipeTransform.filterBySearchTerm(
         filteredResults,
-        debouncedSearchTerm
+        debouncedSearchTerm,
       );
     }
     return filteredResults;

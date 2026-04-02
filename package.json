@@ -22,7 +22,7 @@
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.9.0",
     "clsx": "^2.1.1",
-    "fuzzaldrin-plus": "^0.6.0",
+    "fuse.js": "^7.1.0",
     "hashids": "^2.3.0",
     "jsonwebtoken": "^9.0.3",
     "jwt-decode": "^4.0.0",

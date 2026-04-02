@@ -13,7 +13,7 @@ const getAllRecipes: Handler = async (event, context) => {
     source,
     mainIngredient,
     region,
-    type,
+    ingredients,
     reviews (
       score
       )
