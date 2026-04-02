@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { RecipeCard } from "./RecipeCard";
-import { Grid, Typography, Pagination, Divider } from "@mui/material";
+import { Grid, Typography, Pagination, Divider, Box } from "@mui/material";
 import { IRecipe } from "../Shared/Types";
 import { Loading } from "../Shared/Components/Loading";
-import { Warning } from "@mui/icons-material";
+import { SearchOff } from "@mui/icons-material";
 import { useMobileQuery } from "../Shared/Hooks/isMobile";
 
 interface Props {
@@ -45,16 +45,26 @@ export const RecipeList = ({ loading, recipes }: Props) => {
         }}
       >
         {!recipes.length && (
-          <Grid
-            container
-            style={{ padding: "18px" }}
-            justifyContent="center"
-            alignItems="center"
-            direction="column"
+          <Box
+            sx={{
+              width: "100%",
+              minHeight: "calc(100vh - 250px)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 1.5,
+              color: "text.disabled",
+            }}
           >
-            <Typography gutterBottom>no matching recipes</Typography>
-            <Warning />
-          </Grid>
+            <SearchOff sx={{ fontSize: 56 }} />
+            <Typography variant="h6" fontWeight={500}>
+              No matching recipes
+            </Typography>
+            <Typography variant="body2">
+              Try adjusting your search or filters
+            </Typography>
+          </Box>
         )}
         {pageRecipes.map((recipe) => (
           <Grid size={{ xs: 6, sm: 4, md: 3, lg: 2, xl: 2 }} key={recipe.id}>
