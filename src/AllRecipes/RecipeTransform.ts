@@ -5,12 +5,8 @@ const fuse = new Fuse<IRecipe>([], {
   keys: [
     { name: "title", weight: 4 },
     { name: "mainIngredient", weight: 3 },
-    { name: "ingredients", weight: 2 },
-    { name: "region", weight: 1 },
-    { name: "type", weight: 1 },
-    { name: "source", weight: 1 },
   ],
-  threshold: 0.4,
+  threshold: 0.2,
   ignoreLocation: true,
   includeScore: true,
 });
@@ -37,13 +33,19 @@ export class RecipeTransform {
   };
 
   static filterBySearchTerm = (recipes: IRecipe[], searchTerm: string) => {
-    fuse.setCollection(
-      recipes.map((r) => ({
-        ...r,
-        ingredients: (r.ingredients ?? "").split(/\r?\n/).filter(Boolean),
-      })) as any,
+    fuse.setCollection(recipes);
+    const fuseResults = fuse.search(searchTerm);
+    const fuseMatchedIds = new Set(fuseResults.map((r) => r.item.id));
+
+    const term = searchTerm.toLowerCase();
+    const exactMatches = recipes.filter(
+      (r) =>
+        !fuseMatchedIds.has(r.id) &&
+        [r.region, r.type, r.source, r.ingredients]
+          .some((field) => (field ?? "").toLowerCase().includes(term)),
     );
-    return fuse.search(searchTerm).map((r) => recipes[r.refIndex]);
+
+    return [...fuseResults.map((r) => r.item), ...exactMatches];
   };
 
   static filterRecipes = (recipes: IRecipe[], selectedFilters: IFilters) => {
