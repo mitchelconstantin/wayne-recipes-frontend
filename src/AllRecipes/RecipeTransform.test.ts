@@ -94,4 +94,31 @@ describe("RecipeTransform.filterBySearchTerm", () => {
     expect(titles).toContain("Lasagna/Spaghetti Sauce with Beef");
     expect(titles).not.toContain("Korean Beef Bowl");
   });
+
+  it('ranks exact region match above fuzzy title match when searching "asian"', () => {
+    const italianSausageSoup: IRecipe = {
+      id: "5",
+      title: "Italian Sausage Soup",
+      mainIngredient: "Italian Sausage",
+      region: "Italian",
+      type: "Soup",
+      source: "Internet",
+      ingredients: "1 pound Italian sausage\n1 clove garlic, minced\n1 (14.5 oz) can Italian-style stewed tomatoes",
+    };
+    const loMein: IRecipe = {
+      id: "6",
+      title: "Lo Mein, Shrimp",
+      mainIngredient: "Shrimp",
+      region: "Asian",
+      type: "Pasta",
+      source: "Internet",
+      ingredients: "2 tablespoons vegetable oil\n1 pound small shrimp\nsoy sauce\nsesame oil",
+    };
+    const results = RecipeTransform.filterBySearchTerm([italianSausageSoup, loMein], "asian");
+    const titles = results.map((r) => r.title);
+    expect(titles).toContain("Lo Mein, Shrimp");
+    expect(titles.indexOf("Lo Mein, Shrimp")).toBeLessThan(
+      titles.indexOf("Italian Sausage Soup") === -1 ? Infinity : titles.indexOf("Italian Sausage Soup"),
+    );
+  });
 });
