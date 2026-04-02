@@ -11,7 +11,6 @@ import {
   Typography,
   ToggleButton,
   ToggleButtonGroup,
-  Skeleton,
 } from "@mui/material";
 import { Star } from "@mui/icons-material";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
@@ -31,11 +30,9 @@ export const AdvancedFilters = ({
   expanded,
 }: AdvancedFiltersProps) => {
   const [allFilters, setAllFilters] = useState(emptyFilterOptions);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (expanded && !allFilters.mainIngredients.length) {
-      setLoading(true);
       RecipeAPI.getFilters().then(
         ({ mainIngredients, regions, types, sources }) => {
           setAllFilters((prev) => ({
@@ -45,7 +42,6 @@ export const AdvancedFilters = ({
             types,
             sources,
           }));
-          setLoading(false);
         }
       );
     }
@@ -86,16 +82,6 @@ export const AdvancedFilters = ({
         }}
       >
         <Grid container spacing={1.5}>
-          {loading && (
-            <>
-              {[0, 1, 2, 3].map((i) => (
-                <Grid size={{ xs: 6 }} key={i}>
-                  <Skeleton variant="rounded" height={40} />
-                </Grid>
-              ))}
-            </>
-          )}
-          {!loading && <>
           <Grid size={{ xs: 6 }}>
             <FormControl fullWidth size="small">
               <InputLabel sx={{ fontSize: "0.8rem" }}>Ingredient</InputLabel>
@@ -203,7 +189,6 @@ export const AdvancedFilters = ({
               </ToggleButtonGroup>
             </Box>
           </Grid>
-          </>}
         </Grid>
       </Box>
     </Collapse>
