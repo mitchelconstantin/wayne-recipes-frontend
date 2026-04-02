@@ -4,7 +4,7 @@
 
 A family recipe book web app for sharing and discovering Constantin family recipes.
 
-**Live site:** [constantin.recipes](https://www.constantinrecipes.com/all)
+**Live site:** [constantinrecipes.com](https://www.constantinrecipes.com/all)
 
 <div style="border: 1px solid #D8D8D8; border-radius: 2px;">
   <img alt="app-screenshot" src="https://github.com/user-attachments/assets/a2bff66a-f479-4b85-8f77-4485b8819ce5" />
