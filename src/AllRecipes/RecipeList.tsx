@@ -35,6 +35,7 @@ export const RecipeList = ({ loading, recipes }: Props) => {
         justifyContent={isMobile ? "space-evenly" : undefined}
         spacing={isMobile ? 2 : 4}
         style={{
+          width: "100%",
           maxWidth: "100%",
           marginTop: "12px",
           minHeight: "calc(100vh - 175px)",
