@@ -33,6 +33,7 @@ export const RecipeList = ({ loading, recipes }: Props) => {
       <Grid
         container
         justifyContent={isMobile ? "space-evenly" : undefined}
+        alignContent="flex-start"
         spacing={isMobile ? 2 : 4}
         style={{
           width: "100%",
