@@ -1,6 +1,6 @@
 import { createContext, lazy, Suspense } from "react";
 import { Header } from "./Header/Header";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate, Outlet } from "react-router-dom";
 import {
   PrivateRoute,
   AdminRoute,
@@ -33,34 +33,43 @@ export const DarkThemeContext = createContext<ContextProps>({
   darkThemeEnabled: false,
 });
 
+const RootLayout = () => (
+  <>
+    <SnackbarContainer />
+    <Header />
+    <Suspense fallback={<Loading />}>
+      <Outlet />
+    </Suspense>
+  </>
+);
+
+const router = createBrowserRouter([
+  {
+    element: <RootLayout />,
+    children: [
+      { path: "/login", element: <PublicRoute element={<Login />} /> },
+      { path: "/signup", element: <PublicRoute element={<SignUp />} /> },
+      { path: "/all", element: <Home /> },
+      { path: "/r/:recipeId", element: <RecipeDisplay /> },
+      { path: "/list", element: <PrivateRoute element={<ShoppingList />} /> },
+      { path: "/new", element: <AdminRoute element={<UpdateRecipe />} /> },
+      { path: "/r/:recipeId/edit", element: <AdminRoute element={<UpdateRecipe />} /> },
+      { path: "/dashboard", element: <OwnerRoute element={<AdminDashboard />} /> },
+      { path: "/", element: <Navigate to="/all" replace /> },
+    ],
+  },
+]);
+
 export const App = () => {
   const { darkThemeEnabled, toggleDarkThemeEnabled } = useDarkThemeEnabled();
   return (
-    <BrowserRouter>
-      <DarkThemeContext.Provider
-        value={{ darkThemeEnabled, toggleDarkThemeEnabled }}
-      >
-        <StyledEngineProvider injectFirst>
-          <ThemeProvider theme={getTheme(darkThemeEnabled)}>
-            <CssBaseline />
-            <SnackbarContainer />
-            <Header />
-            <Suspense fallback={<Loading />}>
-              <Routes>
-                <Route path="/login" element={<PublicRoute element={<Login />} />} />
-                <Route path="/signup" element={<PublicRoute element={<SignUp />} />} />
-                <Route path="/all" element={<Home />} />
-                <Route path="/r/:recipeId" element={<RecipeDisplay />} />
-                <Route path="/list" element={<PrivateRoute element={<ShoppingList />} />} />
-                <Route path="/new" element={<AdminRoute element={<UpdateRecipe />} />} />
-                <Route path="/r/:recipeId/edit" element={<AdminRoute element={<UpdateRecipe />} />} />
-                <Route path="/dashboard" element={<OwnerRoute element={<AdminDashboard />} />} />
-                <Route path="/" element={<Navigate to="/all" replace />} />
-              </Routes>
-            </Suspense>
-          </ThemeProvider>
-        </StyledEngineProvider>
-      </DarkThemeContext.Provider>
-    </BrowserRouter>
+    <DarkThemeContext.Provider value={{ darkThemeEnabled, toggleDarkThemeEnabled }}>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={getTheme(darkThemeEnabled)}>
+          <CssBaseline />
+          <RouterProvider router={router} />
+        </ThemeProvider>
+      </StyledEngineProvider>
+    </DarkThemeContext.Provider>
   );
 };
