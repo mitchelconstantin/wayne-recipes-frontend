@@ -1,6 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
-import { Button, TextField, Typography, Box, Grid, Divider, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@mui/material";
+import {
+  Button,
+  TextField,
+  Typography,
+  Box,
+  Grid,
+  Divider,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+} from "@mui/material";
 import { useParams, useBlocker } from "react-router-dom";
 import { ImageUploader } from "./ImageUploader";
 import { isOwner } from "../Shared/AppBehaviors";
@@ -42,7 +54,9 @@ export const UpdateRecipe = () => {
 
   useEffect(() => {
     if (!isDirty) return;
-    const handler = (e: BeforeUnloadEvent) => { e.preventDefault(); };
+    const handler = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+    };
     window.addEventListener("beforeunload", handler);
     return () => window.removeEventListener("beforeunload", handler);
   }, [isDirty]);
@@ -60,12 +74,19 @@ export const UpdateRecipe = () => {
     setTimeout(() => (window.location.href = `/r/${id}`), 1500);
   };
 
-  const disabled = !(recipe.title && recipe.ingredients && recipe.directions) || (!!recipeId && !isDirty);
+  const disabled =
+    !(recipe.title && recipe.ingredients && recipe.directions) ||
+    (!!recipeId && !isDirty);
   if (loading) return <Loading />;
 
   return (
     <Box sx={formContainerSx}>
-      <Typography variant="h5" fontWeight={500} gutterBottom alignSelf="flex-start">
+      <Typography
+        variant="h5"
+        fontWeight={500}
+        gutterBottom
+        alignSelf="flex-start"
+      >
         {recipeId ? "Edit Recipe" : "New Recipe"}
       </Typography>
       <Divider sx={{ width: "100%", mb: 3 }} />
@@ -102,7 +123,9 @@ export const UpdateRecipe = () => {
         </Grid>
         <Grid size={{ xs: 12, sm: 6 }}>
           <Dropdown
-            handleChange={(_: any, value: any) => handleChange("mainIngredient", value)}
+            handleChange={(_: any, value: any) =>
+              handleChange("mainIngredient", value)
+            }
             items={filters.mainIngredients}
             value={recipe.mainIngredient || ""}
             title="Main Ingredient"
@@ -157,7 +180,14 @@ export const UpdateRecipe = () => {
         </Grid>
       </Grid>
 
-      <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%", alignItems: "center" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          width: "100%",
+          alignItems: "center",
+        }}
+      >
         <Button
           disabled={disabled}
           variant="contained"
@@ -186,11 +216,15 @@ export const UpdateRecipe = () => {
       <Dialog open={blocker.state === "blocked"}>
         <DialogTitle>Leave without saving?</DialogTitle>
         <DialogContent>
-          <DialogContentText>You have unsaved changes. If you leave now, they will be lost.</DialogContentText>
+          <DialogContentText>
+            You have unsaved changes. If you leave now, they will be lost.
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => blocker.reset?.()}>Stay</Button>
-          <Button color="error" onClick={() => blocker.proceed?.()}>Leave</Button>
+          <Button color="error" onClick={() => blocker.proceed?.()}>
+            Leave
+          </Button>
         </DialogActions>
       </Dialog>
     </Box>

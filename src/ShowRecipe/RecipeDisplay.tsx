@@ -125,7 +125,7 @@ export const RecipeDisplay = () => {
             ))}
           </Box>
         </Box>
-        <Divider />
+        <Divider sx={{ mt: 1 }} />
         <IngredientsList ingredients={recipe.ingredients} />
         <DirectionsList directions={recipe.directions} />
       </Grid>
