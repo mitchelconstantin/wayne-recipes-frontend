@@ -11,6 +11,7 @@ import { formContainerSx, formTextFieldSx } from "../Shared/formStyles";
 import { Loading } from "../Shared/Components/Loading";
 import { Dropdown } from "./Dropdown";
 import { DeleteRecipeDialog } from "./DeleteRecipeDialog";
+import { ListEditor } from "./ListEditor";
 
 const getRecipeData = async (recipeId: string) => {
   const recipe = recipeId ? await RecipeAPI.getRecipe(recipeId) : emptyRecipe;
@@ -125,25 +126,21 @@ export const UpdateRecipe = () => {
 
       <Grid container spacing={2} sx={{ width: "100%", mb: 3 }}>
         <Grid size={{ xs: 12, md: 6 }}>
-          <TextField
-            value={recipe.ingredients || ""}
-            onChange={(e) => handleChange("ingredients", e.target.value)}
-            required
+          <ListEditor
+            variant="bullets"
             label="Ingredients"
-            fullWidth
-            multiline
-            rows={10}
+            required
+            value={recipe.ingredients || ""}
+            onChange={(v) => handleChange("ingredients", v)}
           />
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
-          <TextField
-            value={recipe.directions || ""}
-            onChange={(e) => handleChange("directions", e.target.value)}
-            required
+          <ListEditor
+            variant="numbered"
             label="Directions"
-            fullWidth
-            multiline
-            rows={10}
+            required
+            value={recipe.directions || ""}
+            onChange={(v) => handleChange("directions", v)}
           />
         </Grid>
       </Grid>
