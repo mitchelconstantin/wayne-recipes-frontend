@@ -1,7 +1,12 @@
 import Fuse from "fuse.js";
 import { IRecipe, IFilters } from "../Shared/Types";
 
-const CATEGORICAL_KEYS = ["mainIngredient", "region", "type", "source"] as const;
+const CATEGORICAL_KEYS = [
+  "mainIngredient",
+  "region",
+  "type",
+  "source",
+] as const;
 
 const fuseTitles = new Fuse<IRecipe>([], {
   keys: [{ name: "title", weight: 1 }],
@@ -12,13 +17,6 @@ const fuseTitles = new Fuse<IRecipe>([], {
 
 const fuseCategories = new Fuse<IRecipe>([], {
   keys: CATEGORICAL_KEYS.map((k) => ({ name: k, weight: 1 })),
-  threshold: 0.2,
-  ignoreLocation: true,
-  includeScore: true,
-});
-
-const fuseIngredients = new Fuse<IRecipe>([], {
-  keys: [{ name: "ingredients", weight: 1 }],
   threshold: 0.2,
   ignoreLocation: true,
   includeScore: true,
