@@ -163,8 +163,9 @@ export const ListEditor = ({ value, onChange, variant, label, required }: ListEd
               }
               variant="standard"
               fullWidth
+              multiline
               slotProps={{ input: { disableUnderline: true } }}
-              sx={{ "& input": { fontSize: "1rem", py: 0.25 } }}
+              sx={{ "& textarea": { fontSize: "1rem", py: 0.25 } }}
             />
           </Box>
         ))}
