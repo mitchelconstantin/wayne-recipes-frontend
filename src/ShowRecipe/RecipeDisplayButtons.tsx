@@ -15,7 +15,7 @@ interface props {
 
 export const RecipeDisplayButtons = ({ recipe, reloadRecipe }: props) => {
   return (
-    <Box display="flex" ml="-8px" sx={{ "@media print": { display: "none" } }}>
+    <Box display="flex" sx={{ "@media print": { display: "none" } }}>
       {isLoggedIn() && <AddToShoppingListButton recipe={recipe} />}
       {isLoggedIn() && (
         <IMadeItButton reloadRecipe={reloadRecipe} recipe={recipe} />
