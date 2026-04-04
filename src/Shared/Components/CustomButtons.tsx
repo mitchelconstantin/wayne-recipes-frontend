@@ -11,14 +11,19 @@ interface PrintButtonProps {
 }
 export const PrintButton = ({ label }: PrintButtonProps) => {
   return (
-    <IconButton
-      onClick={window.print}
-      size="large"
-      aria-label={`Print ${label}`}
-      sx={{ "@media print": { display: "none" } }}
+    <Tooltip
+      title={`Print ${label}`}
+      slotProps={{ popper: { sx: { "@media print": { display: "none" } } } }}
     >
-      <Print />
-    </IconButton>
+      <IconButton
+        onClick={window.print}
+        size="large"
+        aria-label={`Print ${label}`}
+        sx={{ "@media print": { display: "none" } }}
+      >
+        <Print />
+      </IconButton>
+    </Tooltip>
   );
 };
 
