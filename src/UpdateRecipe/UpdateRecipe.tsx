@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
-import { Button, TextField, Typography, Box, Grid, Divider } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { Button, TextField, Typography, Box, Grid, Divider, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@mui/material";
+import { useParams, useBlocker } from "react-router-dom";
 import { ImageUploader } from "./ImageUploader";
 import { isOwner } from "../Shared/AppBehaviors";
 import { IRecipe, emptyRecipe, emptyFilterOptions } from "../Shared/Types";
@@ -24,17 +24,13 @@ const getRecipeData = async (recipeId: string) => {
   return { recipe: { ...recipe }, filters: { ...filters } };
 };
 
-const saveRecipe = async (recipe: IRecipe) => {
-  const { id } = await RecipeAPI.saveRecipe(recipe);
-  setTimeout(() => (window.location.href = `/r/${id}`), 1500);
-};
-
 export const UpdateRecipe = () => {
   const [openModal, setOpenModal] = useState(false);
   const { recipeId } = useParams();
   const [recipe, setRecipe] = useState<IRecipe>(emptyRecipe);
   const [filters, setFilters] = useState(emptyFilterOptions);
   const [loading, setLoading] = useState(true);
+  const [isDirty, setIsDirty] = useState(false);
 
   useEffect(() => {
     getRecipeData(recipeId).then(({ recipe, filters }) => {
@@ -44,11 +40,27 @@ export const UpdateRecipe = () => {
     });
   }, []);
 
+  useEffect(() => {
+    if (!isDirty) return;
+    const handler = (e: BeforeUnloadEvent) => { e.preventDefault(); };
+    window.addEventListener("beforeunload", handler);
+    return () => window.removeEventListener("beforeunload", handler);
+  }, [isDirty]);
+
+  const blocker = useBlocker(isDirty);
+
   const handleChange = (type: string, newValue: any) => {
+    setIsDirty(true);
     setRecipe((prev) => ({ ...prev, [type]: newValue }));
   };
 
-  const disabled = !(recipe.title && recipe.ingredients && recipe.directions);
+  const handleSave = async () => {
+    const { id } = await RecipeAPI.saveRecipe(recipe);
+    setIsDirty(false);
+    setTimeout(() => (window.location.href = `/r/${id}`), 1500);
+  };
+
+  const disabled = !(recipe.title && recipe.ingredients && recipe.directions) || (!!recipeId && !isDirty);
   if (loading) return <Loading />;
 
   return (
@@ -150,7 +162,7 @@ export const UpdateRecipe = () => {
           disabled={disabled}
           variant="contained"
           color="primary"
-          onClick={() => saveRecipe(recipe)}
+          onClick={handleSave}
         >
           {recipeId ? "Update Recipe" : "Save Recipe"}
         </Button>
@@ -170,6 +182,17 @@ export const UpdateRecipe = () => {
         id={recipe.id || "1"}
         onClose={() => setOpenModal(false)}
       />
+
+      <Dialog open={blocker.state === "blocked"}>
+        <DialogTitle>Leave without saving?</DialogTitle>
+        <DialogContent>
+          <DialogContentText>You have unsaved changes. If you leave now, they will be lost.</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => blocker.reset?.()}>Stay</Button>
+          <Button color="error" onClick={() => blocker.proceed?.()}>Leave</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
