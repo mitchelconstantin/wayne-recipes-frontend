@@ -23,6 +23,7 @@ interface ListEditorProps {
 export const ListEditor = ({ value, onChange, variant, label, required }: ListEditorProps) => {
   const lines = parseLines(value);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  inputRefs.current = inputRefs.current.slice(0, lines.length);
 
   const update = (newLines: string[]) => {
     onChange(joinLines(newLines));
@@ -111,7 +112,7 @@ export const ListEditor = ({ value, onChange, variant, label, required }: ListEd
               // Match display components exactly:
               // IngredientsList uses alignItems: "baseline", DirectionsList uses alignItems: "flex-start"
               alignItems: variant === "bullets" ? "baseline" : "flex-start",
-              gap: 1.5,
+              gap: variant === "bullets" ? 1.5 : 2,
             }}
           >
             {variant === "bullets" ? (
