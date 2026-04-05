@@ -1,65 +1,65 @@
 import {
   Dialog,
-  DialogTitle,
-  IconButton,
   DialogContent,
   Typography,
   Link,
   Box,
-  Divider,
+  IconButton,
+  Chip,
 } from "@mui/material";
-import { Close, Code } from "@mui/icons-material";
+import { Close, Code, MenuBook } from "@mui/icons-material";
+import preval from "preval.macro";
 
 interface Props {
   handleClose: any;
   open: boolean;
 }
 
+const dateTimeStamp = preval`module.exports = new Date().toLocaleString();`;
+
 export const AboutDialog = ({ handleClose, open }: Props) => {
   return (
-    <Dialog onClose={handleClose} open={open} maxWidth="xs" fullWidth>
-      <DialogTitle sx={{ pr: 6 }}>
-        About
-        <IconButton
-          onClick={handleClose}
-          size="small"
-          sx={{
-            position: "absolute",
-            right: 12,
-            top: 12,
-            color: "text.secondary",
-          }}
-        >
-          <Close fontSize="small" />
-        </IconButton>
-      </DialogTitle>
-      <Divider />
-      <DialogContent sx={{ pt: 2 }}>
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          sx={{ mb: 2.5, lineHeight: 1.7 }}
-        >
-          Wayne's Recipes is a recipe app for hosting Constantin Family recipes
-          on the web. All of the recipes you see have been collected by my
-          father, Wayne over the last 30 years.
+    <Dialog
+      onClose={handleClose}
+      open={open}
+      maxWidth="xs"
+      fullWidth
+      PaperProps={{ sx: { borderRadius: 3 } }}
+    >
+      <IconButton
+        onClick={handleClose}
+        size="small"
+        sx={{ position: "absolute", right: 10, top: 10, color: "text.secondary" }}
+      >
+        <Close fontSize="small" />
+      </IconButton>
+
+      <DialogContent sx={{ pt: 4, pb: 3, px: 3, textAlign: "center" }}>
+        <MenuBook sx={{ fontSize: 36, color: "primary.main", mb: 1 }} />
+        <Typography variant="h6" fontWeight={600} gutterBottom>
+          Wayne's Recipes
         </Typography>
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-          <Link
+        <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.8, mb: 3 }}>
+          A recipe app for hosting Constantin Family recipes on the web. All of
+          the recipes you see have been collected by my father, Wayne over the
+          last 30 years.
+        </Typography>
+        <Box sx={{ display: "flex", justifyContent: "center", mb: 2.5 }}>
+          <Chip
+            component={Link}
             href="https://github.com/mitchelconstantin/wayne-recipes-frontend"
             target="_blank"
             rel="noopener"
-            underline="hover"
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 0.75,
-              fontSize: "0.875rem",
-            }}
-          >
-            <Code fontSize="small" /> Frontend source
-          </Link>
+            icon={<Code />}
+            label="Source"
+            variant="outlined"
+            size="small"
+            clickable
+          />
         </Box>
+        <Typography variant="caption" color="text.disabled">
+          Updated {dateTimeStamp}
+        </Typography>
       </DialogContent>
     </Dialog>
   );

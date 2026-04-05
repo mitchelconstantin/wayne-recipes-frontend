@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { Menu, MenuItem, IconButton, Divider, Typography } from "@mui/material";
+import { Menu, MenuItem, IconButton } from "@mui/material";
 import { MoreVert } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { isLoggedIn, logOut, isAdmin, isOwner } from "../Shared/AppBehaviors";
-import preval from "preval.macro";
 import { AboutDialog } from "../About/AboutDialog";
 
 export const HeaderButtons = () => {
@@ -17,8 +16,6 @@ export const HeaderButtons = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const dateTimeStamp = preval`module.exports = new Date().toLocaleString();`;
 
   return (
     <>
@@ -52,12 +49,12 @@ export const HeaderButtons = () => {
           </MenuItem>
         )}
         {isAdmin() && (
-          <MenuItem component={Link} to="/new">
+          <MenuItem onClick={handleClose} component={Link} to="/new">
             Add Recipe
           </MenuItem>
         )}
         {isOwner() && (
-          <MenuItem component={Link} to="/dashboard">
+          <MenuItem onClick={handleClose} component={Link} to="/dashboard">
             Admin Dashboard
           </MenuItem>
         )}
@@ -68,12 +65,6 @@ export const HeaderButtons = () => {
           }}
         >
           About
-        </MenuItem>
-        <Divider />
-        <MenuItem disabled sx={{ py: 0.25 }}>
-          <Typography variant="caption" color="text.disabled">
-            Updated {dateTimeStamp}
-          </Typography>
         </MenuItem>
       </Menu>
       <AboutDialog

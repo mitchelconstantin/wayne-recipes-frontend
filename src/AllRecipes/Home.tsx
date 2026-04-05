@@ -117,7 +117,11 @@ export const Home = () => {
             backgroundColor: (theme) =>
               theme.palette.mode === "dark" ? grey[800] : grey[50],
             px: 1,
-            transition: "border-color 0.2s ease, box-shadow 0.2s ease",
+            transition: "border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease",
+            "&:hover": {
+              backgroundColor: (theme) =>
+                theme.palette.mode === "dark" ? grey[700] : grey[100],
+            },
             "&:focus-within": {
               borderColor: "primary.main",
               boxShadow: (theme) =>

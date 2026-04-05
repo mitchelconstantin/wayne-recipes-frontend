@@ -41,6 +41,7 @@ export const RecipeList = ({ loading, recipes }: Props) => {
           minHeight: "calc(100vh - 175px)",
           paddingLeft: "12px",
           paddingRight: "12px",
+          paddingBottom: "80px",
         }}
       >
         {!recipes.length && (

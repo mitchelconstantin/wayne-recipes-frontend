@@ -63,7 +63,7 @@ export const RecipeCard = memo(({ recipe }: Props) => {
             background: "rgba(0,0,0,0.3)",
             backdropFilter: "blur(4px)",
             WebkitBackdropFilter: "blur(4px)",
-            borderRadius: "10px 10px 0 0",
+            borderRadius: "8px 8px 0 0",
             px: { xs: 0.75, md: 1.25 },
             pt: { xs: 0.75, md: 1.25 },
             pb: { xs: 1.25, md: 1.75 },
