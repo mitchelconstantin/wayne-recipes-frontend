@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import noImage from "../Shared/Images/noImage.png";
-import { Box, Chip, Divider, Grid, IconButton, Typography } from "@mui/material";
+import { Box, Chip, Divider, Grid, IconButton, Skeleton, Typography } from "@mui/material";
 import { RecipeAPI } from "../Shared/APIs/RecipeAPI";
 import { useParams, useLocation } from "react-router-dom";
 import { Loading } from "../Shared/Components/Loading";
@@ -24,6 +24,7 @@ export const RecipeDisplay = () => {
     title: state?.title || "",
   });
   const [loading, setLoading] = useState(true);
+  const [imageLoaded, setImageLoaded] = useState(false);
   const [openReviewsDialog, setOpenReviewsDialog] = useState(false);
   const { recipeId } = useParams();
   const isMobile = useMobileQuery();
@@ -59,19 +60,25 @@ export const RecipeDisplay = () => {
           justifyContent: "center",
         }}
       >
-        <img
-          src={recipe.picture ? displayImageUrl(recipe.picture) : noImage}
-          alt={recipe.title}
-          onError={(e: any) => { e.target.src = noImage; }}
-          style={{
-            width: "100%",
-            maxHeight: "80vh",
-            height: "auto",
-            display: "block",
-            borderRadius: "20px",
-            boxShadow: "0 8px 30px rgba(0,0,0,0.2)",
-          }}
-        />
+        <Box sx={{ position: "relative", width: "100%" }}>
+          {!imageLoaded && (
+            <Skeleton variant="rounded" sx={{ width: 400, height: 300, borderRadius: "20px" }} />
+          )}
+          <img
+            src={recipe.picture ? displayImageUrl(recipe.picture) : noImage}
+            alt={recipe.title}
+            onLoad={() => setImageLoaded(true)}
+            onError={(e: any) => { e.target.src = noImage; setImageLoaded(true); }}
+            style={{
+              width: "100%",
+              maxHeight: "80vh",
+              height: "auto",
+              display: imageLoaded ? "block" : "none",
+              borderRadius: "20px",
+              boxShadow: "0 8px 30px rgba(0,0,0,0.2)",
+            }}
+          />
+        </Box>
       </Grid>
 
       <Grid
