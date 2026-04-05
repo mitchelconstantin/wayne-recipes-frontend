@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { RecipeCard } from "./RecipeCard";
-import { Grid, Typography, Pagination, Divider, Box } from "@mui/material";
+import { Grid, Typography, Pagination, Box } from "@mui/material";
 import { IRecipe } from "../Shared/Types";
 import { Loading } from "../Shared/Components/Loading";
 import { SearchOff } from "@mui/icons-material";
@@ -16,7 +16,6 @@ export const RecipeList = ({ loading, recipes }: Props) => {
   const isMobile = useMobileQuery();
 
   const handleChange = (event: any, value: number) => {
-    setTimeout(() => window.scrollTo(0, 0), 400);
     setPage(value);
   };
 
@@ -73,18 +72,28 @@ export const RecipeList = ({ loading, recipes }: Props) => {
         ))}
       </Grid>
       {Math.ceil(recipes.length / 30) > 1 && (
-        <Grid sx={{ width: "100%" }}>
-          <Divider sx={{ mt: 2, mb: 1 }} />
-          <Pagination
-            count={Math.ceil(recipes.length / 30)}
-            page={page}
-            color="primary"
-            shape="rounded"
-            size={isMobile ? "small" : "large"}
-            onChange={handleChange}
-            sx={{ display: "flex", justifyContent: "center", py: 2 }}
-          />
-        </Grid>
+        <Box sx={{ position: "sticky", bottom: 16, width: "100%", display: "flex", justifyContent: "center", zIndex: 10, pointerEvents: "none" }}>
+          <Box
+            sx={{
+              bgcolor: "background.paper",
+              borderRadius: 4,
+              boxShadow: 6,
+              px: 2,
+              py: 1,
+              pointerEvents: "auto",
+            }}
+          >
+            <Pagination
+              count={Math.ceil(recipes.length / 30)}
+              page={page}
+              color="primary"
+              shape="rounded"
+              size={isMobile ? "small" : "large"}
+              onChange={handleChange}
+              sx={{ display: "flex" }}
+            />
+          </Box>
+        </Box>
       )}
     </Grid>
   );

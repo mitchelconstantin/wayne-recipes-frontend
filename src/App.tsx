@@ -1,6 +1,6 @@
-import { createContext, lazy, Suspense } from "react";
+import { createContext, lazy, Suspense, useEffect } from "react";
 import { Header } from "./Header/Header";
-import { createBrowserRouter, RouterProvider, Navigate, Outlet } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate, Outlet, useLocation } from "react-router-dom";
 import {
   PrivateRoute,
   AdminRoute,
@@ -33,8 +33,17 @@ export const DarkThemeContext = createContext<ContextProps>({
   darkThemeEnabled: false,
 });
 
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [pathname]);
+  return null;
+};
+
 const RootLayout = () => (
   <>
+    <ScrollToTop />
     <SnackbarContainer />
     <Header />
     <Suspense fallback={<Loading />}>
